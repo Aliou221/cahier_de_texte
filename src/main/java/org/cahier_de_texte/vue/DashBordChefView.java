@@ -4,15 +4,13 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class DashBordChefView extends JFrame implements ActionListener {
-
 
     public DashBordChefView(){
         initUI();
@@ -67,7 +65,7 @@ public class DashBordChefView extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-    JButton btnTabBord , btnGestionEnseignant , btnGestionResponsable , btnGestionCours , btnGestionAbsent , btnAttribuerComptes, btnGestionSeance;
+    JButton btnTabBord , btnGestionEnseignant , btnGestionResponsable , btnGestionCours , btnGestionClasses , btnAttribuerComptes, btnGestionSeance;
 
     public JPanel getPanelSidebar(){
 
@@ -85,18 +83,18 @@ public class DashBordChefView extends JFrame implements ActionListener {
         panelSideBar.add(btnGestionResponsable , "wrap , pushx , growx");
         btnGestionResponsable.addActionListener(this);
 
-        btnGestionAbsent = btnMenuSideBar("Gestion des Absents", "/img/absence.png");
-        panelSideBar.add(btnGestionAbsent , "wrap , pushx , growx");
-        btnGestionAbsent.addActionListener(this);
+        btnGestionClasses = btnMenuSideBar("Gestion des Classes", "/img/classe.png");
+        panelSideBar.add(btnGestionClasses , "wrap , pushx , growx");
+        btnGestionClasses.addActionListener(this);
 
-        btnGestionSeance = btnMenuSideBar("Gestion des Cours", "/img/cours.png");
-        panelSideBar.add(btnGestionSeance , "wrap , pushx , growx");
-
-        btnGestionCours = btnMenuSideBar("Gestion des Séances", "/img/seance.png");
+        btnGestionCours = btnMenuSideBar("Attribution des Cours", "/img/cours.png");
         panelSideBar.add(btnGestionCours , "wrap , pushx , growx");
 
-        btnAttribuerComptes = btnMenuSideBar("Attribution des Comptes", "/img/compte.png");
-        panelSideBar.add(btnAttribuerComptes , "wrap , pushx , growx");
+        btnGestionSeance  = btnMenuSideBar("Gestion des Séances", "/img/seance.png");
+        panelSideBar.add(btnGestionSeance , "wrap , pushx , growx");
+
+//        btnAttribuerComptes = btnMenuSideBar("Attribution des Comptes", "/img/compte.png");
+//        panelSideBar.add(btnAttribuerComptes , "wrap , pushx , growx");
 
 
         return panelSideBar;
@@ -116,14 +114,10 @@ public class DashBordChefView extends JFrame implements ActionListener {
         }
 
         if(e.getSource() == btnDeconnexion){
-            new LoginView().setVisible(true);
+            new UserLoginView().setVisible(true);
             dispose();
         }
 
-        if (e.getSource() == btnGestionAbsent) {
-//            new GestionDesAbsentsView();
-            dispose();
-        }
     }
 
     public JButton btnMenuSideBar(String title , String urlIcon){
@@ -146,7 +140,7 @@ public class DashBordChefView extends JFrame implements ActionListener {
 
     JButton btnDeconnexion;
     public JPanel homePanel(){
-        JPanel panEnsignants , panResponsables , panAbssents , panSeanceValider,panCours , licence1 , licence2 , licence3;
+        JPanel panEnsignants , panResponsables , panEtudiants , panSeanceValider,panCours , panClasses , licence1 , licence2 , licence3;
 
         JPanel myHomePanel = new JPanel(new MigLayout());
         myHomePanel.setBorder(emptyBorder(20 , 20 , 0 , 20));
@@ -159,48 +153,67 @@ public class DashBordChefView extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
 
 
-        panEnsignants = panelStat("Nombre d'enseignants" , 30 , new Color(46, 204, 113) , "/img/prof.png");
-        panResponsables = panelStat("Nombre de responsables" , 30 , new Color(155, 89, 182) , "/img/responsables.png");
-        panAbssents = panelStat("Nombre d'absents " , 30 , new Color(231, 76, 60) , "/img/absence.png");
+        panEnsignants = panelStat("Nombre d’enseignants" , 30 , new Color(0, 132, 209) , "/img/teachers.png");
+        panResponsables = panelStat("Nombre de responsables" , 30 , new Color(137, 69, 69) , "/img/responsables.png");
+        panEtudiants = panelStat("Nombre d’étudiants" , 30 , new Color(0, 153, 102) , "/img/student.png");
         panSeanceValider = panelStat("Nombre de séances validées" , 30 ,new Color(241, 196, 15) , "/img/seance.png");
-        panCours = panelStat("Nombre total de cours " , 30 , new Color(243, 156, 18) , "/img/cours.png");
+        panCours = panelStat("Nombre de cours total" , 30 , new Color(0, 194, 219) , "/img/cours.png");
+        panClasses = panelStat("Nombre de classes" , 30 , new Color(200, 100, 0) , "/img/classe.png");
 
         JPanel panelThree = new JPanel(new MigLayout());
         panelThree.add(panEnsignants , "pushx , growx");
         panelThree.add(panResponsables , "pushx , growx");
-        panelThree.add(panAbssents , "pushx , growx");
+        panelThree.add(panEtudiants , "pushx , growx");
 
         JPanel panSeancePanCours = new JPanel(new MigLayout());
         panSeancePanCours.add(panSeanceValider , "pushx , growx");
         panSeancePanCours.add(panCours , "pushx , growx");
+        panSeancePanCours.add(panClasses , "pushx , growx");
 
-        JPanel panelText = new JPanel(new MigLayout("wrap 3 , gap 10"));
-        JLabel labelWelcom = new JLabel("Les Responsables de classe");
-        labelWelcom.setFont(new Font("Roboto", Font.BOLD , 28));
-        labelWelcom.setBorder(emptyBorder(15 , 0 , 20 , 0));
+        JPanel panelText = new JPanel(new MigLayout());
+        JLabel labelResponsableTab = new JLabel("Responsables & leur classe");
+        labelResponsableTab.setFont(new Font("Roboto", Font.BOLD , 20));
+        labelResponsableTab.setBorder(emptyBorder(15 , 0 , 20 , 0));
 
-        List<JPanel> listePanel = new ArrayList<>();
+        JLabel labelProf = new JLabel("Enseignants & Cours Assignés");
+        labelProf.setFont(new Font("Roboto", Font.BOLD , 20));
+        labelProf.setBorder(emptyBorder(15 , 0 , 20 , 0));
 
-        String[] tab = {"Modou" , "Aliou" , "Jule"};
-        String[] niveau = {"Licence 1" , "Licence 2" , "Licence 3"};
+        JTable tableRespo =  new JTable(), tabEnseignant = new JTable();
+        DefaultTableModel tableModelResponsable = new DefaultTableModel(), tabModelEnseignant = new DefaultTableModel();
 
-        for(int i = 0 ; i < 3 ; i++){
-            JPanel licence = panelClasse(niveau[i], tab[i] , new Color(0, 0, 0 , 56));
-            listePanel.add(licence);
-        }
+        String[] columns = {"Responsable" , "Email" , "Classe"};
+        String[] columnEnseignats = {"Enseignant" , "Email" , "Cours" , "Classe"};
 
-        panelText.add(labelWelcom , "wrap");
-        for(JPanel panel : listePanel){
-            panelText.add(panel, "pushx , growx");
-        }
+
+        panelText.add(labelResponsableTab);
+        panelText.add(labelProf , "wrap");
+        panelText.add(tableauScrollPane(tableRespo , tableModelResponsable , columns) , "push , grow");
+        panelText.add(tableauScrollPane(tabEnseignant , tabModelEnseignant, columnEnseignats) , "push , grow");
 
         myHomePanel.add(labelTabBord ,"pushx , growx");
         myHomePanel.add(btnDeconnexion , "split 2 , wrap");
         myHomePanel.add(panelThree , "pushx , growx , span , wrap");
         myHomePanel.add(panSeancePanCours , "span , pushx , grow");
-        myHomePanel.add(panelText , "pushx , growx , wrap");
+        myHomePanel.add(panelText , "pushx , growx , wrap , span");
 
         return myHomePanel;
+    }
+    
+    public JScrollPane tableauScrollPane( JTable table , DefaultTableModel model , String[] columns){
+        JScrollPane scrollPane;
+
+        model = new DefaultTableModel(columns , 0){
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            };
+        };
+        
+        table = new JTable(model);
+        scrollPane = new JScrollPane(table);
+        
+        return scrollPane;
     }
 
     public JPanel panelStat(String title , int numbre , Color color , String iconeUrl){
@@ -234,32 +247,12 @@ public class DashBordChefView extends JFrame implements ActionListener {
         return panel;
     }
 
-    public JPanel panelClasse(String titleNiveau , String labelResponsable , Color color ){
-        Border shadow = BorderFactory.createLineBorder(new Color(0, 0, 0, 50), 4, true);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(shadow);
-        panel.setBackground(color);
-
-        JLabel labelName = new JLabel(titleNiveau);
-        labelName.setBorder(emptyBorder(15 , 20 , 15 , 10));
-        labelName.setFont(new Font("Roboto" , Font.BOLD , 16));
-        labelName.setForeground(Color.white);
-
-        JLabel labelStat = new JLabel("Responsable : " + labelResponsable);
-        labelStat.setFont(new Font("Roboto" , Font.BOLD , 18));
-        labelStat.setForeground(Color.white);
-        labelStat.setBorder(emptyBorder(0 , 20 , 15 , 10));
-
-        panel.add(labelName , BorderLayout.NORTH);
-        panel.add(labelStat , BorderLayout.CENTER);
-
-        return panel;
-    }
-
     //Creation d'une bordure vide
     public Border emptyBorder(int top , int left , int bottom , int right){
         return BorderFactory.createEmptyBorder(top , left , bottom ,right);
     }
 
+    public static void main(String[] args) {
+        new DashBordChefView().setVisible(true);
+    }
 }

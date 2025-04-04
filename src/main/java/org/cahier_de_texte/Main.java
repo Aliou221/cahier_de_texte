@@ -1,7 +1,7 @@
 package org.cahier_de_texte;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.cahier_de_texte.vue.LoginView;
+import org.cahier_de_texte.vue.UserLoginView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +18,6 @@ public class Main {
         UIManager.put("Button.font", robotoFont);
         UIManager.put("TextField.font", robotoFont);
 
-        new LoginView().setVisible(true);
+        new UserLoginView().setVisible(true);
     }
 }

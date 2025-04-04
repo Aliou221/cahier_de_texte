@@ -2,8 +2,7 @@ package org.cahier_de_texte.vue;
 
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
-import org.cahier_de_texte.model.UserDAO;
-import org.cahier_de_texte.model.Users;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,16 +12,15 @@ import java.util.Objects;
 
 
 
-public class LoginView extends JFrame implements ActionListener {
+public class UserLoginView extends JFrame implements ActionListener {
     UserController userController = new UserController(this);
-    UserDAO userDAO = new UserDAO();
 
     JLabel labelUser , labelPassword , textTitle;
     JTextField inputUser ;
     JPasswordField inputPassword;
     JButton btnConnect , btnClear;
 
-    public LoginView(){
+    public UserLoginView(){
         loginPage();
     }
 

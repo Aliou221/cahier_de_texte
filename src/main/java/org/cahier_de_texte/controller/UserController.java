@@ -3,21 +3,22 @@ package org.cahier_de_texte.controller;
 import org.cahier_de_texte.vue.DashBordChefView;
 import org.cahier_de_texte.model.UserDAO;
 import org.cahier_de_texte.model.Users;
-import org.cahier_de_texte.vue.LoginView;
+import org.cahier_de_texte.vue.DashBordEnseignantView;
+import org.cahier_de_texte.vue.UserLoginView;
 
 import javax.swing.*;
 
 public class UserController {
     UserDAO userDAO;
-    LoginView log ;
+    UserLoginView log ;
 
-    public UserController(LoginView log) {
+    public UserController(UserLoginView log) {
         this.log = log;
         userDAO = new UserDAO();
     }
 
-
     public void login(String email, String password) {
+
         if (email.isEmpty() || password.isEmpty()){
             JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !");
             return;
@@ -37,10 +38,12 @@ public class UserController {
 
     public void dashbord(){
         String role = userDAO.getUserRole();
+        String nom = userDAO.getUserName();
 
         switch (role){
             case "Enseignant" :
-                JOptionPane.showMessageDialog(null , "Vous ete enseignant");
+                new DashBordEnseignantView(nom).setVisible(true);
+                log.dispose();
                 break;
             case "Chef" :
                 new DashBordChefView().setVisible(true);
@@ -52,6 +55,10 @@ public class UserController {
                 break;
 
         }
+
+    }
+
+    public void enregistreUser(String firstName , String lastName , String email , String password){
 
     }
 

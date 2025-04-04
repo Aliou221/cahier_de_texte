@@ -8,33 +8,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
-public class GestionResponsableView extends JFrame {
+public class DashBordEnseignantView extends JFrame {
     DashBordChefView dash = new DashBordChefView();
 
-    public GestionResponsableView(){
+    public DashBordEnseignantView(String nom){
 
         add(createSideBarPanel() , BorderLayout.WEST);
-        add(homePanelResponsable() , BorderLayout.CENTER);
+        add(homePanelEnseignants() , BorderLayout.CENTER);
 
-        setTitle("Gestion des Responsables");
+        setTitle("Bienvenue Mr " + nom);
         setSize(1200 , 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
-    public JPanel homePanelResponsable(){
+    JButton btnDeconnexion;
+    public JPanel homePanelEnseignants(){
 
-        JButton btnDeconnexion;
-        JTable tabResponsable;
+        JTable tabEnseignant;
         DefaultTableModel modelTab;
 
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionResponsable = new JLabel("Gestion des Responsables");
-        labelGestionResponsable.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionResponsable.setFont(new Font("Roboto" , Font.BOLD , 23));
-        panel.add(labelGestionResponsable , "pushx , growx");
+        JLabel labelGestionEnseignant = new JLabel("Liste de mes cours");
+        labelGestionEnseignant.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
+        panel.add(labelGestionEnseignant , "pushx , growx");
 
         btnDeconnexion = dash.btnMenuSideBar("Deconnexion", "/img/logout.png");
         btnDeconnexion.addActionListener((ActionEvent e)->{
@@ -44,20 +44,21 @@ public class GestionResponsableView extends JFrame {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnAjouterResponsable = dash.btnMenuSideBar("Ajouter un Responsable" , "");
-        btnAjouterResponsable.setBackground(new Color(46, 204, 113));
 
-        JButton btnListeResponsable = new JButton("Charger la liste des Responsables");
-        btnListeResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JButton btnAjouterEnseignants = dash.btnMenuSideBar("Ajouter un Enseignant" , "");
+        btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
 
+        JButton btnListeEnseignants = dash.btnMenuSideBar("Charger la liste des Cours" , "");
+        btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        JButton btnModifierResponsable = dash.btnMenuSideBar("Modifier" , "");
-        btnModifierResponsable.setBackground(new Color(241, 196, 15));
+        JButton btnModifierEnseignants = dash.btnMenuSideBar("Modifier" , "");
+        btnModifierEnseignants.setBackground(new Color(241, 196, 15));
 
-        JButton btnSupprimerResponsable = dash.btnMenuSideBar("Supprimer" , "");
-        btnSupprimerResponsable.setBackground(new Color(231, 76, 60));
+        JButton btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer" , "");
+        btnSupprimerEnseignants.setBackground(new Color(231, 76, 60));
 
-        String[] columns = {"Prénom", "Nom", "Email" , "Classe" , "Date de création"};
+        String[] columns = {"Code", "Cours", "Classe concernée", "Crédits", "Séances réalisées", "Heures effectuées"};
+
 
         modelTab = new DefaultTableModel(columns , 0){
             @Override
@@ -66,36 +67,36 @@ public class GestionResponsableView extends JFrame {
             };
         };
 
-        tabResponsable = new JTable(modelTab);
-        tabResponsable.setRowHeight(30);
-        tabResponsable.setFont(new Font("Roboto" , Font.BOLD , 13));
 
-        tabResponsable.setGridColor(Color.LIGHT_GRAY);
-        tabResponsable.setShowGrid(true);
-        JScrollPane scrollPane = new JScrollPane(tabResponsable);
+        tabEnseignant = new JTable(modelTab);
+        tabEnseignant.setRowHeight(30);
+        tabEnseignant.setFont(new Font("Roboto" , Font.BOLD , 13));
 
-        btnAjouterResponsable.addActionListener((ActionEvent e)->{
-            modelTab.addRow(new Object[]{"Aliou", "CISSE", "aliou@gmail.com" , "Lgi-1", "2025-03-30 03:40:07"});
-            frameAjoutResponsable();
+        tabEnseignant.setGridColor(Color.LIGHT_GRAY);
+        tabEnseignant.setShowGrid(true);
+        JScrollPane scrollPane = new JScrollPane(tabEnseignant);
+
+        btnAjouterEnseignants.addActionListener((ActionEvent e)->{
+            modelTab.addRow(new Object[]{"Aliou", "CISSE", "aliou@gmail.com" , "2025-03-30 03:40:07"});
+            frameAjoutEnseignats();
         });
 
 
-
-        panel.add(btnListeResponsable , "wrap");
+        panel.add(btnListeEnseignants , "wrap");
         panel.add(scrollPane , "span , push , grow");
-        panel.add(btnAjouterResponsable , "pushx , growx");
-        panel.add(btnModifierResponsable , "pushx , growx");
-        panel.add(btnSupprimerResponsable , "pushx , growx");
+        panel.add(btnAjouterEnseignants , "pushx , growx");
+        panel.add(btnModifierEnseignants , "pushx , growx");
+        panel.add(btnSupprimerEnseignants , "pushx , growx");
 
         return panel;
     }
 
-    public void frameAjoutResponsable(){
-
-        JLabel labelFirstName , labelLastName , labelEmail , labelPassword;
+    public void frameAjoutEnseignats(){
+        JLabel labelFirstName , labelLastName , labelEmail , labelPassword , labelCours;
         JTextField inputFirstName , inputLastName , inputEmail;
         JPasswordField inputPassword;
         JButton btnValider;
+        JComboBox<String> cours;
 
         JFrame frame = new JFrame();
 
@@ -108,7 +109,9 @@ public class GestionResponsableView extends JFrame {
         JLabel label = new JLabel();
         label.setIcon(icon);
         label.setHorizontalAlignment(JLabel.CENTER);
-        formPanel.add(label , "span , wrap, pushx , growx");
+
+        formPanel.add(label , "span , wrap , pushx , growx");
+
 
         labelFirstName = new JLabel("Prénom");
         labelFirstName.setFont(new Font("Roboto", Font.PLAIN , 15));
@@ -130,16 +133,16 @@ public class GestionResponsableView extends JFrame {
         labelEmail.setFont(new Font("Roboto", Font.PLAIN , 15));
         inputEmail = new JTextField();
         inputEmail.setPreferredSize(new Dimension(0 , 40));
-
-        JLabel labelClasse = new JLabel("Classe");
-        formPanel.add(labelClasse , "pushx , growx");
-
-        String[] listeClasse = {"LI 1" , "LI 2" , "LI 3"};
-        JComboBox<String> classes = new JComboBox<>(listeClasse);
-        formPanel.add(classes , "pushx , growx");
-
         formPanel.add(labelEmail);
         formPanel.add(inputEmail , "pushx , growx");
+
+        labelCours = new JLabel("Cours Assigné");
+        labelCours.setFont(new Font("Roboto", Font.PLAIN , 15));
+
+        cours = new JComboBox<>(new String[]{"Algorithmique" , "Algebre" , "Analyse"});
+        cours.setPreferredSize(new Dimension(0 , 40));
+        formPanel.add(labelCours);
+        formPanel.add(cours , "pushx , growx");
 
         labelPassword = new JLabel("Mot de passe");
         labelPassword.setFont(new Font("Roboto", Font.PLAIN , 15));
@@ -161,11 +164,12 @@ public class GestionResponsableView extends JFrame {
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");
 
+
         frame.add(formPanel);
 
-        frame.setTitle("Ajouter un responsable");
-        frame.setSize(350 , 560);
-        frame.setMinimumSize(new Dimension(350 , 560));
+        frame.setTitle("Ajouter un ensignant");
+        frame.setSize(400 , 600);
+        frame.setMinimumSize(new Dimension(400 , 600));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocation(90 , 90);
@@ -200,21 +204,21 @@ public class GestionResponsableView extends JFrame {
         return sideBarPanel;
     }
 
-    JButton btnTabBord;
+    JButton btnAjouterSeance , btnListeCours;
     public JPanel getPanelSidebar(){
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord", "/img/home1.png");
-        panelSideBar.add(btnTabBord , "wrap , pushx , growx");
+        btnListeCours = dash.btnMenuSideBar("Liste des cours", "/img/home1.png");
+        panelSideBar.add(btnListeCours , "wrap , pushx , growx");
 
-        btnTabBord.addActionListener((ActionEvent e)->{
-            new DashBordChefView().setVisible(true);
-            dispose();
-        });
+        btnAjouterSeance = dash.btnMenuSideBar("Liste des cours", "/img/home1.png");
+        panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
+
 
         return panelSideBar;
     }
-    
+
+
 }

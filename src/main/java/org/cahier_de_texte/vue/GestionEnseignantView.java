@@ -32,17 +32,16 @@ public class GestionEnseignantView extends JFrame {
 
         JLabel labelGestionEnseignant = new JLabel("Gestion des Enseignants");
         labelGestionEnseignant.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionEnseignant.setFont(new Font("Dialog" , Font.BOLD , 23));
+        labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionEnseignant , "pushx , growx");
 
         btnDeconnexion = dash.btnMenuSideBar("Deconnexion", "/img/logout.png");
         btnDeconnexion.addActionListener((ActionEvent e)->{
-            new LoginView().setVisible(true);
+            new UserLoginView().setVisible(true);
             dispose();
         });
 
         panel.add(btnDeconnexion ,"wrap , split 2");
-
 
         JButton btnAjouterEnseignants = dash.btnMenuSideBar("Ajouter un Enseignant" , "");
         btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
@@ -56,7 +55,7 @@ public class GestionEnseignantView extends JFrame {
         JButton btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer" , "");
         btnSupprimerEnseignants.setBackground(new Color(231, 76, 60));
 
-        String[] columns = {"Prénom", "Nom", "Email" , "Date de création"};
+        String[] columns = {"ID","Prénom", "Nom", "Email" , "Date de création"};
 
         modelTab = new DefaultTableModel(columns , 0){
             @Override
@@ -64,7 +63,6 @@ public class GestionEnseignantView extends JFrame {
                 return false;
             };
         };
-
 
         tabEnseignant = new JTable(modelTab);
         tabEnseignant.setRowHeight(30);
@@ -75,12 +73,12 @@ public class GestionEnseignantView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tabEnseignant);
 
         btnAjouterEnseignants.addActionListener((ActionEvent e)->{
-            modelTab.addRow(new Object[]{"Aliou", "CISSE", "aliou@gmail.com" , "2025-03-30 03:40:07"});
+            modelTab.addRow(new Object[]{"123" , "Aliou", "CISSE", "aliou@gmail.com" , "2025-03-30 03:40:07"});
             frameAjoutEnseignats();
         });
 
 
-        panel.add(btnListeEnseignants , "wrap");
+        panel.add(btnListeEnseignants , "wrap , split 2");
         panel.add(scrollPane , "span , push , grow");
         panel.add(btnAjouterEnseignants , "pushx , growx");
         panel.add(btnModifierEnseignants , "pushx , growx");
@@ -90,7 +88,7 @@ public class GestionEnseignantView extends JFrame {
     }
 
     public void frameAjoutEnseignats(){
-        JLabel labelFirstName , labelLastName , labelEmail , labelPassword;
+        JLabel labelFirstName , labelLastName , labelEmail , labelPassword ;
         JTextField inputFirstName , inputLastName , inputEmail;
         JPasswordField inputPassword;
         JButton btnValider;
@@ -107,11 +105,11 @@ public class GestionEnseignantView extends JFrame {
         label.setIcon(icon);
         label.setHorizontalAlignment(JLabel.CENTER);
 
-        formPanel.add(label , "span , wrap, pushx , growx");
+        formPanel.add(label , "span , wrap , pushx , growx");
 
 
         labelFirstName = new JLabel("Prénom");
-        labelFirstName.setFont(new Font("Dialog", Font.PLAIN , 15));
+        labelFirstName.setFont(new Font("Roboto", Font.PLAIN , 15));
 
         inputFirstName = new JTextField();
         inputFirstName.setPreferredSize(new Dimension(0 , 40));
@@ -119,7 +117,7 @@ public class GestionEnseignantView extends JFrame {
         formPanel.add(inputFirstName , "pushx , growx");
 
         labelLastName = new JLabel("Nom");
-        labelLastName.setFont(new Font("Dialog", Font.PLAIN , 15));
+        labelLastName.setFont(new Font("Roboto", Font.PLAIN , 15));
         inputLastName = new JTextField();
         inputLastName.setPreferredSize(new Dimension(0 , 40));
 
@@ -127,15 +125,14 @@ public class GestionEnseignantView extends JFrame {
         formPanel.add(inputLastName , "pushx , growx");
 
         labelEmail = new JLabel("Email");
-        labelEmail.setFont(new Font("Dialog", Font.PLAIN , 15));
+        labelEmail.setFont(new Font("Roboto", Font.PLAIN , 15));
         inputEmail = new JTextField();
         inputEmail.setPreferredSize(new Dimension(0 , 40));
-
         formPanel.add(labelEmail);
         formPanel.add(inputEmail , "pushx , growx");
 
         labelPassword = new JLabel("Mot de passe");
-        labelPassword.setFont(new Font("Dialog", Font.PLAIN , 15));
+        labelPassword.setFont(new Font("Roboto", Font.PLAIN , 15));
         inputPassword = new JPasswordField();
         inputPassword.setPreferredSize(new Dimension(0 , 40));
 
@@ -150,7 +147,7 @@ public class GestionEnseignantView extends JFrame {
         btnValider.setPreferredSize(new Dimension(0 , 45));
         btnValider.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnValider.setBackground(new Color(46, 204, 113));
-        btnValider.setFont(new Font("Dialog" , Font.BOLD , 13));
+        btnValider.setFont(new Font("Roboto" , Font.BOLD , 13));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");
 
@@ -158,8 +155,8 @@ public class GestionEnseignantView extends JFrame {
         frame.add(formPanel);
 
         frame.setTitle("Ajouter un ensignant");
-        frame.setSize(350 , 500);
-        frame.setMinimumSize(new Dimension(350 , 500));
+        frame.setSize(400 , 550);
+        frame.setMinimumSize(new Dimension(400 , 550));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocation(90 , 90);
@@ -211,4 +208,8 @@ public class GestionEnseignantView extends JFrame {
         return panelSideBar;
     }
 
+    public static void main(String[] args) {
+        new GestionEnseignantView().setVisible(true);
+    }
+    
 }
