@@ -3,14 +3,11 @@ package org.cahier_de_texte.vue;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
-
-
 
 public class UserLoginView extends JFrame implements ActionListener {
     UserController userController = new UserController(this);
@@ -34,7 +31,6 @@ public class UserLoginView extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-
 
     public JPanel createPanel(){
 
@@ -83,13 +79,11 @@ public class UserLoginView extends JFrame implements ActionListener {
         passForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         passForget.setBorder(BorderFactory.createEmptyBorder(0 , 3 , 10 , 0));
 
-
         btnConnect = myButton(0x4caf50 , "Se connecter");
         btnConnect.addActionListener(this);
 
         btnClear = myButton(0x8f5151 , "Annuler");
         btnClear.addActionListener(this);
-
 
         mainPanelLogin.add(textTitle , "pushx , growx , wrap");
         mainPanelLogin.add(panelUser , "pushx , growx , wrap");
@@ -117,15 +111,11 @@ public class UserLoginView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnConnect) {
-
             String userEmail = inputUser.getText();
             char[] userPass = inputPassword.getPassword();
             String pass = new String(userPass);
             userController.login(userEmail , pass);
-
-
         }
-
         if (e.getSource() == btnClear) {
             inputUser.setText("");
             inputPassword.setText("");

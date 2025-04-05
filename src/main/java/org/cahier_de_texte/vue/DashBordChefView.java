@@ -93,10 +93,6 @@ public class DashBordChefView extends JFrame implements ActionListener {
         btnGestionSeance  = btnMenuSideBar("Gestion des Séances", "/img/seance.png");
         panelSideBar.add(btnGestionSeance , "wrap , pushx , growx");
 
-//        btnAttribuerComptes = btnMenuSideBar("Attribution des Comptes", "/img/compte.png");
-//        panelSideBar.add(btnAttribuerComptes , "wrap , pushx , growx");
-
-
         return panelSideBar;
     }
 

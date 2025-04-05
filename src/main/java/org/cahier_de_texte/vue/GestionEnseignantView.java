@@ -1,15 +1,21 @@
 package org.cahier_de_texte.vue;
 
 import net.miginfocom.swing.MigLayout;
+import org.cahier_de_texte.controller.UserController;
+import org.cahier_de_texte.model.UserDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class GestionEnseignantView extends JFrame {
+public class GestionEnseignantView extends JFrame implements ActionListener {
+
     DashBordChefView dash = new DashBordChefView();
+    UserDAO userDAO = new UserDAO();
+    UserController userController = new UserController(null);
 
     public GestionEnseignantView(){
 
@@ -21,11 +27,14 @@ public class GestionEnseignantView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-    JButton btnDeconnexion;
-    public JPanel homePanelEnseignants(){
 
-        JTable tabEnseignant;
-        DefaultTableModel modelTab;
+    JButton btnDeconnexion , btnAjouterEnseignants ,
+            btnListeEnseignants , btnModifierEnseignants,
+            btnSupprimerEnseignants;
+    JTable tabEnseignant;
+    DefaultTableModel modelTabEnseignant;
+
+    public JPanel homePanelEnseignants(){
 
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
@@ -43,28 +52,30 @@ public class GestionEnseignantView extends JFrame {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnAjouterEnseignants = dash.btnMenuSideBar("Ajouter un Enseignant" , "");
+        btnAjouterEnseignants = dash.btnMenuSideBar("Ajouter un Enseignant" , "");
         btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
+        btnAjouterEnseignants.addActionListener(this);
 
-        JButton btnListeEnseignants = dash.btnMenuSideBar("Charger la liste des Enseignants" , "");
-        btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnListeEnseignants = dash.btnMenuSideBar("Liste des Enseignants" , "");
 
-        JButton btnModifierEnseignants = dash.btnMenuSideBar("Modifier" , "");
+        btnModifierEnseignants = dash.btnMenuSideBar("Modifier" , "");
         btnModifierEnseignants.setBackground(new Color(241, 196, 15));
+        btnModifierEnseignants.addActionListener(this);
 
-        JButton btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer" , "");
+        btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer" , "");
         btnSupprimerEnseignants.setBackground(new Color(231, 76, 60));
+        btnSupprimerEnseignants.addActionListener(this);
 
-        String[] columns = {"ID","Prénom", "Nom", "Email" , "Date de création"};
+        String[] columnEnseignant = {"ID","Prénom", "Nom", "Email" , "Date de création"};
 
-        modelTab = new DefaultTableModel(columns , 0){
+        modelTabEnseignant = new DefaultTableModel(columnEnseignant , 0){
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
-            };
+            }
         };
 
-        tabEnseignant = new JTable(modelTab);
+        tabEnseignant = new JTable(modelTabEnseignant);
         tabEnseignant.setRowHeight(30);
         tabEnseignant.setFont(new Font("Roboto" , Font.BOLD , 13));
 
@@ -72,11 +83,7 @@ public class GestionEnseignantView extends JFrame {
         tabEnseignant.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabEnseignant);
 
-        btnAjouterEnseignants.addActionListener((ActionEvent e)->{
-            modelTab.addRow(new Object[]{"123" , "Aliou", "CISSE", "aliou@gmail.com" , "2025-03-30 03:40:07"});
-            frameAjoutEnseignats();
-        });
-
+        userDAO.chargerTabEnseignant(modelTabEnseignant);
 
         panel.add(btnListeEnseignants , "wrap , split 2");
         panel.add(scrollPane , "span , push , grow");
@@ -87,82 +94,6 @@ public class GestionEnseignantView extends JFrame {
         return panel;
     }
 
-    public void frameAjoutEnseignats(){
-        JLabel labelFirstName , labelLastName , labelEmail , labelPassword ;
-        JTextField inputFirstName , inputLastName , inputEmail;
-        JPasswordField inputPassword;
-        JButton btnValider;
-
-        JFrame frame = new JFrame();
-
-        JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
-
-        ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profil.png")));
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
-
-        JLabel label = new JLabel();
-        label.setIcon(icon);
-        label.setHorizontalAlignment(JLabel.CENTER);
-
-        formPanel.add(label , "span , wrap , pushx , growx");
-
-
-        labelFirstName = new JLabel("Prénom");
-        labelFirstName.setFont(new Font("Roboto", Font.PLAIN , 15));
-
-        inputFirstName = new JTextField();
-        inputFirstName.setPreferredSize(new Dimension(0 , 40));
-        formPanel.add(labelFirstName);
-        formPanel.add(inputFirstName , "pushx , growx");
-
-        labelLastName = new JLabel("Nom");
-        labelLastName.setFont(new Font("Roboto", Font.PLAIN , 15));
-        inputLastName = new JTextField();
-        inputLastName.setPreferredSize(new Dimension(0 , 40));
-
-        formPanel.add(labelLastName);
-        formPanel.add(inputLastName , "pushx , growx");
-
-        labelEmail = new JLabel("Email");
-        labelEmail.setFont(new Font("Roboto", Font.PLAIN , 15));
-        inputEmail = new JTextField();
-        inputEmail.setPreferredSize(new Dimension(0 , 40));
-        formPanel.add(labelEmail);
-        formPanel.add(inputEmail , "pushx , growx");
-
-        labelPassword = new JLabel("Mot de passe");
-        labelPassword.setFont(new Font("Roboto", Font.PLAIN , 15));
-        inputPassword = new JPasswordField();
-        inputPassword.setPreferredSize(new Dimension(0 , 40));
-
-        formPanel.add(labelPassword);
-        formPanel.add(inputPassword , "pushx , growx");
-
-        JLabel l = new JLabel("");
-        l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
-        formPanel.add(l);
-
-        btnValider = new JButton("Valider");
-        btnValider.setPreferredSize(new Dimension(0 , 45));
-        btnValider.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnValider.setBackground(new Color(46, 204, 113));
-        btnValider.setFont(new Font("Roboto" , Font.BOLD , 13));
-        btnValider.setForeground(Color.white);
-        formPanel.add(btnValider , "pushx , growx");
-
-
-        frame.add(formPanel);
-
-        frame.setTitle("Ajouter un ensignant");
-        frame.setSize(400 , 550);
-        frame.setMinimumSize(new Dimension(400 , 550));
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocation(90 , 90);
-
-        frame.setVisible(true);
-    }
 
     //Creation de notre Sidebar
     public  JPanel createSideBarPanel(){
@@ -208,8 +139,89 @@ public class GestionEnseignantView extends JFrame {
         return panelSideBar;
     }
 
-    public static void main(String[] args) {
-        new GestionEnseignantView().setVisible(true);
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnAjouterEnseignants){
+            ajouterEnseignant();
+        }
+        if(e.getSource() == btnModifierEnseignants) {
+            modifierEnseignants();
+        }
+        if(e.getSource() == btnSupprimerEnseignants){
+            supprimerEnseignants();
+        }
     }
-    
+
+    public void ajouterEnseignant(){
+        AjouterEnseignantView fenetre = new AjouterEnseignantView();
+        fenetre.setVisible(true);
+
+        fenetre.btnValider.addActionListener((ActionEvent event)->{
+
+            String firstname = fenetre.inputFirstName.getText() ,
+                    lastname = fenetre.inputLastName.getText(),
+                    email = fenetre.inputEmail.getText(),
+                    password = new String(fenetre.inputPassword.getPassword());
+
+            userController.enregistreUser(firstname , lastname , email , password);
+            fenetre.dispose();
+            userDAO.chargerTabEnseignant(modelTabEnseignant);
+        });
+    }
+
+    //Methode pour modifier un enseignant
+    public void modifierEnseignants(){
+        int rowSelected = tabEnseignant.getSelectedRow();
+
+        if (rowSelected == -1){
+            JOptionPane.showMessageDialog(
+                    null ,
+                    "Veuillez selectioner la ligne\n que vous voulez modifier !",
+                    null,
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
+        String prenom = (String) modelTabEnseignant.getValueAt(rowSelected , 1);
+        String nom = (String) modelTabEnseignant.getValueAt(rowSelected , 2);
+        String email = (String) modelTabEnseignant.getValueAt(rowSelected , 3);
+
+        ModifierEnseignantView fenetre = new ModifierEnseignantView();
+        fenetre.setVisible(true);
+
+        fenetre.inputFirstName.setText(prenom);
+        fenetre.inputLastName.setText(nom);
+        fenetre.inputEmail.setText(email);
+
+        fenetre.btnModifier.addActionListener((ActionEvent even)->{
+
+            String newFirstName = fenetre.inputFirstName.getText();
+            String newLastname = fenetre.inputLastName.getText();
+            String newEmail = fenetre.inputEmail.getText();
+
+            userController.modifierUser(id , newFirstName , newLastname , newEmail);
+
+            userDAO.chargerTabEnseignant(modelTabEnseignant);
+            fenetre.dispose();
+
+        });
+    }
+
+
+    public void supprimerEnseignants(){
+
+        int rowSelected = tabEnseignant.getSelectedRow();
+        if(rowSelected == -1){
+            JOptionPane.showMessageDialog(null , "Veuillez selectionez la ligne\n que vous voulez supprimer !" , "Conseil" , JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
+        userController.supprimerUser(id);
+        userDAO.chargerTabEnseignant(modelTabEnseignant);
+    }
+
 }
