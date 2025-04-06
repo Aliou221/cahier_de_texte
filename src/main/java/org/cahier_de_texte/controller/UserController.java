@@ -1,12 +1,13 @@
 package org.cahier_de_texte.controller;
 
-import org.cahier_de_texte.vue.DashBordChefView;
+import org.cahier_de_texte.vue.chef.DashBordChefView;
 import org.cahier_de_texte.model.UserDAO;
 import org.cahier_de_texte.model.Users;
-import org.cahier_de_texte.vue.DashBordEnseignantView;
+import org.cahier_de_texte.vue.enseignant.DashBordEnseignantView;
 import org.cahier_de_texte.vue.UserLoginView;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 // Contrôleur de gestion des actions de l'utilisateur (MVC)
 public class UserController {
@@ -83,84 +84,38 @@ public class UserController {
 
     }
 
-    // Enregistre un utilisateur avec le rôle Enseignant
-    public void enregistreUser(String firstName , String lastName , String email , String password){
-
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    "Erreur" ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        Users user = new Users(firstName , lastName , email , password);
-
-        if(userDAO.addEnseignant(user)){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    user.getFirstName() + " " + user.getLastName() +
-                            " à été ajouté avec succès !" ,
-                    "Succès" ,
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        }
+    public int getNbEnseignant(){
+        return userDAO.nbEnseignant();
     }
 
-    // Modifie les informations d’un utilisateur
-    public void modifierUser(int id , String firstName , String lastName , String email){
+    public int getNbResponsable(){
+        return userDAO.nbResponsable();
+    }
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
-            JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , null , JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    public int getNbEtudiant(){
+        return userDAO.nbEtudiant();
+    }
 
-        Users user = new Users(id , firstName , lastName , email);
-        boolean modifValide = userDAO.modiferUser(user);
+    public int getNbSeanceValide(){
+        return userDAO.nbSeanceValide();
+    }
+    public int getNbCours(){
+        return userDAO.nbCours() ;
+    }
 
-        if(modifValide){
-            JOptionPane.showMessageDialog(null , "Ensignant a été modifié avec succés !" , "Succés" , JOptionPane.INFORMATION_MESSAGE);
-        }
-
+    public int getNbClasse(){
+        return userDAO.nbClasse() ;
     }
 
 
-    // Supprime un utilisateur avec boîte de dialogue de confirmation
-    public void supprimerUser(int id) {
+    // Charge tous les responsable et leurs classes dans une tableau
+    public void chargeTabResponsable(DefaultTableModel model){
+        userDAO.chargeTabResponsableClasse(model);
+    }
 
-        int confirmation = JOptionPane.showConfirmDialog(
-                null,
-                "Voulez-vous vraiment supprimer cet utilisateur ?",
-                "Confirmation",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirmation == JOptionPane.YES_OPTION) {
-
-            Users user = new Users(id);
-            boolean supValide = userDAO.supprimerUser(user);
-
-            if (supValide) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Enseignant supprimé avec succès !",
-                        "Succès",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-
-            } else {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Échec de la suppression de l'utilisateur.",
-                        "Erreur",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-        }
+    // Charge tous les enseignats et leurs cours asigner dans une tableau
+    public void chargeTabEnseignantCours(DefaultTableModel model){
+        userDAO.chargeTabEnseignantCours(model);
     }
 
 }

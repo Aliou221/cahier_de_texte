@@ -116,6 +116,7 @@ public class UserLoginView extends JFrame implements ActionListener {
             String pass = new String(userPass);
             userController.login(userEmail , pass);
         }
+
         if (e.getSource() == btnClear) {
             inputUser.setText("");
             inputPassword.setText("");
