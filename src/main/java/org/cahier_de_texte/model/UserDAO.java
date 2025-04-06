@@ -43,6 +43,7 @@ public class UserDAO {
     public String getUserRole(){
        return role;
     }
+
     // Retourne le nom de l'utilisateur connecté
     public String getUserName(){
        return nom;

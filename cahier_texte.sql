@@ -1,7 +1,6 @@
--- Active: 1742934672239@@127.0.0.1@3306@cahier_de_texte
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS cahier_de_texte;
-
+-- DROP DATABASE cahier_de_texte;
 USE cahier_de_texte;
 
 -- Table Utilisateurs
@@ -17,14 +16,14 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
 
 -- Responsables (1 par classe)
 INSERT INTO Utilisateurs (prenom, nom, email, password, role)
-VALUES 
+VALUES
 ('Samba', 'Ndiaye', 'samba.ndiaye@univ-thies.sn', 'pass1', 'Responsable'),
 ('Aminata', 'Ba', 'aminata.ba@univ-thies.sn', 'pass2', 'Responsable'),
 ('Cheikh', 'Diop', 'cheikh.diop@univ-thies.sn', 'pass3', 'Responsable');
 
 -- Enseignants
 INSERT INTO Utilisateurs (prenom, nom, email, password, role)
-VALUES 
+VALUES
 ('Fatou', 'Sow', 'fatou.sow@univ-thies.sn', 'ens1', 'Enseignant'),
 ('Ibrahima', 'Fall', 'ibrahima.fall@univ-thies.sn', 'ens2', 'Enseignant'),
 ('Mariama', 'Sagna', 'mariama.sagna@univ-thies.sn', 'ens3', 'Enseignant');
@@ -34,17 +33,14 @@ VALUES
 INSERT INTO Utilisateurs (prenom, nom, email, password, role)
 VALUES ('Aliou', 'Cissé', 'aliou.cisse@univ-thies.sn', 'pass789', 'Chef');
 
-
-
 -------------------------------------------------------------------------------------------------------
-
 
 -- Table enseignants
 CREATE TABLE IF NOT EXISTS Enseignants(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_utilisateur INT NOT NULL,
 
-    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id) 
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -55,13 +51,12 @@ INSERT INTO Enseignants (id_utilisateur) VALUES (4), (5), (6);
 
 -------------------------------------------------------------------------------------------------------
 
-
 -- Table responsable
 CREATE TABLE IF NOT EXISTS Responsables(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_utilisateur INT NOT NULL ,
 
-    FOREIGN KEY(id_utilisateur) REFERENCES Utilisateurs(id) 
+    FOREIGN KEY(id_utilisateur) REFERENCES Utilisateurs(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -71,19 +66,21 @@ INSERT INTO Responsables (id_utilisateur) VALUES (1), (2), (3);
 
 -------------------------------------------------------------------------------------------------------
 
+
+
 -- Table Classes
 CREATE TABLE IF NOT EXISTS Classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     id_responsable INT NOT NULL ,
 
-    FOREIGN KEY (id_responsable) REFERENCES  Responsables(id) 
+    FOREIGN KEY (id_responsable) REFERENCES  Responsables(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
 INSERT INTO Classes (nom, id_responsable)
-VALUES 
+VALUES
 ('L1 Informatique', 1),  -- Responsable ID 1
 ('L2 Informatique', 2),  -- Responsable ID 2
 ('L3 Informatique', 3);  -- Responsable ID 3
@@ -97,41 +94,49 @@ CREATE TABLE IF NOT EXISTS Etudiants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     prenom VARCHAR(100) NOT NULL,
     nom VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     classe_id INT NOT NULL,
-    FOREIGN KEY (classe_id) REFERENCES Classes(id) 
+    FOREIGN KEY (classe_id) REFERENCES Classes(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
 -- Étudiants L1 (classe_id = 1)
-INSERT INTO Etudiants (prenom, nom, classe_id)
-VALUES 
-('Aliou', 'Mbaye', 1),
-('Fatou', 'Diagne', 1),
-('Modou', 'Gueye', 1),
-('Aissatou', 'Kane', 1),
-('Moussa', 'Sow', 1);
+INSERT INTO Etudiants (prenom, nom, email, classe_id)
+VALUES
+('Aliou', 'Mbaye','aliou.mbaye@univ-thies.sn', 1),
+('Fatou', 'Diagne', 'fatou.diagne@univ-thies.sn', 1),
+('Modou', 'Gueye', 'modou.gueye@univ-thies.sn', 1),
+('Aissatou', 'Kane', 'aissatou.kane@univ-thies.sn', 1),
+('Moussa', 'Sow', 'moussa.sow@univ-thies.sn', 1)
+('Samba', 'Ndiaye', 'samba.ndiaye@univ-thies.sn', 1);
+
 
 -- Étudiants L2 (classe_id = 2)
-INSERT INTO Etudiants (prenom, nom, classe_id)
-VALUES 
-('Khadija', 'Thiam', 2),
-('Cheikh', 'Ba', 2),
-('Abdou', 'Fall', 2),
-('Seynabou', 'Diop', 2),
-('Mamadou', 'Sy', 2);
+INSERT INTO Etudiants (prenom, nom, email, classe_id)
+VALUES
+('Khadija', 'Thiam', 'khadija.thiam@univ-thies.sn', 2),
+('Cheikh', 'Ba', 'cheikh.ba@univ-thies.sn', 2),
+('Abdou', 'Fall', 'abdou.fall@univ-thies.sn', 2),
+('Seynabou', 'Diop', 'seynabou.diop@univ-thies.sn', 2),
+('Mamadou', 'Sy', 'mamadou.sy@univ-thies.sn', 2),
+('Aminata', 'Ba', 'aminata.ba@univ-thies.sn', 2);
+
 
 -- Étudiants L3 (classe_id = 3)
-INSERT INTO Etudiants (prenom, nom, classe_id)
-VALUES 
-('Ousmane', 'Ndoye', 3),
-('Fatimata', 'Diallo', 3),
-('Ibra', 'Sarr', 3),
-('Mame', 'Ndiaye', 3),
-('Binta', 'Gueye', 3);
+INSERT INTO Etudiants (prenom, nom, email, classe_id)
+VALUES
+('Ousmane', 'Ndoye', 'ousmane.ndoye@univ-thies.sn', 3),
+('Fatimata', 'Diallo', 'fatimata.diallo@univ-thies.sn', 3),
+('Ibra', 'Sarr', 'ibra.sarr@univ-thies.sn', 3),
+('Mame', 'Ndiaye', 'mame.ndiaye@univ-thies.sn', 3),
+('Binta', 'Gueye', 'binta.gueye@univ-thies.sn', 3),
+('Cheikh', 'Diop', 'cheikh.diop@univ-thies.sn', 3);
 
 
 -------------------------------------------------------------------------------------------------------
+
+
 
 -- Table Cours
 CREATE TABLE IF NOT EXISTS Cours (
@@ -139,14 +144,14 @@ CREATE TABLE IF NOT EXISTS Cours (
     code VARCHAR(20) UNIQUE NOT NULL,
     intitule VARCHAR(200) NOT NULL,
     credits INT NOT NULL,
-    enseignant_id INT NOT NULL UNIQUE,
+    enseignant_id INT NOT NULL ,
     FOREIGN KEY (enseignant_id) REFERENCES Enseignants(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
 INSERT INTO Cours (code, intitule, credits, enseignant_id)
-VALUES 
+VALUES
 ('INF101', 'Algorithmique', 6, 1),
 ('INF202', 'Programmation Orientée Objet', 6, 2),
 ('INF303', 'Base de Données', 6, 3);
@@ -161,13 +166,12 @@ CREATE TABLE IF NOT EXISTS ClasseCours (
     id_classe INT NOT NULL,
     PRIMARY KEY(id_cours , id_classe),
 
-    FOREIGN KEY (id_cours) REFERENCES  Cours(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    FOREIGN KEY (id_cours) REFERENCES  Cours(id) ON DELETE CASCADE,
     FOREIGN KEY (id_classe) REFERENCES  Classes(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
 
 -- Algorithmique pour L1
 INSERT INTO ClasseCours (id_cours, id_classe) VALUES (1, 1);
@@ -178,21 +182,24 @@ INSERT INTO ClasseCours (id_cours, id_classe) VALUES (2, 2);
 -- BDD pour L3
 INSERT INTO ClasseCours (id_cours, id_classe) VALUES (3, 3);
 
+
+
 -------------------------------------------------------------------------------------------------------
+
 
 -- Table Seances
 CREATE TABLE IF NOT EXISTS Seances (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cours_id INT NOT NULL UNIQUE,
+    cours_id INT NOT NULL ,
     date_seance DATETIME NOT NULL,
     contenu TEXT NOT NULL,
     duree INT NOT NULL,
 
     FOREIGN KEY (cours_id) REFERENCES Cours(id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
-    
+
 );
+
 
 -- Séance Algorithmique (cours_id = 1)
 INSERT INTO Seances (cours_id, date_seance, contenu, duree)
@@ -213,12 +220,16 @@ VALUES (3, '2025-04-02 14:00:00', 'Introduction au modèle relationnel et au lan
 -- Table Validations
 CREATE TABLE IF NOT EXISTS Validations (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    responsable_id INT NOT NULL UNIQUE,
-    seance_id INT NOT NULL UNIQUE,
+    responsable_id INT NOT NULL ,
+    seance_id INT NOT NULL ,
     date_validation DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (responsable_id) REFERENCES Responsables(id) ON DELETE CASCADE,
-    FOREIGN KEY (seance_id) REFERENCES Seances(id) ON DELETE CASCADE
+    FOREIGN KEY (responsable_id) REFERENCES Responsables(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (seance_id) REFERENCES Seances(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 
@@ -234,4 +245,4 @@ VALUES (2, 2);
 INSERT INTO Validations (responsable_id, seance_id)
 VALUES (3, 3);
 
------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------

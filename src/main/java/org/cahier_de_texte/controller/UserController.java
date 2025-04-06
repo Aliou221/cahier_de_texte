@@ -22,6 +22,7 @@ public class UserController {
 
     // Gère la connexion utilisateur
     public void login(String email, String password) {
+
         if (email.isEmpty() || password.isEmpty()){
             JOptionPane.showMessageDialog(
                     null ,
@@ -36,14 +37,12 @@ public class UserController {
         boolean verifInfo = userDAO.verifeInfo(user);
 
         if(verifInfo){
-
             JOptionPane.showMessageDialog(
                     null ,
                     "Connexion Reussi !" ,
                     "Succée" ,
                     JOptionPane.INFORMATION_MESSAGE
             );
-
             dashbord();
         }else{
 
