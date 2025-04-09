@@ -1,6 +1,5 @@
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS cahier_de_texte;
--- DROP DATABASE cahier_de_texte;
 USE cahier_de_texte;
 
 -- Table Utilisateurs
