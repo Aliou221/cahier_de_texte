@@ -1,4 +1,4 @@
-package org.cahier_de_texte.model;
+package org.cahier_de_texte.models;
 
 public class Etudiants {
     private int id;
@@ -6,8 +6,8 @@ public class Etudiants {
     private String nom ;
     private String email ;
 
-    public Etudiants(int id, String prenom, String nom, String email) {
-        this.id = id;
+    public Etudiants(){}
+    public Etudiants( String prenom, String nom, String email) {
         this.prenom = prenom;
         this.nom = nom;
         this.email = email;

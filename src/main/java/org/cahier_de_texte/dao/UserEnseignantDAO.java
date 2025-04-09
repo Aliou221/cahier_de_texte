@@ -1,4 +1,7 @@
-package org.cahier_de_texte.model;
+package org.cahier_de_texte.dao;
+
+import org.cahier_de_texte.models.DbConnexion;
+import org.cahier_de_texte.models.Users;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;

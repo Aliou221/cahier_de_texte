@@ -2,10 +2,10 @@ package org.cahier_de_texte.vue.chef.classe;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
-import org.cahier_de_texte.model.ClassesDAO;
+import org.cahier_de_texte.controller.ClasseController;
+import org.cahier_de_texte.dao.ClassesDAO;
 import org.cahier_de_texte.vue.UserLoginView;
 import org.cahier_de_texte.vue.chef.DashBordChefView;
-import org.cahier_de_texte.vue.classe.ClasseView;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
@@ -19,6 +19,7 @@ import java.util.Objects;
 public class GestionClasseView extends JFrame implements ActionListener {
     DashBordChefView dash = new DashBordChefView();
     ClassesDAO classesDAO = new ClassesDAO();
+    ClasseController classeController = new ClasseController();
 
     public GestionClasseView(){
         FlatLightLaf.setup();
@@ -32,7 +33,7 @@ public class GestionClasseView extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    JButton btnDeconnexion, btnPlusInfo , btnListeClasses;
+    JButton btnDeconnexion, btnPlusInfo , btnListeClasses , btnAjouterClasses , btnModifierClasses , btnSupprimerClasse;
     JTable tabClasse;
     DefaultTableModel tabClasseModel;
 
@@ -77,6 +78,30 @@ public class GestionClasseView extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(tabClasse);
 
         panel.add(scrollPane , "span , push , grow");
+
+        btnAjouterClasses = dash.btnMenuSideBar("Ajouter un Classe");
+        btnAjouterClasses.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
+        btnAjouterClasses.setForeground(Color.white);
+        btnAjouterClasses.setIconTextGap(5);
+        btnAjouterClasses.setBackground(new Color(46, 204, 113));
+        btnAjouterClasses.addActionListener(this);
+        panel.add(btnAjouterClasses , "pushx , growx");
+
+        btnModifierClasses = dash.btnMenuSideBar("Modifier");
+        btnModifierClasses.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierClasses.setForeground(Color.white);
+        btnModifierClasses.setIconTextGap(5);
+        btnModifierClasses.setBackground(new Color(241, 196, 15));
+        btnModifierClasses.addActionListener(this);
+        panel.add(btnModifierClasses , "pushx , growx");
+
+        btnSupprimerClasse = dash.btnMenuSideBar("Supprimer");
+        btnSupprimerClasse.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerClasse.setForeground(Color.white);
+        btnSupprimerClasse.setIconTextGap(5);
+        btnSupprimerClasse.setBackground(new Color(231, 76, 60));
+        btnSupprimerClasse.addActionListener(this);
+        panel.add(btnSupprimerClasse , "pushx , growx");
 
         classesDAO.chargeTabClasse(tabClasseModel);
         return panel;
@@ -125,6 +150,67 @@ public class GestionClasseView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource() == btnAjouterClasses){
+            AjouterClasseView ajoutClasse = new AjouterClasseView();
+            ajoutClasse.setVisible(true);
+
+           ajoutClasse.btnValider.addActionListener((ActionEvent even)->{
+                String nom = ajoutClasse.inputNiveau.getText();
+                classeController.ajouterClasse(nom);
+                classesDAO.chargeTabClasse(tabClasseModel);
+
+               ajoutClasse.inputNiveau.setText(null);
+
+           });
+
+        }
+
+        if (e.getSource() == btnModifierClasses){
+            int rowSelected = tabClasse.getSelectedRow();
+
+            if (rowSelected == -1){
+                JOptionPane.showMessageDialog(null , "Veuillez choisir une classe !" , null , JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+           ModifierClasseView modifClasse = new ModifierClasseView();
+           modifClasse.setVisible(true);
+
+           String nom = (String) tabClasse.getValueAt(rowSelected , 0);
+           modifClasse.inputNiveau.setText(nom);
+
+           modifClasse.btnValider.addActionListener((ActionEvent event)->{
+               String nouveauNom = modifClasse.inputNiveau.getText();
+
+               classeController.modifierClasse(nom , nouveauNom);
+               classesDAO.chargeTabClasse(tabClasseModel);
+
+               modifClasse.inputNiveau.setText(null);
+
+           });
+
+        }
+
+        if (e.getSource() == btnSupprimerClasse){
+            int rowSelected = tabClasse.getSelectedRow();
+
+            if (rowSelected == -1){
+                JOptionPane.showMessageDialog(null , "Veuillez choisir une classe !" , null , JOptionPane.WARNING_MESSAGE);
+                return;
+            }else{
+
+                int valide = JOptionPane.showConfirmDialog(null,"Voulez vous vraiment supprimer cette classe ?" , "Confirmation", JOptionPane.YES_NO_OPTION);
+
+                if (valide == JOptionPane.YES_OPTION){
+                    String nom = (String) tabClasse.getValueAt(rowSelected , 0);
+                    classeController.supprimeClasse(nom);
+                    classesDAO.chargeTabClasse(tabClasseModel);
+                }
+            }
+
+        }
+
         if(e.getSource() == btnTabBord){
             new DashBordChefView().setVisible(true);
             dispose();
@@ -152,11 +238,9 @@ public class GestionClasseView extends JFrame implements ActionListener {
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
-                new ClasseView(classeName).setVisible(true);
+                new ClasseEtudiantView(classeName).setVisible(true);
                 dispose();
             }
-
-
 
         }
 
@@ -164,6 +248,10 @@ public class GestionClasseView extends JFrame implements ActionListener {
             new UserLoginView().setVisible(true);
             dispose();
         }
+    }
+
+    public static void main(String[] args) {
+        new GestionClasseView().setVisible(true);
     }
 
 }

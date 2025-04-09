@@ -1,4 +1,4 @@
-package org.cahier_de_texte.model;
+package org.cahier_de_texte.models;
 
 public class Users {
     private int id;

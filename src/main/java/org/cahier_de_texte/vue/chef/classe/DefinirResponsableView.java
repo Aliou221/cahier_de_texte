@@ -1,4 +1,4 @@
-package org.cahier_de_texte.vue.chef.responsable;
+package org.cahier_de_texte.vue.chef.classe;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
@@ -8,24 +8,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class AjouterResponsableView extends JFrame{
+public class DefinirResponsableView extends JFrame {
 
     DashBordChefView dash = new DashBordChefView();
     JLabel labelFirstName , labelLastName , labelEmail , labelPassword ;
     JTextField inputFirstName , inputLastName , inputEmail;
     JPasswordField inputPassword;
     JButton btnValider;
+    private final String classe;
 
-    public AjouterResponsableView(){
-        initUI();
+    public DefinirResponsableView(String classe){
+        this.classe = classe;
+        initUI(this.classe);
     }
 
-    public void initUI(){
+    public void initUI(String classe){
         FlatLightLaf.setup();
 
         add(formePanel());
 
-        setTitle("Ajouter un Responsable de classe");
+        setTitle(classe + " : Définir comme reponsable");
         setSize(400 , 550);
         setMinimumSize(new Dimension(400 , 550));
         setResizable(false);

@@ -1,4 +1,7 @@
-package org.cahier_de_texte.model;
+package org.cahier_de_texte.dao;
+import org.cahier_de_texte.models.DbConnexion;
+import org.cahier_de_texte.models.Users;
+
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
@@ -16,11 +19,10 @@ public class UserDAO {
     // Vérifie les informations de connexion de l'utilisateur
     public boolean verifeInfo(Users user){
 
-        String sql = "SELECT nom , role FROM Utilisateurs WHERE email = ? AND password = ?";
+        String sql = "SELECT * FROM Utilisateurs WHERE email = ? AND password = ?";
 
         try{
             pst = con.prepareStatement(sql);
-
             pst.setString(1 , user.getEmail());
             pst.setString(2 , user.getPassword());
 

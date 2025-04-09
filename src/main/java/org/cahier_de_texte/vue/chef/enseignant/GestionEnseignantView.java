@@ -3,7 +3,7 @@ package org.cahier_de_texte.vue.chef.enseignant;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserEnseignantController;
-import org.cahier_de_texte.model.UserEnseignantDAO;
+import org.cahier_de_texte.dao.UserEnseignantDAO;
 import org.cahier_de_texte.vue.UserLoginView;
 import org.cahier_de_texte.vue.chef.DashBordChefView;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
@@ -82,7 +82,6 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
         btnSupprimerEnseignants.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerEnseignants.setForeground(Color.white);
         btnSupprimerEnseignants.setIconTextGap(5);
-        btnSupprimerEnseignants.setBackground(new Color(241, 196, 15));
         btnSupprimerEnseignants.setBackground(new Color(231, 76, 60));
         btnSupprimerEnseignants.addActionListener(this);
 
@@ -186,8 +185,11 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
                     password = new String(fenetre.inputPassword.getPassword());
 
             userController.enregistreUser(firstname , lastname , email , password);
-            fenetre.dispose();
             enseignantDAO.chargerTabEnseignant(modelTabEnseignant);
+
+            fenetre.inputFirstName.setText(null);
+            fenetre.inputLastName.setText(null);
+            fenetre.inputEmail.setText(null);
         });
     }
 
@@ -226,7 +228,10 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
             userController.modifierUser(id , newFirstName , newLastname , newEmail);
 
             enseignantDAO.chargerTabEnseignant(modelTabEnseignant);
-            fenetre.dispose();
+
+            fenetre.inputFirstName.setText(null);
+            fenetre.inputLastName.setText(null);
+            fenetre.inputEmail.setText(null);
 
         });
     }

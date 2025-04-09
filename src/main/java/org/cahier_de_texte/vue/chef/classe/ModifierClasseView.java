@@ -2,20 +2,17 @@ package org.cahier_de_texte.vue.chef.classe;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
-import org.cahier_de_texte.controller.ClasseController;
 import org.cahier_de_texte.vue.chef.DashBordChefView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 
-public class AjouterClasseView extends JFrame {
+public class ModifierClasseView extends JFrame {
     DashBordChefView dash = new DashBordChefView();
 
-    public AjouterClasseView(){
+    public ModifierClasseView(){
         initUI();
     }
 
@@ -23,7 +20,7 @@ public class AjouterClasseView extends JFrame {
         FlatLightLaf.setup();
 
         add(createPanel());
-        setTitle("Ajouter une classes");
+        setTitle("Modifier une classes");
 
         setSize(300 , 350);
         setMinimumSize(new Dimension(300 , 350));

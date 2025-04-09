@@ -1,8 +1,8 @@
 package org.cahier_de_texte.controller;
 
-import org.cahier_de_texte.model.UserDAO;
-import org.cahier_de_texte.model.UserEnseignantDAO;
-import org.cahier_de_texte.model.Users;
+import org.cahier_de_texte.dao.UserDAO;
+import org.cahier_de_texte.dao.UserEnseignantDAO;
+import org.cahier_de_texte.models.Users;
 
 import javax.swing.*;
 

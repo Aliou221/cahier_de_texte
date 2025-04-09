@@ -1,8 +1,8 @@
 package org.cahier_de_texte.controller;
 
 import org.cahier_de_texte.vue.chef.DashBordChefView;
-import org.cahier_de_texte.model.UserDAO;
-import org.cahier_de_texte.model.Users;
+import org.cahier_de_texte.dao.UserDAO;
+import org.cahier_de_texte.models.Users;
 import org.cahier_de_texte.vue.enseignant.DashBordEnseignantView;
 import org.cahier_de_texte.vue.UserLoginView;
 
@@ -98,6 +98,7 @@ public class UserController {
     public int getNbSeanceValide(){
         return userDAO.nbSeanceValide();
     }
+
     public int getNbCours(){
         return userDAO.nbCours() ;
     }
@@ -105,7 +106,6 @@ public class UserController {
     public int getNbClasse(){
         return userDAO.nbClasse() ;
     }
-
 
     // Charge tous les responsable et leurs classes dans une tableau
     public void chargeTabResponsable(DefaultTableModel model){

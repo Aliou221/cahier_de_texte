@@ -1,4 +1,4 @@
-package org.cahier_de_texte.vue.chef.responsable;
+package org.cahier_de_texte.vue.chef.classe;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
@@ -8,15 +8,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class AjouterResponsableView extends JFrame{
+public class ModifierEtudiantView extends JFrame {
 
     DashBordChefView dash = new DashBordChefView();
-    JLabel labelFirstName , labelLastName , labelEmail , labelPassword ;
-    JTextField inputFirstName , inputLastName , inputEmail;
-    JPasswordField inputPassword;
-    JButton btnValider;
 
-    public AjouterResponsableView(){
+    JLabel labelFirstName , labelLastName , labelEmail ;
+    JTextField inputFirstName , inputLastName , inputEmail;
+    JButton btnModifier;
+    private final String classe;
+
+    public ModifierEtudiantView(String classe){
+        this.classe = classe;
         initUI();
     }
 
@@ -25,9 +27,9 @@ public class AjouterResponsableView extends JFrame{
 
         add(formePanel());
 
-        setTitle("Ajouter un Responsable de classe");
-        setSize(400 , 550);
-        setMinimumSize(new Dimension(400 , 550));
+        setTitle(this.classe + " Modifier un étudiant");
+        setSize(400 , 500);
+        setMinimumSize(new Dimension(400 , 500));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocation(90 , 90);
@@ -70,23 +72,16 @@ public class AjouterResponsableView extends JFrame{
         inputEmail.setPreferredSize(new Dimension(0 , 40));
         formPanel.add(inputEmail , "pushx , growx");
 
-        labelPassword = new JLabel("Mot de passe");
-        labelPassword.setFont(new Font("Roboto", Font.PLAIN , 15));
-        formPanel.add(labelPassword);
-
-        inputPassword = new JPasswordField();
-        inputPassword.setPreferredSize(new Dimension(0 , 40));
-        formPanel.add(inputPassword , "pushx , growx");
-
         JLabel l = new JLabel("");
         l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnValider = dash.btnMenuSideBar("Enregistrer");
-        btnValider.setBackground(new Color(46, 204, 113));
-        btnValider.setForeground(Color.white);
-        formPanel.add(btnValider , "pushx , growx");
+        btnModifier = dash.btnMenuSideBar("Modifier");
+        btnModifier.setBackground(new Color(46, 204, 113));
+        btnModifier.setForeground(Color.white);
+        formPanel.add(btnModifier , "pushx , growx");
 
         return formPanel;
     }
+
 }

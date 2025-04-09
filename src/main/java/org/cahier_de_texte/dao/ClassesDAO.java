@@ -1,9 +1,10 @@
-package org.cahier_de_texte.model;
+package org.cahier_de_texte.dao;
+
+import org.cahier_de_texte.models.DbConnexion;
 
 import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+
 
 public class ClassesDAO {
     Connection con ;
@@ -15,8 +16,8 @@ public class ClassesDAO {
                 "CONCAT(Utilisateurs.prenom, ' ', Utilisateurs.nom) AS responsable, Utilisateurs.email AS email, " +
                 "COUNT(Etudiants.id) AS effectif " +
                 "FROM Classes " +
-                "INNER JOIN Utilisateurs ON Utilisateurs.id = Classes.id_responsable " +
-                "INNER JOIN Etudiants ON Etudiants.classe_id = Classes.id " +
+                "LEFT JOIN Utilisateurs ON Utilisateurs.id = Classes.id_responsable " +
+                "LEFT JOIN Etudiants ON Etudiants.classe_id = Classes.id " +
                 "GROUP BY Classes.id, Utilisateurs.prenom, Utilisateurs.nom ";
         ResultSet res;
 
@@ -33,7 +34,11 @@ public class ClassesDAO {
                 String email = res.getString("email");
                 int effectif = res.getInt("effectif");
 
-                model.addRow(new Object[] {classe , responsable , email , effectif});
+                if (responsable == null){
+                    model.addRow(new Object[] {classe , "Neant" , "Neant" , effectif});
+                }else{
+                    model.addRow(new Object[] {classe , responsable , email , effectif});
+                }
             }
 
         }catch (Exception e){
@@ -64,7 +69,8 @@ public class ClassesDAO {
 
                 if (verifResponsable(email)) {
                     model.addRow(new Object[]{id, prenom, nom, email, "Responsable"});
-                } else {
+                }
+                else {
                     model.addRow(new Object[]{id, prenom, nom, email, ""});
                 }
             }
@@ -92,6 +98,55 @@ public class ClassesDAO {
             System.out.println("Erreur ! " + e.getMessage());
         }
 
+        return false;
+    }
+
+    public boolean ajouterClasse(String nomClasse){
+        String sql = "INSERT INTO Classes(nom) VALUES (? )";
+
+        try{
+            con = db.getConnection();
+            pst = con.prepareStatement(sql);
+
+            pst.setString(1 , nomClasse);
+            pst.executeUpdate();
+            return true;
+
+        }catch (Exception e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean modifierClasse(String nom , String nouveauNom){
+        String sql = "UPDATE Classes SET nom = ? WHERE nom = ?";
+
+        try{
+            con = db.getConnection();
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , nouveauNom);
+            pst.setString(2 , nom);
+            pst.executeUpdate();
+            return true;
+
+        }catch (Exception e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean supprimerClasse(String nom){
+        String sql = "DELETE FROM Classes WHERE nom = ?";
+        try{
+            con = db.getConnection();
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , nom);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erreur ! " + e.getMessage());
+        }
         return false;
     }
 }
