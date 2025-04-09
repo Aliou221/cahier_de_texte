@@ -1,3 +1,4 @@
+-- Active: 1742934672239@@127.0.0.1@3306@cahier_de_texte
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS cahier_de_texte;
 -- DROP DATABASE cahier_de_texte;
@@ -33,7 +34,10 @@ VALUES
 INSERT INTO Utilisateurs (prenom, nom, email, password, role)
 VALUES ('Aliou', 'Cissé', 'aliou.cisse@univ-thies.sn', 'pass789', 'Chef');
 
+
+
 -------------------------------------------------------------------------------------------------------
+
 
 -- Table enseignants
 CREATE TABLE IF NOT EXISTS Enseignants(
@@ -50,6 +54,7 @@ INSERT INTO Enseignants (id_utilisateur) VALUES (4), (5), (6);
 
 
 -------------------------------------------------------------------------------------------------------
+
 
 -- Table responsable
 CREATE TABLE IF NOT EXISTS Responsables(
@@ -72,7 +77,7 @@ INSERT INTO Responsables (id_utilisateur) VALUES (1), (2), (3);
 CREATE TABLE IF NOT EXISTS Classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
-    id_responsable INT NOT NULL ,
+    id_responsable INT ,
 
     FOREIGN KEY (id_responsable) REFERENCES  Responsables(id)
     ON DELETE CASCADE
@@ -84,6 +89,9 @@ VALUES
 ('L1 Informatique', 1),  -- Responsable ID 1
 ('L2 Informatique', 2),  -- Responsable ID 2
 ('L3 Informatique', 3);  -- Responsable ID 3
+
+SELECT nom FROM Classes WHERE id = 1;
+
 
 
 -------------------------------------------------------------------------------------------------------
@@ -244,5 +252,3 @@ VALUES (2, 2);
 -- Validation par Cheikh Diop (responsable_id = 3) pour BDD
 INSERT INTO Validations (responsable_id, seance_id)
 VALUES (3, 3);
-
--------------------------------------------------------------------------------------------------------
