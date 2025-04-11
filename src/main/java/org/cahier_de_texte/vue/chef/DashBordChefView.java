@@ -13,6 +13,7 @@ import org.kordamp.ikonli.swing.FontIcon;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,7 +55,7 @@ public class DashBordChefView extends JFrame implements ActionListener {
 
         sideBarPanel = new JPanel(new MigLayout("gap 8"));
         sideBarPanel.setBackground(new Color(0xFFFFFFFF));
-        sideBarPanel.setPreferredSize(new Dimension(250 , 0));
+        sideBarPanel.setPreferredSize(new Dimension( 300 , 0));
 
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/logo-uidt.png")));
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
@@ -171,15 +172,14 @@ public class DashBordChefView extends JFrame implements ActionListener {
         panCours = panelStat("Nombre de cours total" , userController.getNbCours() , new Color(0, 194, 219) , FontAwesome.BOOK);
         panClasses = panelStat("Nombre de classes" , userController.getNbClasse() , new Color(200, 100, 0) , FontAwesome.BUILDING);
 
-        JPanel panelThree = new JPanel(new MigLayout());
+        JPanel panelThree = new JPanel(new MigLayout("wrap 3"));
         panelThree.add(panEnsignants , "pushx , growx");
         panelThree.add(panResponsables , "pushx , growx");
         panelThree.add(panEtudiants , "pushx , growx");
 
-        JPanel panSeancePanCours = new JPanel(new MigLayout());
-        panSeancePanCours.add(panSeanceValider , "pushx , growx");
-        panSeancePanCours.add(panCours , "pushx , growx");
-        panSeancePanCours.add(panClasses , "pushx , growx");
+        panelThree.add(panSeanceValider , "pushx , growx");
+        panelThree.add(panCours , "pushx , growx");
+        panelThree.add(panClasses , "pushx , growx");
 
         JLabel labelResponsableTab = new JLabel("Responsables et leur classe");
         labelResponsableTab.setFont(new Font("Roboto", Font.BOLD , 20));
@@ -195,7 +195,6 @@ public class DashBordChefView extends JFrame implements ActionListener {
         myHomePanel.add(labelTabBord ,"pushx , growx");
         myHomePanel.add(btnDeconnexion , "split 2 , wrap");
         myHomePanel.add(panelThree , "pushx , growx , span , wrap");
-        myHomePanel.add(panSeancePanCours , "span , pushx , grow");
         myHomePanel.add(labelProf , "wrap");
         myHomePanel.add(tableauScrollPaneEnseignants(columnEnseignats) , "pushx , growx , span");
         myHomePanel.add(labelResponsableTab , "wrap");
@@ -214,19 +213,22 @@ public class DashBordChefView extends JFrame implements ActionListener {
             }
         };
 
-
         JTable table = new JTable(model);
         table.setRowHeight(30);
         table.setGridColor(Color.LIGHT_GRAY);
         table.setShowGrid(true);
+
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(600 , 250));
+        scrollPane.setPreferredSize(new Dimension(0 , 300));
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 14f));
 
         userController.chargeTabResponsable(model);
         return scrollPane;
     }
 
-    public JScrollPane tableauScrollPaneEnseignants( String[] columns){
+    public JScrollPane tableauScrollPaneEnseignants(String[] columns){
         JScrollPane scrollPane;
 
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
@@ -242,8 +244,12 @@ public class DashBordChefView extends JFrame implements ActionListener {
         table.setRowHeight(30);
         table.setGridColor(Color.LIGHT_GRAY);
         table.setShowGrid(true);
+
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(0 , 300));
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 14f));
 
         return scrollPane;
     }

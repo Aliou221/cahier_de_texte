@@ -88,7 +88,7 @@ public class UserLoginView extends JFrame implements ActionListener {
         mainPanelLogin.add(textTitle , "pushx , growx , wrap");
         mainPanelLogin.add(panelUser , "pushx , growx , wrap");
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
-        mainPanelLogin.add(passForget , "pushx , growx , wrap");
+        mainPanelLogin.add(passForget , "wrap , center");
         mainPanelLogin.add(btnConnect , "split2");
         mainPanelLogin.add(btnClear , "pushx , growx");
 

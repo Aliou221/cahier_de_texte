@@ -13,12 +13,15 @@ public class ClassesDAO {
 
     public void chargeTabClasse(DefaultTableModel model){
         String sql = "SELECT Classes.nom AS classe, " +
-                "CONCAT(Utilisateurs.prenom, ' ', Utilisateurs.nom) AS responsable, Utilisateurs.email AS email, " +
+                "COALESCE(CONCAT(Utilisateurs.prenom, ' ', Utilisateurs.nom), 'Aucun responsable') AS responsable, " +
+                "COALESCE(Utilisateurs.email, 'Neant') AS email, " +
                 "COUNT(Etudiants.id) AS effectif " +
                 "FROM Classes " +
-                "LEFT JOIN Utilisateurs ON Utilisateurs.id = Classes.id_responsable " +
                 "LEFT JOIN Etudiants ON Etudiants.classe_id = Classes.id " +
-                "GROUP BY Classes.id, Utilisateurs.prenom, Utilisateurs.nom ";
+                "LEFT JOIN Utilisateurs ON Utilisateurs.id = Classes.id_responsable " +
+                "GROUP BY Classes.id";
+
+
         ResultSet res;
 
         try{
@@ -34,17 +37,14 @@ public class ClassesDAO {
                 String email = res.getString("email");
                 int effectif = res.getInt("effectif");
 
-                if (responsable == null){
-                    model.addRow(new Object[] {classe , "Neant" , "Neant" , effectif});
-                }else{
-                    model.addRow(new Object[] {classe , responsable , email , effectif});
-                }
+                model.addRow(new Object[] {classe , responsable , email , effectif});
             }
 
         }catch (Exception e){
             System.out.println("Erreur ! " + e.getMessage());
         }
     }
+
 
     public void chargeListeEtudiant(DefaultTableModel model , String classe){
         String sql = "SELECT Etudiants.id AS ID , Etudiants.prenom AS prenom, Etudiants.nom AS nom , Etudiants.email AS email , Classes.nom " +
@@ -81,11 +81,13 @@ public class ClassesDAO {
     }
 
     public boolean verifResponsable(String email){
-        String sql = "SELECT * FROM Utilisateurs WHERE email = ? AND role = 'Responsable' ";
+        String sql = "SELECT * FROM Responsables " +
+                "INNER JOIN Utilisateurs ON Responsables.id_utilisateur = Utilisateurs.id " +
+                "WHERE Utilisateurs.email = ?";
         ResultSet res;
+
         try{
             con = db.getConnection();
-            pst = con.prepareStatement(sql);
             pst = con.prepareStatement(sql);
             pst.setString(1, email);
             res = pst.executeQuery();
@@ -102,7 +104,7 @@ public class ClassesDAO {
     }
 
     public boolean ajouterClasse(String nomClasse){
-        String sql = "INSERT INTO Classes(nom) VALUES (? )";
+        String sql = "INSERT INTO Classes(nom) VALUES (?)";
 
         try{
             con = db.getConnection();

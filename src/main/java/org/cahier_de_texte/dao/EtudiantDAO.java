@@ -4,7 +4,6 @@ import org.cahier_de_texte.models.DbConnexion;
 import org.cahier_de_texte.models.Etudiants;
 import org.cahier_de_texte.models.Users;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +31,6 @@ public class EtudiantDAO {
             pst.setInt(4 , id);
 
             pst.executeUpdate();
-
             return true;
 
         }catch (Exception e){
@@ -108,11 +106,13 @@ public class EtudiantDAO {
 
     //Responsable & classe
     String nomClasse;
+    int idU = 0;
     public boolean defResponsable(Users user , String classe){
-        String sql = "INSERT INTO Utilisateurs (prenom , nom , email , password , role) VALUES" +
-                "(? , ? , ? , ? , 'Responsable')";
         ResultSet res;
         nomClasse = classe;
+
+        String sql = "INSERT INTO Utilisateurs (prenom , nom , email , password , role) VALUES" +
+                "(? , ? , ? , ? , 'Responsable')";
 
         try{
             con = db.getConnection();
@@ -128,8 +128,8 @@ public class EtudiantDAO {
 
             if (res.next()){
                 int idUser = res.getInt(1);
+                idU = idUser;
                 inserResponsable(idUser);
-                insertClasse(idUser);
             }
 
             return true;
@@ -139,44 +139,21 @@ public class EtudiantDAO {
         return false;
     }
 
-    public void inserResponsable(int idResponsable){
+    public void inserResponsable(int idUser){
         String sql = "INSERT INTO Responsables(id_utilisateur) VALUES" +
                 "(?)";
-        try{
-            pst = con.prepareStatement(sql);
-            pst.setInt(1 , idResponsable);
-            pst.executeUpdate();
-            System.out.println("Id ajouter responsable");
-
-        }catch (Exception e){
-            System.out.println("Erreur ! " + e.getMessage());
-        }
-    }
-
-    public void insertClasse(int idResponsable){
-        String sql = "INSERT INTO Classes (nom , id_responsable) VALUES " +
-                "(? , ?)";
-        String sqlClasseName = "SELECT nom FROM Classes WHERE id = ?";
-        int id = idClasse(nomClasse);
         ResultSet res;
-
         try{
-            con = db.getConnection();
-            pst = con.prepareStatement(sqlClasseName);
-            pst.setInt(1 , id);
-            res = pst.executeQuery();
+            pst = con.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1 , idUser);
+            pst.executeUpdate();
+
+            res = pst.getGeneratedKeys();
 
             if (res.next()){
-                try{
-                    PreparedStatement pst1 = con.prepareStatement(sql);
-                    pst1.setString(1 , res.getString("nom"));
-                    pst1.setInt(2 , idResponsable);
-                    pst1.executeUpdate();
-                    System.out.println("Id ajouter dans la classe");
-
-                }catch (Exception e){
-                    System.out.println("Erreur ! " + e.getMessage());
-                }
+                int idRespo = res.getInt(1);
+                insertClasse(idRespo);
+                System.out.println("Id ajouter dans la classe");
             }
 
         }catch (Exception e){
@@ -184,8 +161,36 @@ public class EtudiantDAO {
         }
     }
 
+    public void insertClasse(int idResponsable){
+        int id = idClasse(nomClasse);
+        String sql;
 
+        try{
+            con = db.getConnection();
+            if (id != 0) {
 
+                // Classe déjà existante → on met à jour le responsable
+                sql = "UPDATE Classes SET id_responsable = ? WHERE id = ?";
+                pst = con.prepareStatement(sql);
+                pst.setInt(1, idU);
+                pst.setInt(2, id);
+                pst.executeUpdate();
+                System.out.println("Responsable mis à jour pour la classe existante");
 
+            } else {
+
+                // Classe inexistante → on l'insère avec responsable
+                sql = "INSERT INTO Classes (nom, id_responsable) VALUES (?, ?)";
+                pst = con.prepareStatement(sql);
+                pst.setString(1, nomClasse);
+                pst.setInt(2, idResponsable);
+                pst.executeUpdate();
+                System.out.println("Nouvelle classe insérée avec responsable");
+            }
+
+        } catch (Exception e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+    }
 
 }

@@ -295,8 +295,6 @@ public class ClasseEtudiantView extends JFrame implements ActionListener {
 
             });
 
-
-
         }
     }
 }

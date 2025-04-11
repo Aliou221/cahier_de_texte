@@ -113,7 +113,6 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
         return panel;
     }
 
-
     //Creation de notre Sidebar
     public  JPanel createSideBarPanel(){
 
