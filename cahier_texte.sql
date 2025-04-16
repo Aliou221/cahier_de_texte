@@ -1,7 +1,6 @@
 -- Active: 1742934672239@@127.0.0.1@3306@cahier_de_texte
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS cahier_de_texte;
--- DROP DATABASE cahier_de_texte;
 USE cahier_de_texte;
 
 -- Table Utilisateurs
@@ -118,6 +117,8 @@ VALUES
 ('Aissatou', 'Kane', 'aissatou.kane@univ-thies.sn', 1),
 ('Moussa', 'Sow', 'moussa.sow@univ-thies.sn', 1),
 ('Samba', 'Ndiaye', 'samba.ndiaye@univ-thies.sn', 1);
+
+SELECT * FROM Etudiants;
 
 
 -- Étudiants L2 (classe_id = 2)
