@@ -104,11 +104,14 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
 
         enseignantDAO.chargerTabEnseignant(modelTabEnseignant);
 
+        JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20 , 20));
+        panBtn.add(btnAjouterEnseignants);
+        panBtn.add(btnModifierEnseignants );
+        panBtn.add(btnSupprimerEnseignants);
+
         panel.add(btnListeEnseignants , "wrap , split 2");
         panel.add(scrollPane , "span , push , grow");
-        panel.add(btnAjouterEnseignants , "pushx , growx");
-        panel.add(btnModifierEnseignants , "pushx , growx");
-        panel.add(btnSupprimerEnseignants , "pushx , growx");
+        panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
         return panel;
     }
@@ -140,7 +143,7 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-    JButton btnTabBord;
+    JButton btnTabBord , btnAsignerCours;
     public JPanel getPanelSidebar(){
 
         JPanel panelSideBar = new JPanel(new MigLayout());
@@ -247,6 +250,10 @@ public class GestionEnseignantView extends JFrame implements ActionListener {
         int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
         userController.supprimerUser(id);
         enseignantDAO.chargerTabEnseignant(modelTabEnseignant);
+    }
+
+    public static void main(String[] args) {
+        new GestionEnseignantView().setVisible(true);
     }
 
 }

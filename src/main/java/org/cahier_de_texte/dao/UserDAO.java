@@ -238,7 +238,7 @@ public class UserDAO {
     // Charge tous les enseignants et leurs cours asigner dans une tableau
     public void chargeTabEnseignantCours(DefaultTableModel modelTabEnseignant){
 
-        String sql = "SELECT CONCAT(Utilisateurs.prenom , ' ' , Utilisateurs.nom) AS Enseignant, " +
+        String sql = "SELECT Utilisateurs.id, CONCAT(Utilisateurs.prenom , ' ' , Utilisateurs.nom) AS Enseignant, " +
                 "Utilisateurs.email AS Email , Cours.intitule AS Cours , Classes.nom AS Classe " +
                 "FROM Enseignants " +
                 "INNER JOIN Utilisateurs ON Enseignants.id_utilisateur = Utilisateurs.id " +
@@ -253,12 +253,13 @@ public class UserDAO {
             modelTabEnseignant.setRowCount(0);
 
             while (res.next()){
+                int id = res.getInt("id");
                 String Enseignant = res.getString("Enseignant");
                 String email = res.getString("Email");
                 String cours = res.getString("Cours");
                 String classe = res.getString("classe");
 
-                modelTabEnseignant.addRow(new Object[]{Enseignant, email , cours,classe,});
+                modelTabEnseignant.addRow(new Object[]{id ,Enseignant, email , cours,classe});
             }
 
         } catch (Exception exp) {

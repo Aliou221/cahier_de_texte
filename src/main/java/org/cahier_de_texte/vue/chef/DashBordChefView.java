@@ -5,6 +5,7 @@ import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.vue.UserLoginView;
 import org.cahier_de_texte.vue.chef.classe.GestionClasseView;
+import org.cahier_de_texte.vue.chef.cours.GestionCoursView;
 import org.cahier_de_texte.vue.chef.enseignant.GestionEnseignantView;
 import org.cahier_de_texte.vue.chef.responsable.GestionResponsableView;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
@@ -75,7 +76,7 @@ public class DashBordChefView extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-    JButton btnTabBord , btnGestionEnseignant , btnGestionResponsable , btnGestionCours , btnGestionClasses , btnGestionSeance;
+    JButton btnTabBord , btnGestionEnseignant , btnGestionResponsable , btnAttCours , btnGestionClasses , btnGestionSeance;
 
     public JPanel getPanelSidebar(){
 
@@ -101,9 +102,10 @@ public class DashBordChefView extends JFrame implements ActionListener {
         panelSideBar.add(btnGestionClasses , "wrap , pushx , growx");
         btnGestionClasses.addActionListener(this);
 
-        btnGestionCours = btnMenuSideBar("Attribution des Cours");
-        btnGestionCours.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
-        panelSideBar.add(btnGestionCours , "wrap , pushx , growx");
+        btnAttCours = btnMenuSideBar("Attribution des Cours");
+        btnAttCours.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
+        panelSideBar.add(btnAttCours , "wrap , pushx , growx");
+        btnAttCours.addActionListener(this);
 
         btnGestionSeance  = btnMenuSideBar("Gestion des Séances");
         btnGestionSeance.setIcon(FontIcon.of(FontAwesome.CALENDAR, 18));
@@ -127,6 +129,11 @@ public class DashBordChefView extends JFrame implements ActionListener {
 
         if (e.getSource() == btnGestionClasses){
             new GestionClasseView().setVisible(true);
+            dispose();
+        }
+
+        if (e.getSource() == btnAttCours){
+            new GestionCoursView().setVisible(true);
             dispose();
         }
 
@@ -190,7 +197,7 @@ public class DashBordChefView extends JFrame implements ActionListener {
         labelProf.setBorder(emptyBorder(15 , 0 , 20 , 0));
 
         String[] columns = {"Responsable" , "Email" , "Classe"};
-        String[] columnEnseignats = {"Enseignant" , "Email" , "Cours" , "Classe"};
+        String[] columnEnseignats = {"ID" ,"Enseignant" , "Email" , "Cours" , "Classe"};
 
         myHomePanel.add(labelTabBord ,"pushx , growx");
         myHomePanel.add(btnDeconnexion , "split 2 , wrap");

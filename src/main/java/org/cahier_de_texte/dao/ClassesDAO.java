@@ -2,6 +2,7 @@ package org.cahier_de_texte.dao;
 
 import org.cahier_de_texte.models.DbConnexion;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
@@ -150,5 +151,23 @@ public class ClassesDAO {
             System.out.println("Erreur ! " + e.getMessage());
         }
         return false;
+    }
+
+    public void chargeClasse(JComboBox<String> combo){
+        String sql = "SELECT * FROM Classes";
+        ResultSet res;
+        try{
+            con = db.getConnection();
+            pst = con.prepareStatement(sql);
+            res = pst.executeQuery();
+            combo.removeAllItems();
+            while (res.next()){
+                String classe = res.getString("nom");
+                combo.addItem(classe);
+            }
+
+        }catch(Exception e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
     }
 }

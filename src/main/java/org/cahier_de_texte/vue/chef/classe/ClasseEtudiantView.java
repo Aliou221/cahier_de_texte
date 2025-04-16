@@ -6,7 +6,6 @@ import org.cahier_de_texte.controller.EtudiantController;
 import org.cahier_de_texte.dao.ClassesDAO;
 import org.cahier_de_texte.vue.UserLoginView;
 import org.cahier_de_texte.vue.chef.DashBordChefView;
-import org.cahier_de_texte.vue.chef.responsable.AjouterResponsableView;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
@@ -92,7 +91,6 @@ public class ClasseEtudiantView extends JFrame implements ActionListener {
         btnAjouterEtudiant.setIconTextGap(5);
         btnAjouterEtudiant.setBackground(new Color(46, 204, 113));
         btnAjouterEtudiant.addActionListener(this);
-        panel.add(btnAjouterEtudiant , "pushx , growx");
 
         btnModifierEtudiant = dash.btnMenuSideBar("Modifier");
         btnModifierEtudiant.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
@@ -100,7 +98,6 @@ public class ClasseEtudiantView extends JFrame implements ActionListener {
         btnModifierEtudiant.setIconTextGap(5);
         btnModifierEtudiant.setBackground(new Color(241, 196, 15));
         btnModifierEtudiant.addActionListener(this);
-        panel.add(btnModifierEtudiant , "pushx , growx");
 
         btnSupprimerEtudiant = dash.btnMenuSideBar("Supprimer");
         btnSupprimerEtudiant.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
@@ -108,9 +105,14 @@ public class ClasseEtudiantView extends JFrame implements ActionListener {
         btnSupprimerEtudiant.setIconTextGap(5);
         btnSupprimerEtudiant.setBackground(new Color(231, 76, 60));
         btnSupprimerEtudiant.addActionListener(this);
-        panel.add(btnSupprimerEtudiant , "pushx , growx");
 
         classesDAO.chargeListeEtudiant(tabClasseModel , classe);
+
+        JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20 , 20));
+        panBtn.add(btnAjouterEtudiant);
+        panBtn.add(btnModifierEtudiant );
+        panBtn.add(btnSupprimerEtudiant);
+        panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
         return panel;
     }
@@ -275,7 +277,7 @@ public class ClasseEtudiantView extends JFrame implements ActionListener {
             DefinirResponsableView responsableView = new DefinirResponsableView(this.classe);
             responsableView.setVisible(true);
 
-            int id = (int) tabClasse.getValueAt(rowSelected , 0);
+//            int id = (int) tabClasse.getValueAt(rowSelected , 0);
             String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
             String nom = (String) tabClasse.getValueAt(rowSelected , 2);
             String email = (String) tabClasse.getValueAt(rowSelected , 3);

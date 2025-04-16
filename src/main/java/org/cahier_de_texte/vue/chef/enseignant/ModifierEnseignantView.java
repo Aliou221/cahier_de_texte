@@ -25,8 +25,8 @@ public class ModifierEnseignantView extends JFrame {
         add(formePanel());
 
         setTitle("Modifier un enseignant");
-        setSize(400 , 500);
-        setMinimumSize(new Dimension(400 , 500));
+        setSize(350 , 500);
+        setMinimumSize(new Dimension(350 , 500));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocation(90 , 90);

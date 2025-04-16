@@ -3,9 +3,11 @@ package org.cahier_de_texte.dao;
 import org.cahier_de_texte.models.DbConnexion;
 import org.cahier_de_texte.models.Users;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 public class UserEnseignantDAO {
     DbConnexion db = new DbConnexion(); // Connexion à la base de données
@@ -81,6 +83,30 @@ public class UserEnseignantDAO {
 
         } catch (Exception exp) {
             System.out.println("Erreur ! " + exp.getMessage());
+        }
+    }
+
+    public void Enseignants(JComboBox<String> combo){
+        String sql = "SELECT * FROM Utilisateurs WHERE role = ?";
+        try{
+            con = db.getConnection();
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , "Enseignant");
+
+            res = pst.executeQuery();
+            combo.removeAllItems();
+
+            while (res.next()){
+                String enseignant = res.getInt("id") + " - " +
+                        res.getString("prenom") + " " +
+                        res.getString("nom") + " - " +
+                        res.getString("email");
+
+                combo.addItem(enseignant);
+            }
+
+        }catch(Exception e){
+           System.out.println("Erreur ! " + e.getMessage());
         }
     }
 }

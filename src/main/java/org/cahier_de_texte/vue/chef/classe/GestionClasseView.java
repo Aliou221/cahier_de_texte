@@ -85,7 +85,7 @@ public class GestionClasseView extends JFrame implements ActionListener {
         btnAjouterClasses.setIconTextGap(5);
         btnAjouterClasses.setBackground(new Color(46, 204, 113));
         btnAjouterClasses.addActionListener(this);
-        panel.add(btnAjouterClasses , "pushx , growx");
+//        panel.add(btnAjouterClasses , "pushx , growx");
 
         btnModifierClasses = dash.btnMenuSideBar("Modifier");
         btnModifierClasses.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
@@ -93,7 +93,7 @@ public class GestionClasseView extends JFrame implements ActionListener {
         btnModifierClasses.setIconTextGap(5);
         btnModifierClasses.setBackground(new Color(241, 196, 15));
         btnModifierClasses.addActionListener(this);
-        panel.add(btnModifierClasses , "pushx , growx");
+//        panel.add(btnModifierClasses , "pushx , growx");
 
         btnSupprimerClasse = dash.btnMenuSideBar("Supprimer");
         btnSupprimerClasse.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
@@ -101,7 +101,13 @@ public class GestionClasseView extends JFrame implements ActionListener {
         btnSupprimerClasse.setIconTextGap(5);
         btnSupprimerClasse.setBackground(new Color(231, 76, 60));
         btnSupprimerClasse.addActionListener(this);
-        panel.add(btnSupprimerClasse , "pushx , growx");
+//        panel.add(btnSupprimerClasse , "pushx , growx");
+
+        JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20 , 20));
+        panBtn.add(btnAjouterClasses);
+        panBtn.add(btnModifierClasses );
+        panBtn.add(btnSupprimerClasse);
+        panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
         classesDAO.chargeTabClasse(tabClasseModel);
         return panel;

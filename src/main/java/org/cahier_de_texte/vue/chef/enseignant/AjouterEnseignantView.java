@@ -25,8 +25,8 @@ public class AjouterEnseignantView extends JFrame {
         add(formePanel());
 
         setTitle("Ajouter un ensignant");
-        setSize(400 , 550);
-        setMinimumSize(new Dimension(400 , 550));
+        setSize(350 , 500);
+        setMinimumSize(new Dimension(350 , 500));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocation(90 , 90);

@@ -17,7 +17,6 @@ public class DbConnexion {
         }catch (Exception e){
             System.out.println("Erreur de connexion ! " + e.getMessage());
         }
-
         return con;
     }
 }

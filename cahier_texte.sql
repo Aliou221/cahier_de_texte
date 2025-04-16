@@ -116,7 +116,7 @@ VALUES
 ('Fatou', 'Diagne', 'fatou.diagne@univ-thies.sn', 1),
 ('Modou', 'Gueye', 'modou.gueye@univ-thies.sn', 1),
 ('Aissatou', 'Kane', 'aissatou.kane@univ-thies.sn', 1),
-('Moussa', 'Sow', 'moussa.sow@univ-thies.sn', 1)
+('Moussa', 'Sow', 'moussa.sow@univ-thies.sn', 1),
 ('Samba', 'Ndiaye', 'samba.ndiaye@univ-thies.sn', 1);
 
 
