@@ -1,0 +1,108 @@
+package org.cahier_de_texte.controller;
+
+import org.cahier_de_texte.dao.UserDAO;
+import org.cahier_de_texte.model.Users;
+
+import javax.swing.*;
+
+public class UserController {
+    UserDAO userDAO;
+
+    public UserController(){
+        userDAO = new UserDAO();
+    }
+
+    public Users login(String email , String password){
+        if (email.isEmpty() || password.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null ,
+                    "Veuillez remplir tous les champs svp !" ,
+                    null ,
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return null;
+        }
+        Users user = new Users();
+        user.setEmail(email);
+        user.setPassword(password);
+
+        boolean verifUser = userDAO.verifeUser(user);
+
+        if (verifUser){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Connexion reussi !",
+                    null,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return user;
+        }else{
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Email ou mot de passe incorrect !",
+                    null,
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
+    }
+
+    public Users modifierUser(String firstName , String lastName , String email , int id){
+        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
+            JOptionPane.showMessageDialog(
+                    null ,
+                    "Veuillez remplir tous les champs svp !" ,
+                    "Erreur" ,
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return null;
+        }
+
+        Users user = new Users();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setId(id);
+
+        if (userDAO.modifierUser(user)){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Enseignant a été modifié avec succés !",
+                    null,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return user;
+        }else{
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Erreur de modification !",
+                    null,
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
+    }
+
+    public Users deleteUser(int id){
+        Users user = new Users();
+        user.setId(id);
+
+        if(userDAO.supprimerUser(user)){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Enseignant a été supprimé avec succés !",
+                    null,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return user;
+        }else{
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Erreur de suppression !",
+                    null,
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
+    }
+}
