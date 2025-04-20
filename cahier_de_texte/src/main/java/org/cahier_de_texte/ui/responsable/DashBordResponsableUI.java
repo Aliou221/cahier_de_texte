@@ -1,5 +1,7 @@
 package org.cahier_de_texte.ui.responsable;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
@@ -22,6 +24,7 @@ public class DashBordResponsableUI extends JFrame {
     }
 
     public void initUI(){
+        FlatDarkLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanel() , BorderLayout.CENTER);
 
@@ -64,11 +67,11 @@ public class DashBordResponsableUI extends JFrame {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeCours = dash.btnMenuSideBar("Liste des cours");
+        btnListeCours = dash.btnMenuSideBar("Liste des séances validées");
         btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         panelSideBar.add(btnListeCours , "wrap , pushx , growx");
 
-        btnAjouterSeance = dash.btnMenuSideBar("Ajouter une séance");
+        btnAjouterSeance = dash.btnMenuSideBar("Consulter une séances");
         btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
         panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
 
@@ -125,5 +128,9 @@ public class DashBordResponsableUI extends JFrame {
         panel.add(scrollPane , "span , push , grow");
 
         return panel;
+    }
+
+    public static void main(String[] args) {
+        new DashBordResponsableUI("responsable").setVisible(true);
     }
 }
