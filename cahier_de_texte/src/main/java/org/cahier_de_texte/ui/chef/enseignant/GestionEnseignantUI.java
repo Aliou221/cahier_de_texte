@@ -17,11 +17,17 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionEnseignantUI extends JFrame implements ActionListener {
-    DashBordChefUI dash = new DashBordChefUI();
-    EnseignantController enseignantController = new EnseignantController();
-    UserController userController = new UserController();
+    private final DashBordChefUI dash;
+    private final EnseignantController enseignantController;
+    private final UserController userController;
+    Users enseignant ;
 
     public GestionEnseignantUI(){
+        this.enseignant = new Users();
+        this.dash = new DashBordChefUI();
+        this.enseignantController = new EnseignantController();
+        this.userController = new UserController();
+
         initUI();
     }
 
@@ -62,13 +68,13 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-    JButton btnTabBord , btnAsignerCours;
+    JButton btnTabBord;
     public JPanel getPanelSidebar(){
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dash.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
@@ -92,7 +98,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionEnseignant = new JLabel("Gestion des Enseignants");
-        labelGestionEnseignant.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+//        labelGestionEnseignant.setBorder(dash.emptyBorder(0 , 0 ,15 , 0));
         labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionEnseignant , "pushx , growx");
 
@@ -228,7 +234,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
             String newLastname = fenetre.inputLastName.getText();
             String newEmail = fenetre.inputEmail.getText();
 
-            Users enseignant = userController.modifierUser(newFirstName , newLastname , newEmail , id);
+            this.enseignant = userController.modifierUser(newFirstName , newLastname , newEmail , id);
             enseignantController.chargeTabEnseignant(modelTabEnseignant);
 
             fenetre.inputFirstName.setText(null);
@@ -255,9 +261,12 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
 
         if (reponse == JOptionPane.YES_OPTION){
-           Users enseignant =  userController.deleteUser(id);
-            enseignantController.chargeTabEnseignant(modelTabEnseignant);
+           this.enseignant =  userController.deleteUser(id);
+           enseignantController.chargeTabEnseignant(modelTabEnseignant);
         }
 
+    }
+    public static void main(String[] args) {
+        new GestionEnseignantUI().setVisible(true);
     }
 }

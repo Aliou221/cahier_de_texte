@@ -1,6 +1,5 @@
 package org.cahier_de_texte.ui.responsable;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.LoginUI;
@@ -25,7 +24,7 @@ public class DashBordResponsableUI extends JFrame {
     }
 
     public void initUI(){
-        FlatIntelliJLaf.setup();
+        FlatLightLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanel() , BorderLayout.CENTER);
 
@@ -129,10 +128,5 @@ public class DashBordResponsableUI extends JFrame {
         panel.add(scrollPane , "span , push , grow");
 
         return panel;
-    }
-
-    public static void main(String[] args) {
-        new DashBordResponsableUI("Responsable").setVisible(true);
-
     }
 }

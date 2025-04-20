@@ -19,9 +19,10 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class DashBordChefUI extends JFrame implements ActionListener {
-    ChefController chefController = new ChefController();
+    ChefController chefController;
 
     public DashBordChefUI(){
+        this.chefController = new ChefController();
         initUI();
     }
 
