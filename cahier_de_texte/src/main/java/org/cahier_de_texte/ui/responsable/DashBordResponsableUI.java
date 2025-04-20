@@ -1,6 +1,6 @@
 package org.cahier_de_texte.ui.responsable;
 
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.LoginUI;
@@ -15,16 +15,17 @@ import java.awt.event.ActionEvent;
 import java.util.Objects;
 
 public class DashBordResponsableUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
+    DashBordChefUI dashHelper;
     private final String responsable;
 
     public DashBordResponsableUI(String responsable){
+        this.dashHelper = new DashBordChefUI();
         this.responsable = responsable;
         initUI();
     }
 
     public void initUI(){
-        FlatDarkLaf.setup();
+        FlatIntelliJLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanel() , BorderLayout.CENTER);
 
@@ -35,7 +36,7 @@ public class DashBordResponsableUI extends JFrame {
     }
 
     //Creation de notre Sidebar
-    public  JPanel createSideBarPanel(){
+    public JPanel createSideBarPanel(){
 
         JPanel getPanelSideBar ,  sideBarPanel ;
 
@@ -67,11 +68,11 @@ public class DashBordResponsableUI extends JFrame {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeCours = dash.btnMenuSideBar("Liste des séances validées");
+        btnListeCours = dashHelper.btnMenuSideBar("Liste des cours");
         btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         panelSideBar.add(btnListeCours , "wrap , pushx , growx");
 
-        btnAjouterSeance = dash.btnMenuSideBar("Consulter une séances");
+        btnAjouterSeance = dashHelper.btnMenuSideBar("Ajouter une séance");
         btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
         panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
 
@@ -85,14 +86,14 @@ public class DashBordResponsableUI extends JFrame {
         DefaultTableModel modelTabCours;
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelListeCours = new JLabel("Liste de mes cours");
-        labelListeCours.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelListeCours.setBorder(dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelListeCours.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelListeCours , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
@@ -107,7 +108,7 @@ public class DashBordResponsableUI extends JFrame {
         btnListeCours.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        String[] columnCours = {"Code", "Cours", "Classe concernée", "Crédits"};
+        String[] columnCours = {"Code", "Cours", "Contenue", "Enseignant" , "Date"};
 
         modelTabCours = new DefaultTableModel(columnCours , 0){
             @Override
@@ -131,6 +132,7 @@ public class DashBordResponsableUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new DashBordResponsableUI("responsable").setVisible(true);
+        new DashBordResponsableUI("Responsable").setVisible(true);
+
     }
 }

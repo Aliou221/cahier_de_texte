@@ -57,29 +57,34 @@ public class EtudiantDAO {
         return false;
     }
 
-    public boolean modifRespo(Users user , int id){
+    public boolean modifRespo(Users user, int etudiantId) {
+//        if (verifResponsable(user.getEmail())) {
+            int utilisateurId = getIdResponsable(user.getEmail());
 
-        if(verifResponsable(user.getEmail())){
-            int idRes = getIdResponsable(user.getEmail());
-            System.out.println("Le id de utilisateur est : " + idRes + " " + user.getEmail());
-            String sql = "UPDATE Utilisateurs SET prenom = ? , nom = ? , email = ? WHERE id = ?";
-            try{
-                pst = con.prepareStatement(sql);
-
-                pst.setString(1 , user.getFirstName());
-                pst.setString(2 , user.getLastName());
-                pst.setString(3 , user.getEmail());
-                pst.setInt(4 , id);
+            try {
+                // Mise à jour dans la table Etudiants
+                String sqlEtudiant = "UPDATE Etudiants SET prenom = ?, nom = ?, email = ? WHERE id = ?";
+                pst = con.prepareStatement(sqlEtudiant);
+                pst.setString(1, user.getFirstName());
+                pst.setString(2, user.getLastName());
+                pst.setString(3, user.getEmail());
+                pst.setInt(4, etudiantId);
                 pst.executeUpdate();
 
-                System.out.println("Utilisateur responsable a été modié aussi ");
+                // Mise à jour dans la table Utilisateurs
+                String sqlUtilisateur = "UPDATE Utilisateurs SET prenom = ?, nom = ?, email = ? WHERE id = ?";
+                pst = con.prepareStatement(sqlUtilisateur);
+                pst.setString(1, user.getFirstName());
+                pst.setString(2, user.getLastName());
+                pst.setString(3, user.getEmail());
+                pst.setInt(4, utilisateurId);
+                pst.executeUpdate();
 
                 return true;
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println("Erreur ! " + ex.getMessage());
             }
-        }
-
+//        }
         return false;
     }
 
