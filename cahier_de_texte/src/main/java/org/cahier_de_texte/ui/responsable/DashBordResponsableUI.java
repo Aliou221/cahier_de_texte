@@ -2,24 +2,31 @@ package org.cahier_de_texte.ui.responsable;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
+import org.cahier_de_texte.controller.responsable.ResponsableController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
 public class DashBordResponsableUI extends JFrame {
     DashBordChefUI dashHelper;
+    ResponsableController responsableController;
+    
     private final String responsable;
+    private final int idResponsable;
 
-    public DashBordResponsableUI(String responsable){
+    public DashBordResponsableUI(String responsable , int idResponsable){
+        this.idResponsable = idResponsable;
         this.dashHelper = new DashBordChefUI();
         this.responsable = responsable;
+        this.responsableController = new ResponsableController();
         initUI();
     }
 
@@ -61,19 +68,15 @@ public class DashBordResponsableUI extends JFrame {
         return sideBarPanel;
     }
 
-    JButton btnAjouterSeance , btnListeCours;
+    JButton btnListeSeances;
     public JPanel getPanelSidebar(){
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeCours = dashHelper.btnMenuSideBar("Liste des cours");
-        btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        panelSideBar.add(btnListeCours , "wrap , pushx , growx");
-
-        btnAjouterSeance = dashHelper.btnMenuSideBar("Ajouter une séance");
-        btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
-        panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
+        btnListeSeances = dashHelper.btnMenuSideBar("Liste des séances");
+        btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        panelSideBar.add(btnListeSeances , "wrap , pushx , growx");
 
         return panelSideBar;
     }
@@ -81,16 +84,16 @@ public class DashBordResponsableUI extends JFrame {
     JButton btnDeconnexion;
     public JPanel homePanel(){
 
-        JTable tabCours;
-        DefaultTableModel modelTabCours;
+        JTable tabSeances;
+        DefaultTableModel modelTabSeances;
 
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelListeCours = new JLabel("Liste de mes cours");
-        labelListeCours.setBorder(dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelListeCours.setFont(new Font("Roboto" , Font.BOLD , 23));
-        panel.add(labelListeCours , "pushx , growx");
+        JLabel labelListeSeances = new JLabel("Liste des séances");
+        labelListeSeances.setBorder(dashHelper.emptyBorder(10 , 0 ,15 , 0));
+        labelListeSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
+        panel.add(labelListeSeances , "pushx , growx");
 
         btnDeconnexion = dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
@@ -101,32 +104,75 @@ public class DashBordResponsableUI extends JFrame {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeCours = new JButton("Liste des cours");
-        btnListeCours.setFont(new Font("Roboto" , Font.BOLD , 16));
-        btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        btnListeCours.setPreferredSize(new Dimension(getWidth() , 45));
-        btnListeCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JButton btnListeSeances = dashHelper.btnMenuSideBar("Liste des séances");
+        btnListeSeances.setFont(new Font("Roboto" , Font.BOLD , 16));
+        btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeances.setPreferredSize(new Dimension(getWidth() , 45));
+        btnListeSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        String[] columnCours = {"Code", "Cours", "Contenue", "Enseignant" , "Date"};
+        String[] columnCours = {"Code", "Intitulé", "Contenu", "Duree", "Date", "Enseignant",  "Validé"};
 
-        modelTabCours = new DefaultTableModel(columnCours , 0){
+        modelTabSeances = new DefaultTableModel(null, columnCours) {
             @Override
             public boolean isCellEditable(int row, int col) {
-                return false;
+                return col == 6;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 6) return Boolean.class;
+                return String.class;
             }
         };
 
-        tabCours = new JTable(modelTabCours);
-        tabCours.setRowHeight(30);
-        tabCours.setFont(new Font("Roboto" , Font.BOLD , 13));
+        JButton btnValiderSeances = dashHelper.btnMenuSideBar("Valider la séance");
+        btnValiderSeances.setIcon(FontIcon.of(FontAwesome.CHECK, 18));
+        btnValiderSeances.setFont(new Font("Roboto", Font.BOLD, 16));
+        btnValiderSeances.setPreferredSize(new Dimension(getWidth() , 45));
+        btnValiderSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        tabCours.setGridColor(Color.LIGHT_GRAY);
-        tabCours.setShowGrid(true);
-        JScrollPane scrollPane = new JScrollPane(tabCours);
+        btnValiderSeances.addActionListener(e -> {
+            for (int i = 0; i < modelTabSeances.getRowCount(); i++) {
+                boolean isValide = (boolean) modelTabSeances.getValueAt(i, 6);
+                if (isValide) {
+                    // Appelle ton DAO ou affiche dans la console pour simuler
+                    System.out.println("Séance validée : " + modelTabSeances.getValueAt(i, 1));
+                    JOptionPane.showMessageDialog(
+                            null ,
+                            "Séance validée" ,
+                            null ,
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
+        });
 
-        panel.add(btnListeCours , "wrap");
+        tabSeances = new JTable(modelTabSeances);
+        TableColumnModel columnModel = tabSeances.getColumnModel();
+        columnModel.getColumn(1).setPreferredWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(300);
+        columnModel.getColumn(3).setPreferredWidth(80);
+        columnModel.getColumn(4).setPreferredWidth(150);
+        columnModel.getColumn(5).setPreferredWidth(200);
+        columnModel.getColumn(6).setPreferredWidth(80);
+
+        tabSeances.setRowHeight(30);
+        tabSeances.setFont(new Font("Roboto" , Font.BOLD , 13));
+
+        tabSeances.setGridColor(Color.LIGHT_GRAY);
+        tabSeances.setShowGrid(true);
+        JScrollPane scrollPane = new JScrollPane(tabSeances);
+
+        panel.add(btnListeSeances , "split 2");
+        panel.add(btnValiderSeances, "wrap");
         panel.add(scrollPane , "span , push , grow");
 
+        this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
+
         return panel;
+    }
+
+    public static void main(String[] args) {
+        new DashBordResponsableUI("" , 8).setVisible(true);
     }
 }

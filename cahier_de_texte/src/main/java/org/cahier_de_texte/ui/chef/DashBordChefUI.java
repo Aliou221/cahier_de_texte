@@ -6,6 +6,7 @@ import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
 import org.cahier_de_texte.ui.chef.cours.GestionCoursUI;
 import org.cahier_de_texte.ui.chef.enseignant.GestionEnseignantUI;
+import org.cahier_de_texte.ui.chef.seances.GestionSeancesUI;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
 
@@ -36,7 +37,6 @@ public class DashBordChefUI extends JFrame implements ActionListener {
     }
 
     public JPanel dashboardPanel(){
-
         JPanel mainPanel = new JPanel(new BorderLayout());
         JScrollPane HomeScrollPane = new JScrollPane(homePanel());
 
@@ -47,7 +47,6 @@ public class DashBordChefUI extends JFrame implements ActionListener {
     }
 
     public  JPanel createSideBarPanel(){
-
         JPanel getPanelSideBar ,  sideBarPanel ;
 
         sideBarPanel = new JPanel(new MigLayout("gap 8"));
@@ -100,7 +99,9 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         btnGestionSeance  = btnMenuSideBar("Gestion des Séances");
         btnGestionSeance.setIcon(FontIcon.of(FontAwesome.CALENDAR, 18));
+        btnGestionSeance.addActionListener(this);
         panelSideBar.add(btnGestionSeance , "wrap , pushx , growx");
+
 
         return panelSideBar;
     }
@@ -264,6 +265,11 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         if (e.getSource() == btnGestionClasses){
             new GestionClasseUI().setVisible(true);
+            dispose();
+        }
+
+        if (e.getSource() == btnGestionSeance){
+            new GestionSeancesUI().setVisible(true);
             dispose();
         }
 

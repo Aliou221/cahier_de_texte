@@ -182,4 +182,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         }
     }
 
+    public static void main(String[] args) {
+        new GestionCoursUI().setVisible(true);
+    }
 }

@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.classe;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ClasseController;
 import org.cahier_de_texte.ui.LoginUI;
@@ -24,6 +25,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
     }
 
     public void initUI(){
+        FlatLightLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanelClasses() , BorderLayout.CENTER);
 
@@ -240,16 +242,17 @@ public class GestionClasseUI extends JFrame implements ActionListener {
             else{
 
                 String classeName = (String) tabClasse.getValueAt(rowSelected , 0);
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Classe " + classeName,
+                int option = JOptionPane.showConfirmDialog(
                         null ,
-                        JOptionPane.INFORMATION_MESSAGE
+                        "Voulez vous consulter la liste de : \n" + classeName ,
+                        null ,
+                        JOptionPane.YES_NO_OPTION
                 );
 
-                new EtudiantUI(classeName).setVisible(true);
-                dispose();
+                if (option == JOptionPane.YES_OPTION){
+                    new EtudiantUI(classeName).setVisible(true);
+                    dispose();
+                }
             }
 
         }

@@ -1,6 +1,7 @@
 package org.cahier_de_texte.ui.enseignant;
 
 import net.miginfocom.swing.MigLayout;
+import org.cahier_de_texte.controller.enseignant.EnseignantController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
@@ -8,16 +9,22 @@ import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
 public class DashBordEnseignantUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
+    DashBordChefUI dash ;
+    EnseignantController enseignantController;
     private final String nom;
     private final String prenom;
+    private final int idEnseignant;
 
-    public DashBordEnseignantUI(String prenom , String nom){
+    public DashBordEnseignantUI(String prenom , String nom , int idEnseignant){
+        this.idEnseignant = idEnseignant;
+        this.dash = new DashBordChefUI();
+        enseignantController = new EnseignantController();
         this.prenom = prenom;
         this.nom = nom;
         initUI();
@@ -106,7 +113,7 @@ public class DashBordEnseignantUI extends JFrame {
         btnListeCours.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        String[] columnCours = {"Code", "Cours", "Classe concernée", "Crédits"};
+        String[] columnCours = {"Code", "Cours", "Crédits" , "Classe concernée"};
 
         modelTabCours = new DefaultTableModel(columnCours , 0){
             @Override
@@ -125,8 +132,8 @@ public class DashBordEnseignantUI extends JFrame {
 
         panel.add(btnListeCours , "wrap");
         panel.add(scrollPane , "span , push , grow");
+        enseignantController.chargeListeCoursAssigner(modelTabCours , this.idEnseignant);
 
         return panel;
     }
-
 }

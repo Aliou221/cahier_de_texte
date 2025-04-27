@@ -134,11 +134,12 @@ public class LoginUI extends JFrame implements ActionListener {
                 dispose();
             }
             case "ENSEIGNANT" -> {
-                new DashBordEnseignantUI(user.getFirstName(), user.getLastName()).setVisible(true);
+                new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()
+                ).setVisible(true);
                 dispose();
             }
             case "RESPONSABLE" -> {
-                new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName()).setVisible(true);
+                new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);
                 dispose();
             }
             default -> JOptionPane.showMessageDialog(
