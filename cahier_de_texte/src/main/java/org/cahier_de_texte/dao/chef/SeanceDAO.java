@@ -12,18 +12,16 @@ public class SeanceDAO {
     PreparedStatement pst;
 
     public void chargeTabSeanceClasse(DefaultTableModel model){
-        String sql = "SELECT " +
-                "    CONCAT(Responsable.prenom, ' ', Responsable.nom) AS responsable, " +
-                "    Responsable.email AS email, " +
-                "    Classes.nom AS classe, " +
-                "    COUNT(Validations.id) AS nombre_seances_validees " +
+        String sql = "SELECT Classes.nom AS classe , CONCAT(Responsable.prenom , \" \", Responsable.nom) AS responsable ,  " +
+                "        Responsable.email, " +
+                "        COUNT(Classes.nom) AS nb_seance_valide " +
                 "FROM Validations " +
-                "INNER JOIN Utilisateurs AS Responsable ON Responsable.id = Validations.responsable_id " +
                 "INNER JOIN Seances ON Seances.id = Validations.seance_id " +
+                "INNER JOIN Utilisateurs AS Responsable ON Responsable.id = Validations.responsable_id " +
                 "INNER JOIN Cours ON Cours.id = Seances.cours_id " +
-                "INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id " +
-                "INNER JOIN Classes ON Classes.id = ClasseCours.id_classe " +
-                "GROUP BY Classes.nom ";
+                "INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id " +
+                "INNER JOIN Classes ON Classes.id_responsable = Responsable.id " +
+                "GROUP BY(Classes.nom)";
         ResultSet res;
 
         try{
@@ -35,7 +33,7 @@ public class SeanceDAO {
                 String classe = res.getString("classe");
                 String responsable = res.getString("responsable");
                 String email = res.getString("email");
-                int nbSeanceValide = res.getInt("nombre_seances_validees");
+                int nbSeanceValide = res.getInt("nb_seance_valide");
 
                 model.addRow(new Object[] {classe , responsable , email , nbSeanceValide});
             }
@@ -46,22 +44,16 @@ public class SeanceDAO {
     }
 
     public void chargeListeSeancesClasse(DefaultTableModel model , String classe){
-        String sql = "SELECT  " +
-                "    Seances.date_seance AS date_creation, " +
-                "    Seances.contenu, " +
-                "    Seances.duree, " +
-                "    Cours.code AS code_cours, " +
-                "    Cours.intitule AS intitule_cours, " +
-                "    CONCAT(Enseignant.prenom, ' ', Enseignant.nom) AS enseignant, " +
-                "    Classes.nom AS classe " +
+        String sql = "SELECT Seances.date_seance, Cours.code AS code_cours, Cours.intitule AS intitule_cours, Seances.contenu, " +
+                "        Seances.duree, " +
+                "        CONCAT(Enseignant.prenom , \" \", Enseignant.nom) AS enseignant " +
                 "FROM Validations " +
                 "INNER JOIN Seances ON Seances.id = Validations.seance_id " +
+                "INNER JOIN Utilisateurs AS Responsable ON Responsable.id = Validations.responsable_id " +
                 "INNER JOIN Cours ON Cours.id = Seances.cours_id " +
                 "INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id " +
-                "INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id " +
-                "INNER JOIN Classes ON Classes.id = ClasseCours.id_classe " +
-                "WHERE Classes.nom = ? " +
-                "ORDER BY Seances.date_seance";
+                "INNER JOIN Classes ON Classes.id_responsable = Responsable.id " +
+                "WHERE Classes.nom = ?";
         ResultSet res;
 
         try{
@@ -72,7 +64,7 @@ public class SeanceDAO {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             while (res.next()){
-                Timestamp dateCreation = res.getTimestamp("date_creation");
+                Timestamp dateCreation = res.getTimestamp("date_seance");
                 String formattedDate = dateFormat.format(dateCreation);
                 String code_cours = res.getString("code_cours");
                 String cours = res.getString("intitule_cours");

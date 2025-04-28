@@ -9,22 +9,22 @@ import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 
 public class DashBordEnseignantUI extends JFrame {
-    DashBordChefUI dash ;
+    DashBordChefUI dashHelper;
     EnseignantController enseignantController;
+    
     private final String nom;
     private final String prenom;
     private final int idEnseignant;
 
     public DashBordEnseignantUI(String prenom , String nom , int idEnseignant){
         this.idEnseignant = idEnseignant;
-        this.dash = new DashBordChefUI();
-        enseignantController = new EnseignantController();
+        this.dashHelper = new DashBordChefUI();
+        this.enseignantController = new EnseignantController();
         this.prenom = prenom;
         this.nom = nom;
         initUI();
@@ -73,11 +73,11 @@ public class DashBordEnseignantUI extends JFrame {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeCours = dash.btnMenuSideBar("Liste des cours");
+        btnListeCours = this.dashHelper.btnMenuSideBar("Liste des cours");
         btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         panelSideBar.add(btnListeCours , "wrap , pushx , growx");
 
-        btnAjouterSeance = dash.btnMenuSideBar("Ajouter une séance");
+        btnAjouterSeance = this.dashHelper.btnMenuSideBar("Ajouter une séance");
         btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
         panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
 
@@ -91,14 +91,14 @@ public class DashBordEnseignantUI extends JFrame {
         DefaultTableModel modelTabCours;
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelListeCours = new JLabel("Liste de mes cours");
-        labelListeCours.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelListeCours.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelListeCours.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelListeCours , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
@@ -132,7 +132,7 @@ public class DashBordEnseignantUI extends JFrame {
 
         panel.add(btnListeCours , "wrap");
         panel.add(scrollPane , "span , push , grow");
-        enseignantController.chargeListeCoursAssigner(modelTabCours , this.idEnseignant);
+        this.enseignantController.chargeListeCoursAssigner(modelTabCours , this.idEnseignant);
 
         return panel;
     }

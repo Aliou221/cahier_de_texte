@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.classe;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
@@ -8,13 +9,15 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ModifierClasseUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
+    DashBordChefUI dashHelper;
 
     public ModifierClasseUI(){
+        this.dashHelper = new DashBordChefUI();
         initUI();
     }
 
     public void initUI(){
+        FlatLightLaf.setup();
         add(createPanel());
         setTitle("Modifier une classes");
 
@@ -32,7 +35,7 @@ public class ModifierClasseUI extends JFrame {
     public JPanel createPanel(){
 
         JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        formPanel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/classe.png")));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
@@ -52,10 +55,10 @@ public class ModifierClasseUI extends JFrame {
         formPanel.add(inputNiveau , "pushx , growx");
 
         JLabel l = new JLabel("");
-        l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
+        l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnValider = dash.btnMenuSideBar("Valider");
+        btnValider = this.dashHelper.btnMenuSideBar("Valider");
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");

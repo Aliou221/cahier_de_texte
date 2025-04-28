@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ChefController;
 import org.cahier_de_texte.ui.LoginUI;
@@ -28,6 +29,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
     }
 
     public void initUI() {
+        FlatLightLaf.setup();
         add(dashboardPanel());
 
         setTitle("CHEF DE DEPARTEMENT");
@@ -135,12 +137,12 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
 
-        panEnsignants = panelStat("Nombre d’enseignants" , chefController.getNbEnseignant() , new Color(0, 132, 209) , FontAwesome.USER);
-        panResponsables = panelStat("Nombre de responsables" , chefController.getNbResponsable() , new Color(137, 69, 69) , FontAwesome.USER_CIRCLE);
-        panEtudiants = panelStat("Nombre d’étudiants" , chefController.getNbEtudiant() , new Color(0, 153, 102) , FontAwesome.GRADUATION_CAP);
-        panSeanceValider = panelStat("Nombre de séances validées" , chefController.getNbSeanceValide() ,new Color(241, 196, 15) , FontAwesome.CHECK_CIRCLE);
-        panCours = panelStat("Nombre de cours total" , chefController.getNbCours() , new Color(0, 194, 219) , FontAwesome.BOOK);
-        panClasses = panelStat("Nombre de classes" , chefController.getNbClasse() , new Color(200, 100, 0) , FontAwesome.BUILDING);
+        panEnsignants = panelStat("Nombre d’enseignants" , this.chefController.getNbEnseignant() , new Color(0, 132, 209) , FontAwesome.USER);
+        panResponsables = panelStat("Nombre de responsables" , this.chefController.getNbResponsable() , new Color(137, 69, 69) , FontAwesome.USER_CIRCLE);
+        panEtudiants = panelStat("Nombre d’étudiants" , this.chefController.getNbEtudiant() , new Color(0, 153, 102) , FontAwesome.GRADUATION_CAP);
+        panSeanceValider = panelStat("Nombre de séances validées" , this.chefController.getNbSeanceValide() ,new Color(241, 196, 15) , FontAwesome.CHECK_CIRCLE);
+        panCours = panelStat("Nombre de cours total" , this.chefController.getNbCours() , new Color(0, 194, 219) , FontAwesome.BOOK);
+        panClasses = panelStat("Nombre de classes" , this.chefController.getNbClasse() , new Color(200, 100, 0) , FontAwesome.BUILDING);
 
         JPanel panelThree = new JPanel(new MigLayout("wrap 3"));
         panelThree.add(panEnsignants , "pushx , growx");
@@ -194,7 +196,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         JTableHeader header = table.getTableHeader();
         header.setFont(header.getFont().deriveFont(Font.BOLD, 14f));
 
-        chefController.chargeTabResponsable(model);
+        this.chefController.chargeTabResponsable(model);
         return scrollPane;
     }
 
@@ -208,7 +210,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
             }
         };
 
-        chefController.chargeTabEnseignantCours(model);
+        this.chefController.chargeTabEnseignantCours(model);
 
         JTable table = new JTable(model);
         table.setRowHeight(30);

@@ -9,18 +9,19 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ModifierEnseignantUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
+    DashBordChefUI dashHelper;
 
     JLabel labelFirstName , labelLastName , labelEmail ;
     JTextField inputFirstName , inputLastName , inputEmail;
     JButton btnModifier;
 
     public ModifierEnseignantUI(){
+        this.dashHelper = new DashBordChefUI();
         initUI();
     }
 
     public void initUI(){
-//        FlatLightLaf.setup();
+        FlatLightLaf.setup();
 
         add(formePanel());
 
@@ -35,7 +36,7 @@ public class ModifierEnseignantUI extends JFrame {
     public JPanel formePanel(){
 
         JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        formPanel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profil.png")));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
@@ -70,10 +71,10 @@ public class ModifierEnseignantUI extends JFrame {
         formPanel.add(inputEmail , "pushx , growx");
 
         JLabel l = new JLabel("");
-        l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
+        l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnModifier = dash.btnMenuSideBar("Modifier");
+        btnModifier = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifier.setBackground(new Color(46, 204, 113));
         btnModifier.setForeground(Color.white);
         formPanel.add(btnModifier , "pushx , growx");

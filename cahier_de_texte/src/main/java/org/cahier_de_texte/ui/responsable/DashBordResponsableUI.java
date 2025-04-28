@@ -27,6 +27,7 @@ public class DashBordResponsableUI extends JFrame {
         this.dashHelper = new DashBordChefUI();
         this.responsable = responsable;
         this.responsableController = new ResponsableController();
+
         initUI();
     }
 
@@ -74,7 +75,7 @@ public class DashBordResponsableUI extends JFrame {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeSeances = dashHelper.btnMenuSideBar("Liste des séances");
+        btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
         btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         panelSideBar.add(btnListeSeances , "wrap , pushx , growx");
 
@@ -88,14 +89,14 @@ public class DashBordResponsableUI extends JFrame {
         DefaultTableModel modelTabSeances;
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dashHelper.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelListeSeances = new JLabel("Liste des séances");
-        labelListeSeances.setBorder(dashHelper.emptyBorder(10 , 0 ,15 , 0));
+        labelListeSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelListeSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelListeSeances , "pushx , growx");
 
-        btnDeconnexion = dashHelper.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
@@ -104,7 +105,7 @@ public class DashBordResponsableUI extends JFrame {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeSeances = dashHelper.btnMenuSideBar("Liste des séances");
+        JButton btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
         btnListeSeances.setFont(new Font("Roboto" , Font.BOLD , 16));
         btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeSeances.setPreferredSize(new Dimension(getWidth() , 45));
@@ -125,7 +126,7 @@ public class DashBordResponsableUI extends JFrame {
             }
         };
 
-        JButton btnValiderSeances = dashHelper.btnMenuSideBar("Valider la séance");
+        JButton btnValiderSeances = this.dashHelper.btnMenuSideBar("Valider la séance");
         btnValiderSeances.setIcon(FontIcon.of(FontAwesome.CHECK, 18));
         btnValiderSeances.setFont(new Font("Roboto", Font.BOLD, 16));
         btnValiderSeances.setPreferredSize(new Dimension(getWidth() , 45));
@@ -170,9 +171,5 @@ public class DashBordResponsableUI extends JFrame {
         this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
 
         return panel;
-    }
-
-    public static void main(String[] args) {
-        new DashBordResponsableUI("" , 8).setVisible(true);
     }
 }

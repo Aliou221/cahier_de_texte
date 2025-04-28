@@ -15,9 +15,13 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionCoursUI extends JFrame implements ActionListener {
-    DashBordChefUI dash = new DashBordChefUI();
-    ChefController chefController = new ChefController();
+    DashBordChefUI dashHelper ;
+    ChefController chefController ;
+    
     public GestionCoursUI(){
+        this.dashHelper = new DashBordChefUI();
+        this.chefController = new ChefController();
+        
         initUI();
     }
 
@@ -64,7 +68,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
@@ -86,14 +90,14 @@ public class GestionCoursUI extends JFrame implements ActionListener {
     public JPanel homePanelEnseignants(){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelAttCours = new JLabel("Attribution des cours");
-        labelAttCours.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelAttCours.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelAttCours.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelAttCours , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
@@ -102,40 +106,40 @@ public class GestionCoursUI extends JFrame implements ActionListener {
 
         panel.add(btnDeconnexion ,"wrap , split 2 , right");
 
-        btnAssignerCours = dash.btnMenuSideBar("Assigner cours");
+        btnAssignerCours = this.dashHelper.btnMenuSideBar("Assigner cours");
         btnAssignerCours.setIcon(FontIcon.of(FontAwesome.LINK, 18));
         btnAssignerCours.setForeground(Color.white);
         btnAssignerCours.setIconTextGap(5);
         btnAssignerCours.setBackground(new Color(46, 204, 113));
         btnAssignerCours.addActionListener(this);
 
-        btnListeEnseignants = dash.btnMenuSideBar("Liste des enseignants et leur cours");
+        btnListeEnseignants = this.dashHelper.btnMenuSideBar("Liste des enseignants et leur cours");
         btnListeEnseignants.setIcon(FontIcon.of(FontAwesome.USERS , 18));
         btnListeEnseignants.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeEnseignants , "split 3");
 
-        btnAjouterCours = dash.btnMenuSideBar("Ajouter un cours");
+        btnAjouterCours = this.dashHelper.btnMenuSideBar("Ajouter un cours");
         btnAjouterCours.setIcon(FontIcon.of(FontAwesome.BOOK , 18));
         btnAjouterCours.setPreferredSize(new Dimension(getWidth() , 45));
         btnAjouterCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnAjouterCours.addActionListener(this);
         panel.add(btnAjouterCours);
 
-        btnListeCours = dash.btnMenuSideBar("Liste des cours");
+        btnListeCours = this.dashHelper.btnMenuSideBar("Liste des cours");
         btnListeCours.setIcon(FontIcon.of(FontAwesome.BOOKMARK , 18));
         btnListeCours.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeCours , "wrap");
 
-        btnModifierEnseignants = dash.btnMenuSideBar("Modifier");
+        btnModifierEnseignants = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierEnseignants.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
         btnModifierEnseignants.setForeground(Color.white);
         btnModifierEnseignants.setIconTextGap(5);
         btnModifierEnseignants.setBackground(new Color(241, 196, 15));
         btnModifierEnseignants.addActionListener(this);
 
-        btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer");
+        btnSupprimerEnseignants = this.dashHelper.btnMenuSideBar("Supprimer");
         btnSupprimerEnseignants.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerEnseignants.setForeground(Color.white);
         btnSupprimerEnseignants.setIconTextGap(5);
@@ -166,7 +170,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         panBtn.add(btnSupprimerEnseignants);
         panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
-        chefController.chargeTabEnseignantCours(modelTabEnseignant);
+         this.chefController.chargeTabEnseignantCours(modelTabEnseignant);
 
         return panel;
     }

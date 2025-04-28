@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.model.Users;
@@ -22,6 +23,7 @@ public class LoginUI extends JFrame implements ActionListener {
     UserController userController;
 
     public LoginUI(){
+        FlatLightLaf.setup();
         this.userController = new UserController();
         initUI();
     }
@@ -86,13 +88,17 @@ public class LoginUI extends JFrame implements ActionListener {
         passForget.setBorder(BorderFactory.createEmptyBorder(0 , 3 , 10 , 0));
         mainPanelLogin.add(passForget , "wrap , center");
 
+        JPanel panbtn = new JPanel(new GridLayout(1 , 2 , 10 , 10));
+
         btnConnect = myButton(0x4caf50 , "Se connecter");
         btnConnect.addActionListener(this);
-        mainPanelLogin.add(btnConnect , "split 2");
+        panbtn.add(btnConnect);
 
         btnClear = myButton(0x8f5151 , "Annuler");
         btnClear.addActionListener(this);
-        mainPanelLogin.add(btnClear , "pushx , growx");
+        panbtn.add(btnClear);
+
+        mainPanelLogin.add(panbtn , "center , pushx , growx");
 
         return mainPanelLogin;
     }
@@ -125,7 +131,7 @@ public class LoginUI extends JFrame implements ActionListener {
         String email = inputUser.getText();
         String password = new String(inputPassword.getPassword());
 
-        Users user = userController.login(email , password);
+        Users user = this.userController.login(email , password);
         String role = String.valueOf(user.getRole());
 
         switch (role) {

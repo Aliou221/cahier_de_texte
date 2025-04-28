@@ -9,14 +9,16 @@ import java.awt.*;
 import java.util.Objects;
 
 public class AssignerCoursUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
-    ChefController chefController = new ChefController();
+    DashBordChefUI dashHelper;
+    ChefController chefController ;
 
     JLabel labelEnseignant, labelCours, labelClasse ;
     JComboBox<String> comboBoxEnseignant , comboBoxCours , comboBoxClasse;
     JButton btnValider;
 
     public AssignerCoursUI(){
+        this.chefController = new ChefController();
+        this.dashHelper = new DashBordChefUI();
         initUI();
     }
 
@@ -33,7 +35,7 @@ public class AssignerCoursUI extends JFrame {
 
     public JPanel formePanel(){
         JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        formPanel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profil.png")));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
@@ -49,7 +51,7 @@ public class AssignerCoursUI extends JFrame {
 
         comboBoxEnseignant = new JComboBox<>();
         comboBoxEnseignant.setPreferredSize(new Dimension(0 , 40));
-        chefController.enseignant(comboBoxEnseignant);
+        this.chefController.enseignant(comboBoxEnseignant);
         formPanel.add(comboBoxEnseignant , "pushx , growx");
 
         labelCours = new JLabel("Cours");
@@ -58,7 +60,7 @@ public class AssignerCoursUI extends JFrame {
 
         comboBoxCours = new JComboBox<>();
         comboBoxCours.setPreferredSize(new Dimension(0 , 40));
-        chefController.cours(comboBoxCours);
+        this.chefController.cours(comboBoxCours);
         formPanel.add(comboBoxCours , "pushx , growx");
 
         labelClasse = new JLabel("Classe");
@@ -67,14 +69,14 @@ public class AssignerCoursUI extends JFrame {
 
         comboBoxClasse = new JComboBox<>();
         comboBoxClasse.setPreferredSize(new Dimension(0 , 40));
-        chefController.classe(comboBoxClasse);
+        this.chefController.classe(comboBoxClasse);
         formPanel.add(comboBoxClasse , "pushx , growx");
 
         JLabel l = new JLabel("");
-        l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
+        l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnValider = dash.btnMenuSideBar("Enregistrer");
+        btnValider = this.dashHelper.btnMenuSideBar("Enregistrer");
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");

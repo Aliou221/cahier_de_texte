@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DbConnexion {
     Connection con ;
-    String URL = "jdbc:mysql://localhost:3306/cahier_de_texte_1";
+    String URL = "jdbc:mysql://localhost:3306/cahier_de_texte";
     String DB_USERNAME = "root";
     String DB_PASSWORD = "";
 

@@ -17,11 +17,13 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class EtudiantUI extends JFrame implements ActionListener {
-    DashBordChefUI dash = new DashBordChefUI();
-    EtudiantController etudiantController = new EtudiantController();
+    DashBordChefUI dashHelper;
+    EtudiantController etudiantController;
     private final String classe;
 
     public EtudiantUI(String classe){
+        this.dashHelper  = new DashBordChefUI();
+        this.etudiantController = new EtudiantController();
         this.classe = classe;
         initUI();
     }
@@ -70,12 +72,12 @@ public class EtudiantUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
-        btnBack = dash.btnMenuSideBar("Voir la liste des classes");
+        btnBack = this.dashHelper.btnMenuSideBar("Voir la liste des classes");
         btnBack.setIcon(FontIcon.of(FontAwesome.HAND_O_LEFT , 18));
         btnBack.addActionListener(this);
         panelSideBar.add(btnBack , "wrap , pushx , growx");
@@ -90,24 +92,24 @@ public class EtudiantUI extends JFrame implements ActionListener {
     public JPanel homePanelClasses(String classe){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionClasse = new JLabel("Gestion des classes");
-        labelGestionClasse.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionClasse , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnListeEtudiant = dash.btnMenuSideBar("Liste des étudiants");
+        btnListeEtudiant = this.dashHelper.btnMenuSideBar("Liste des étudiants");
         btnListeEtudiant.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeEtudiant.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeEtudiant , "split 2");
 
-        btnResponsable = dash.btnMenuSideBar("Définir comme responsable");
+        btnResponsable = this.dashHelper.btnMenuSideBar("Définir comme responsable");
         btnResponsable.setIcon(FontIcon.of(FontAwesome.ID_BADGE , 18));
         btnResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnResponsable.addActionListener(this);
@@ -132,28 +134,28 @@ public class EtudiantUI extends JFrame implements ActionListener {
         panel.add(scrollPane , "span , push , grow");
 
 
-        btnAjouterEtudiant = dash.btnMenuSideBar("Ajouter un Etudiant");
+        btnAjouterEtudiant = this.dashHelper.btnMenuSideBar("Ajouter un Etudiant");
         btnAjouterEtudiant.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
         btnAjouterEtudiant.setForeground(Color.white);
         btnAjouterEtudiant.setIconTextGap(5);
         btnAjouterEtudiant.setBackground(new Color(46, 204, 113));
         btnAjouterEtudiant.addActionListener(this);
 
-        btnModifierEtudiant = dash.btnMenuSideBar("Modifier");
+        btnModifierEtudiant = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierEtudiant.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
         btnModifierEtudiant.setForeground(Color.white);
         btnModifierEtudiant.setIconTextGap(5);
         btnModifierEtudiant.setBackground(new Color(241, 196, 15));
         btnModifierEtudiant.addActionListener(this);
 
-        btnSupprimerEtudiant = dash.btnMenuSideBar("Supprimer");
+        btnSupprimerEtudiant = this.dashHelper.btnMenuSideBar("Supprimer");
         btnSupprimerEtudiant.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerEtudiant.setForeground(Color.white);
         btnSupprimerEtudiant.setIconTextGap(5);
         btnSupprimerEtudiant.setBackground(new Color(231, 76, 60));
         btnSupprimerEtudiant.addActionListener(this);
 
-        etudiantController.chargeListeEtudiant(tabClasseModel , classe);
+        this.etudiantController.chargeListeEtudiant(tabClasseModel , classe);
 
         JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20 , 20));
         panBtn.add(btnAjouterEtudiant);
@@ -190,8 +192,8 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 String nom = etudiantView.inputLastName.getText();
                 String email = etudiantView.inputEmail.getText();
 
-                etudiantController.ajouterEtudiant(prenom , nom , email , this.classe);
-                etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                this.etudiantController.ajouterEtudiant(prenom , nom , email , this.classe);
+                this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
 
                 etudiantView.inputFirstName.setText(null);
                 etudiantView.inputLastName.setText(null);
@@ -227,11 +229,11 @@ public class EtudiantUI extends JFrame implements ActionListener {
                     String nouveauPrenom = etudiantView.inputFirstName.getText();
                     String nouveauNom = etudiantView.inputLastName.getText();
                     String nouveauEmail= etudiantView.inputEmail.getText();
-                    int idRes = etudiantController.getRespo(email);
+                    int idRes = this.etudiantController.getRespo(email);
 
-                    etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
-                    etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauNom , idRes);
-                    etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                    this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauNom , idRes);
+                    this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
 
                     etudiantView.inputFirstName.setText(null);
                     etudiantView.inputLastName.setText(null);
@@ -262,8 +264,8 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 );
 
                 if (confirm == JOptionPane.YES_OPTION){
-                    etudiantController.supprimerEtudiant(id);
-                    etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    this.etudiantController.supprimerEtudiant(id);
+                    this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
                 }
             }
         }

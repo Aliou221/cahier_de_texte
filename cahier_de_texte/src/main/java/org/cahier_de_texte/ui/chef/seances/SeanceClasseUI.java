@@ -1,7 +1,7 @@
 package org.cahier_de_texte.ui.chef.seances;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
-import org.cahier_de_texte.controller.chef.EtudiantController;
 import org.cahier_de_texte.controller.chef.SeanceController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
@@ -17,18 +17,19 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class SeanceClasseUI extends JFrame implements ActionListener {
-    DashBordChefUI dash ;
+    DashBordChefUI dashHelper;
     SeanceController seanceController;
     private final String classe;
 
     public SeanceClasseUI(String classe){
         this.seanceController = new SeanceController();
-        this.dash = new DashBordChefUI();
+        this.dashHelper = new DashBordChefUI();
         this.classe = classe;
         initUI();
     }
 
     public void initUI(){
+        FlatLightLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanelClasses(this.classe) , BorderLayout.CENTER);
 
@@ -51,7 +52,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Arial",Font.BOLD , 25));
+        labelUidt.setFont(new Font("Roboto",Font.BOLD , 25));
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -72,12 +73,12 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
-        btnBack = dash.btnMenuSideBar("Voir la liste des classes");
+        btnBack = this.dashHelper.btnMenuSideBar("Voir la liste des classes");
         btnBack.setIcon(FontIcon.of(FontAwesome.HAND_O_LEFT , 18));
         btnBack.addActionListener(this);
         panelSideBar.add(btnBack , "wrap , pushx , growx");
@@ -85,24 +86,30 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         return panelSideBar;
     }
 
-    JButton btnDeconnexion, btnListeSeances;
+    JButton btnDeconnexion;
     JTable tabClasse;
     DefaultTableModel tabClasseModel;
 
     public JPanel homePanelClasses(String classe){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionClasse = new JLabel("Gestion des séances");
-        labelGestionClasse.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionClasse , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
+
+        JButton btnListeSeance = this.dashHelper.btnMenuSideBar("Liste des séances validées");
+        btnListeSeance.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeance.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        panel.add(btnListeSeance , "split 2 , wrap");
 
         String[] columnClasse = {"Date Séance" , "Code" , "Cours" , "Contenue" , "Duree" , "Enseignant"};
 

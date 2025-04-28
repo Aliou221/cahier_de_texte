@@ -17,10 +17,12 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionClasseUI extends JFrame implements ActionListener {
-    DashBordChefUI dash = new DashBordChefUI();
-    ClasseController classeController = new ClasseController();
+    DashBordChefUI dashHelper ;
+    ClasseController classeController;
 
     public GestionClasseUI(){
+        this.dashHelper = new DashBordChefUI();
+        this.classeController = new ClasseController();
         initUI();
     }
 
@@ -68,7 +70,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
@@ -83,24 +85,24 @@ public class GestionClasseUI extends JFrame implements ActionListener {
     public JPanel homePanelClasses(){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionClasse = new JLabel("Gestion des classes");
-        labelGestionClasse.setBorder(dash.emptyBorder(10 , 0 ,15 , 0));
+        labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionClasse , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnListeClasses = dash.btnMenuSideBar("Liste des Classes");
+        btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
         btnListeClasses.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeClasses , "split 2");
 
-        btnPlusInfo = dash.btnMenuSideBar("Plus informations");
+        btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
         panel.add(btnPlusInfo , "wrap , split 2");
         btnPlusInfo.addActionListener(this);
 
@@ -122,21 +124,21 @@ public class GestionClasseUI extends JFrame implements ActionListener {
 
         panel.add(scrollPane , "span , push , grow");
 
-        btnAjouterClasses = dash.btnMenuSideBar("Ajouter un Classe");
+        btnAjouterClasses = this.dashHelper.btnMenuSideBar("Ajouter un Classe");
         btnAjouterClasses.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
         btnAjouterClasses.setForeground(Color.white);
         btnAjouterClasses.setIconTextGap(5);
         btnAjouterClasses.setBackground(new Color(46, 204, 113));
         btnAjouterClasses.addActionListener(this);
 
-        btnModifierClasses = dash.btnMenuSideBar("Modifier");
+        btnModifierClasses = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierClasses.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
         btnModifierClasses.setForeground(Color.white);
         btnModifierClasses.setIconTextGap(5);
         btnModifierClasses.setBackground(new Color(241, 196, 15));
         btnModifierClasses.addActionListener(this);
 
-        btnSupprimerClasse = dash.btnMenuSideBar("Supprimer");
+        btnSupprimerClasse = this.dashHelper.btnMenuSideBar("Supprimer");
         btnSupprimerClasse.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerClasse.setForeground(Color.white);
         btnSupprimerClasse.setIconTextGap(5);
@@ -149,7 +151,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         panBtn.add(btnSupprimerClasse);
         panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
-        classeController.chargeTabClasse(tabClasseModel);
+        this.classeController.chargeTabClasse(tabClasseModel);
         return panel;
     }
 
@@ -161,8 +163,8 @@ public class GestionClasseUI extends JFrame implements ActionListener {
 
             ajoutClasse.btnValider.addActionListener((ActionEvent even)->{
                 String nom = ajoutClasse.inputNiveau.getText();
-                classeController.ajouterClasse(nom);
-                classeController.chargeTabClasse(tabClasseModel);
+                this.classeController.ajouterClasse(nom);
+                this.classeController.chargeTabClasse(tabClasseModel);
                 ajoutClasse.inputNiveau.setText(null);
             });
         }
@@ -189,8 +191,8 @@ public class GestionClasseUI extends JFrame implements ActionListener {
                 modifClasse.btnValider.addActionListener((ActionEvent event)->{
                     String nouveauNom = modifClasse.inputNiveau.getText();
 
-                    classeController.modifierClasse(nom , nouveauNom);
-                    classeController.chargeTabClasse(tabClasseModel);
+                    this.classeController.modifierClasse(nom , nouveauNom);
+                    this.classeController.chargeTabClasse(tabClasseModel);
 
                     modifClasse.inputNiveau.setText(null);
 
@@ -216,8 +218,8 @@ public class GestionClasseUI extends JFrame implements ActionListener {
 
                 if (valide == JOptionPane.YES_OPTION){
                     String nom = (String) tabClasse.getValueAt(rowSelected , 0);
-                    classeController.supprimerClasse(nom);
-                    classeController.chargeTabClasse(tabClasseModel);
+                    this.classeController.supprimerClasse(nom);
+                    this.classeController.chargeTabClasse(tabClasseModel);
                 }
             }
 
@@ -261,9 +263,5 @@ public class GestionClasseUI extends JFrame implements ActionListener {
             new LoginUI().setVisible(true);
             dispose();
         }
-    }
-
-    public static void main(String[] args) {
-        new GestionClasseUI().setVisible(true);
     }
 }

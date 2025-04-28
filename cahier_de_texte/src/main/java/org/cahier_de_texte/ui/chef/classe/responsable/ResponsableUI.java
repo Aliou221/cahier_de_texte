@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ResponsableUI extends JFrame {
-    DashBordChefUI dash = new DashBordChefUI();
+    DashBordChefUI dashHelper;
     private final String classe;
     JLabel labelFirstName , labelLastName , labelEmail , labelPassword ;
     public JTextField inputFirstName;
@@ -19,6 +19,7 @@ public class ResponsableUI extends JFrame {
 
 
     public ResponsableUI(String classe){
+        this.dashHelper = new DashBordChefUI();
         this.classe = classe;
         initUI();
     }
@@ -36,7 +37,7 @@ public class ResponsableUI extends JFrame {
 
     public JPanel formePanel(){
         JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        formPanel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profil.png")));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
@@ -79,10 +80,10 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputPassword , "pushx , growx");
 
         JLabel l = new JLabel("");
-        l.setBorder(dash.emptyBorder(10 , 0 , 0 , 0));
+        l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnValider = dash.btnMenuSideBar("Enregistrer");
+        btnValider = this.dashHelper.btnMenuSideBar("Enregistrer");
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");

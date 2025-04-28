@@ -17,14 +17,14 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionEnseignantUI extends JFrame implements ActionListener {
-    private final DashBordChefUI dash;
+    private final DashBordChefUI dashHelper;
     private final EnseignantController enseignantController;
     private final UserController userController;
     Users enseignant ;
 
     public GestionEnseignantUI(){
         this.enseignant = new Users();
-        this.dash = new DashBordChefUI();
+        this.dashHelper = new DashBordChefUI();
         this.enseignantController = new EnseignantController();
         this.userController = new UserController();
 
@@ -74,7 +74,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = this.dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
@@ -95,14 +95,14 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
     public JPanel homePanelEnseignants(){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionEnseignant = new JLabel("Gestion des Enseignants");
 //        labelGestionEnseignant.setBorder(dash.emptyBorder(0 , 0 ,15 , 0));
         labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionEnseignant , "pushx , growx");
 
-        btnDeconnexion = dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
@@ -111,26 +111,26 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnAjouterEnseignants = dash.btnMenuSideBar("Ajouter un Enseignant");
+        btnAjouterEnseignants = this.dashHelper.btnMenuSideBar("Ajouter un Enseignant");
         btnAjouterEnseignants.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
         btnAjouterEnseignants.setForeground(Color.white);
         btnAjouterEnseignants.setIconTextGap(5);
         btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
         btnAjouterEnseignants.addActionListener(this);
 
-        btnListeEnseignants = dash.btnMenuSideBar("Liste des enseignants");
+        btnListeEnseignants = this.dashHelper.btnMenuSideBar("Liste des enseignants");
         btnListeEnseignants.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeEnseignants.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnModifierEnseignants = dash.btnMenuSideBar("Modifier");
+        btnModifierEnseignants = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierEnseignants.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
         btnModifierEnseignants.setForeground(Color.white);
         btnModifierEnseignants.setIconTextGap(5);
         btnModifierEnseignants.setBackground(new Color(241, 196, 15));
         btnModifierEnseignants.addActionListener(this);
 
-        btnSupprimerEnseignants = dash.btnMenuSideBar("Supprimer");
+        btnSupprimerEnseignants = this.dashHelper.btnMenuSideBar("Supprimer");
         btnSupprimerEnseignants.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerEnseignants.setForeground(Color.white);
         btnSupprimerEnseignants.setIconTextGap(5);

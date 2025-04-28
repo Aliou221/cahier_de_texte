@@ -16,12 +16,12 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionSeancesUI extends JFrame implements ActionListener {
-    DashBordChefUI dash;
+    DashBordChefUI dashHelper;
     SeanceController seanceController ;
 
     public GestionSeancesUI(){
         this.seanceController = new SeanceController();
-        this.dash = new DashBordChefUI();
+        this.dashHelper = new DashBordChefUI();
         initUI();
     }
 
@@ -69,7 +69,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnTabBord = this.dash.btnMenuSideBar("Tableau de bord");
+        btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
@@ -84,24 +84,24 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
     public JPanel homePanelClasses(){
 
         JPanel panel = new JPanel(new MigLayout());
-        panel.setBorder(this.dash.emptyBorder(20 , 20 , 20 , 20));
+        panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionSeances = new JLabel("Gestion des séances validées");
-        labelGestionSeances.setBorder(this.dash.emptyBorder(10 , 0 ,15 , 0));
+        JLabel labelGestionSeances = new JLabel("Gestion des séances validées par classe");
+        labelGestionSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionSeances , "pushx , growx");
 
-        btnDeconnexion = this.dash.btnMenuSideBar("Deconnexion");
+        btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnListeClasses = this.dash.btnMenuSideBar("Liste des Classes");
+        btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
         btnListeClasses.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeClasses , "split 2");
 
-        btnPlusInfo = this.dash.btnMenuSideBar("Plus informations");
+        btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
         panel.add(btnPlusInfo , "wrap , split 2");
         btnPlusInfo.addActionListener(this);
 
@@ -169,9 +169,5 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
             new LoginUI().setVisible(true);
             dispose();
         }
-    }
-
-    public static void main(String[] args) {
-       new GestionSeancesUI().setVisible(true);
     }
 }
