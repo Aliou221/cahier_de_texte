@@ -148,6 +148,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
             else{
 
                 String classeName = (String) tabClasse.getValueAt(rowSelected , 0);
+                String responsable = (String) tabClasse.getValueAt(rowSelected , 1);
 
                 int option = JOptionPane.showConfirmDialog(
                         null ,
@@ -157,7 +158,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
                 );
 
                 if (option == JOptionPane.YES_OPTION){
-                    new SeanceClasseUI(classeName).setVisible(true);
+                    new SeanceClasseUI(classeName , responsable).setVisible(true);
                     dispose();
                 }
 

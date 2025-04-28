@@ -210,7 +210,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
             }
         };
 
-        this.chefController.chargeTabEnseignantCours(model);
+
 
         JTable table = new JTable(model);
         table.setRowHeight(30);
@@ -222,6 +222,8 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         JTableHeader header = table.getTableHeader();
         header.setFont(header.getFont().deriveFont(Font.BOLD, 14f));
+
+        this.chefController.chargeTabEnseignantCours(model);
 
         return scrollPane;
     }
@@ -279,6 +281,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
             new GestionCoursUI().setVisible(true);
             dispose();
         }
+
 
         if(e.getSource() == btnDeconnexion){
             new LoginUI().setVisible(true);

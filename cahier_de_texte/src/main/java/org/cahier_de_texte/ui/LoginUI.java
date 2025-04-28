@@ -40,17 +40,14 @@ public class LoginUI extends JFrame implements ActionListener {
     }
 
     public JPanel createPanel(){
-
         ImageIcon imageUser = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profile.png")));
         Icon resizeImageUser = new ImageIcon(imageUser.getImage().getScaledInstance(80 , 80 , Image.SCALE_SMOOTH));
 
         JPanel panelUser , panelPassword , mainPanelLogin;
 
-        //Panel pricipale
         mainPanelLogin = new JPanel(new MigLayout());
         mainPanelLogin.setBorder(BorderFactory.createEmptyBorder(15 , 25 , 20 , 25));
 
-        //Titre du fenetre
         textTitle = new JLabel("Connexion");
         textTitle.setFont(new Font("Roboto" , Font.BOLD , 23));
         textTitle.setIcon(resizeImageUser);
@@ -64,6 +61,7 @@ public class LoginUI extends JFrame implements ActionListener {
         panelUser = new JPanel(new GridLayout(2, 1));
         labelUser = new JLabel("Email");
         panelUser.add(labelUser);
+
         inputUser = new JTextField();
         inputUser.setPreferredSize(new Dimension(0 , 40));
         panelUser.add(inputUser);
@@ -155,7 +153,5 @@ public class LoginUI extends JFrame implements ActionListener {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-
-        System.out.println("Le role est " + role);
     }
 }
