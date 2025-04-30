@@ -181,7 +181,6 @@ public class GestionClasseUI extends JFrame implements ActionListener {
                 );
             }
             else{
-
                 ModifierClasseUI modifClasse = new ModifierClasseUI();
                 modifClasse.setVisible(true);
 
@@ -246,7 +245,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
                 String classeName = (String) tabClasse.getValueAt(rowSelected , 0);
                 int option = JOptionPane.showConfirmDialog(
                         null ,
-                        "Voulez vous consulter la liste de : \n" + classeName ,
+                        "Voulez vous consulter la liste de : \n" + classeName  + " ? ",
                         null ,
                         JOptionPane.YES_NO_OPTION
                 );

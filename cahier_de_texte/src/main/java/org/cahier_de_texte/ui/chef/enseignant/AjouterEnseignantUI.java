@@ -24,11 +24,11 @@ public class AjouterEnseignantUI extends JFrame {
         add(formePanel());
 
         setTitle("Ajouter un enseignant");
-        setSize(350 , 500);
-        setMinimumSize(new Dimension(350 , 500));
+        setSize(350 , 550);
+        setMinimumSize(new Dimension(350 , 550));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+        setLocation(90 , 80);
     }
 
     public JPanel formePanel(){
@@ -87,5 +87,4 @@ public class AjouterEnseignantUI extends JFrame {
 
         return formPanel;
     }
-
 }

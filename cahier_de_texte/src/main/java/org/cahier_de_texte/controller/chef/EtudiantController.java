@@ -67,8 +67,7 @@ public class EtudiantController {
         if (etudiantDAO.modifierEtudiant(etudiants , id)){
             JOptionPane.showMessageDialog(
                     null ,
-                    etudiants.getFirstName() + " " + etudiants.getLastName() +
-                            " à été modifié avec succès !" ,
+                            "Etudiant à été modifié avec succès !" ,
                     "Succès" ,
                     JOptionPane.INFORMATION_MESSAGE
             );
@@ -87,16 +86,21 @@ public class EtudiantController {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
-
         if(etudiantDAO.modifRespo(user , id)){
             System.out.println("prenom: " + firstName);
             System.out.println("nom: " + lastName);
             System.out.println("email: " + email);
+        }else{
+            System.out.println("N'est pas un responsable");
         }
     }
 
+    public boolean verifEtudiant(String email){
+        return etudiantDAO.verifResponsable(email);
+    }
+
     public int getRespo(String email){
-        return etudiantDAO.getIdResponsable(email);
+        return etudiantDAO.getIdUser(email);
     }
 
     public void supprimerEtudiant(int id){
@@ -115,6 +119,14 @@ public class EtudiantController {
                     null,
                     JOptionPane.INFORMATION_MESSAGE
             );
+        }
+    }
+
+    public void deleteRespo(int id){
+        if(etudiantDAO.deleteResponsable(id)){
+           System.out.println("Responsable a été supprimé avec succés !");
+        }else{
+            System.out.println("La suppression du responsable a echoué !");
         }
     }
 

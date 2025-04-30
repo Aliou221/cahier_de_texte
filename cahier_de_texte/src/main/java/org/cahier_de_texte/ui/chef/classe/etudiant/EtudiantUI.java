@@ -1,7 +1,9 @@
 package org.cahier_de_texte.ui.chef.classe.etudiant;
 
 import net.miginfocom.swing.MigLayout;
+import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.controller.chef.EtudiantController;
+import org.cahier_de_texte.model.Users;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
@@ -18,12 +20,16 @@ import java.util.Objects;
 
 public class EtudiantUI extends JFrame implements ActionListener {
     DashBordChefUI dashHelper;
+    Users user;
+    UserController userController;
     EtudiantController etudiantController;
     private final String classe;
 
     public EtudiantUI(String classe){
         this.dashHelper  = new DashBordChefUI();
+        this.userController = new UserController();
         this.etudiantController = new EtudiantController();
+        this.user = new Users();
         this.classe = classe;
         initUI();
     }
@@ -226,14 +232,22 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 etudiantView.inputEmail.setText(email);
 
                 etudiantView.btnModifier.addActionListener((ActionEvent event)->{
+
                     String nouveauPrenom = etudiantView.inputFirstName.getText();
                     String nouveauNom = etudiantView.inputLastName.getText();
-                    String nouveauEmail= etudiantView.inputEmail.getText();
+                    String nouveauEmail = etudiantView.inputEmail.getText();
                     int idRes = this.etudiantController.getRespo(email);
 
-                    this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
-                    this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauNom , idRes);
-                    this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    if(this.etudiantController.verifEtudiant(email)){
+                        this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                        this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauEmail , idRes);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+
+                    }else{
+                        this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    }
+
 
                     etudiantView.inputFirstName.setText(null);
                     etudiantView.inputLastName.setText(null);
@@ -254,8 +268,11 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 );
 
             }else{
-
                 int id = (int) tabClasse.getValueAt(rowSelected , 0);
+                String email = (String) tabClasse.getValueAt(rowSelected , 3);
+                int idRes = this.etudiantController.getRespo(email);
+                System.out.println(idRes);
+
                 int confirm = JOptionPane.showConfirmDialog(
                         null,
                         "Voulez vous vraiment supprimer cet étudiant ?",
@@ -264,8 +281,15 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 );
 
                 if (confirm == JOptionPane.YES_OPTION){
-                    this.etudiantController.supprimerEtudiant(id);
-                    this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    if(this.etudiantController.verifEtudiant(email)){
+                        this.etudiantController.supprimerEtudiant(id);
+                        this.etudiantController.deleteRespo(idRes);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    }else{
+                        this.etudiantController.supprimerEtudiant(id);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    }
+
                 }
             }
         }
@@ -278,20 +302,19 @@ public class EtudiantUI extends JFrame implements ActionListener {
                         null,
                         "Veuillez choisir une étudiant svp !"
                 );
-            }
-            ResponsableUI responsableView = new ResponsableUI(this.classe);
-            responsableView.setVisible(true);
+            }else{
+                ResponsableUI responsableView = new ResponsableUI(this.classe);
+                responsableView.setVisible(true);
 
 //            int id = (int) tabClasse.getValueAt(rowSelected , 0);
-            String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
-            String nom = (String) tabClasse.getValueAt(rowSelected , 2);
-            String email = (String) tabClasse.getValueAt(rowSelected , 3);
+                String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
+                String nom = (String) tabClasse.getValueAt(rowSelected , 2);
+                String email = (String) tabClasse.getValueAt(rowSelected , 3);
 
-            responsableView.inputFirstName.setText(prenom);
-            responsableView.inputLastName.setText(nom);
-            responsableView.inputEmail.setText(email);
-
-
+                responsableView.inputFirstName.setText(prenom);
+                responsableView.inputLastName.setText(nom);
+                responsableView.inputEmail.setText(email);
+            }
         }
     }
 }

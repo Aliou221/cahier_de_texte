@@ -15,6 +15,13 @@ public class EtudiantDAO {
     Connection con = db.getConnection();
     PreparedStatement pst;
 
+    private int idUser = 0;
+    public EtudiantDAO() {
+    }
+    public EtudiantDAO(int idUser) {
+        this.idUser = idUser;
+    }
+
     public boolean ajouterEtudiant(Etudiants etudiant , String classe){
         String sql = "INSERT INTO Etudiants (prenom, nom, email, classe_id)" +
                 "VALUES (? , ? , ? , ?)";
@@ -27,7 +34,6 @@ public class EtudiantDAO {
             pst.setString(2 , etudiant.getLastName());
             pst.setString(3 , etudiant.getEmail());
             pst.setInt(4 , id);
-
             pst.executeUpdate();
             return true;
 
@@ -40,7 +46,6 @@ public class EtudiantDAO {
 
     public boolean modifierEtudiant(Etudiants etudiant , int id){
         String sql = "UPDATE Etudiants SET prenom = ? , nom = ? , email = ? WHERE id = ?";
-
         try{
             pst = con.prepareStatement(sql);
             pst.setString(1 , etudiant.getFirstName());
@@ -58,18 +63,7 @@ public class EtudiantDAO {
     }
 
     public boolean modifRespo(Users user, int etudiantId) {
-//        if (verifResponsable(user.getEmail())) {
-            int utilisateurId = getIdResponsable(user.getEmail());
-
             try {
-                // Mise à jour dans la table Etudiants
-                String sqlEtudiant = "UPDATE Etudiants SET prenom = ?, nom = ?, email = ? WHERE id = ?";
-                pst = con.prepareStatement(sqlEtudiant);
-                pst.setString(1, user.getFirstName());
-                pst.setString(2, user.getLastName());
-                pst.setString(3, user.getEmail());
-                pst.setInt(4, etudiantId);
-                pst.executeUpdate();
 
                 // Mise à jour dans la table Utilisateurs
                 String sqlUtilisateur = "UPDATE Utilisateurs SET prenom = ?, nom = ?, email = ? WHERE id = ?";
@@ -77,20 +71,20 @@ public class EtudiantDAO {
                 pst.setString(1, user.getFirstName());
                 pst.setString(2, user.getLastName());
                 pst.setString(3, user.getEmail());
-                pst.setInt(4, utilisateurId);
+                pst.setInt(4, etudiantId);
                 pst.executeUpdate();
-
+                System.out.println("Utilisateur a ete modifier : " + etudiantId);
                 return true;
             } catch (SQLException ex) {
                 System.out.println("Erreur ! " + ex.getMessage());
             }
-//        }
         return false;
+
+
     }
 
     public boolean supprimerEtudiant(int id){
         String sql = "DELETE FROM Etudiants WHERE id = ?";
-
         try{
             pst = con.prepareStatement(sql);
 
@@ -102,6 +96,20 @@ public class EtudiantDAO {
             System.out.println("Erreur ! " + e.getMessage());
         }
 
+        return false;
+    }
+
+    public boolean deleteResponsable(int id){
+        String sql = "DELETE FROM Utilisateurs WHERE id = ?";
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , id);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
         return false;
     }
 
@@ -169,6 +177,7 @@ public class EtudiantDAO {
             res = pst.executeQuery();
 
             if(res.next()){
+                idUser = res.getInt("id");
                 return true;
             }
 
@@ -178,23 +187,7 @@ public class EtudiantDAO {
         return false;
     }
 
-    public int getIdResponsable(String email){
-        int idRespo = 0;
-        String sql = "SELECT * FROM Utilisateurs " +
-                "WHERE email = ?";
-        ResultSet res;
-        try{
-            pst = con.prepareStatement(sql);
-            pst.setString(1, email);
-            res = pst.executeQuery();
-
-            if(res.next()){
-                idRespo = res.getInt("id");
-            }
-
-        }catch (SQLException e){
-            System.out.println("Erreur ! " + e.getMessage());
-        }
-        return idRespo;
+    public int getIdUser(String email){
+        return idUser;
     }
 }

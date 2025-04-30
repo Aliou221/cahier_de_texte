@@ -1,3 +1,5 @@
+-- Active: 1737733566034@@127.0.0.1@3306@cahier_de_texte
+use cahier_de_texte;
 CREATE TABLE IF NOT EXISTS Utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     prenom VARCHAR(30) NOT NULL,
@@ -8,13 +10,14 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TABLE IF NOT EXISTS Classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     id_responsable INT ,
 
-    FOREIGN KEY (id_responsable) REFERENCES  Utilisateurs(id)
-    ON DELETE CASCADE
+    FOREIGN KEY (id_responsable) REFERENCES Utilisateurs(id)
+    ON DELETE SET NULL
     ON UPDATE CASCADE
 );
 
@@ -25,6 +28,7 @@ CREATE TABLE IF NOT EXISTS Etudiants (
     nom VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     classe_id INT NOT NULL,
+
     FOREIGN KEY (classe_id) REFERENCES Classes(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -36,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Cours (
     intitule VARCHAR(200) NOT NULL,
     credits INT NOT NULL,
     enseignant_id INT NOT NULL ,
+    
     FOREIGN KEY (enseignant_id) REFERENCES Utilisateurs(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
