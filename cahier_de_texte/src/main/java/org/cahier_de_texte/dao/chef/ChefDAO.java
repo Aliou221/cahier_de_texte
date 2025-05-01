@@ -198,7 +198,7 @@ public class ChefDAO {
 
             ResultSet res = pst.executeQuery();
             combo.removeAllItems();
-
+            combo.addItem("");
             while (res.next()){
                 String enseignant = res.getInt("id")        + " - " +
                                     res.getString("prenom") + " " +
@@ -222,9 +222,9 @@ public class ChefDAO {
             pst = con.prepareStatement(sql);
             res = pst.executeQuery();
             combo.removeAllItems();
-
+            combo.addItem("");
             while (res.next()){
-                String cours = res.getString("code") + " - " + res.getString("intitule");
+                String cours = res.getInt("id") + " - " + res.getString("code") + " - " + res.getString("intitule");
                 combo.addItem(cours);
             }
 
@@ -241,8 +241,10 @@ public class ChefDAO {
             pst = con.prepareStatement(sql);
             res = pst.executeQuery();
             combo.removeAllItems();
+            combo.addItem("");
+
             while (res.next()){
-                String classe = res.getString("nom");
+                String classe = res.getInt("id") + " - " + res.getString("nom");
                 combo.addItem(classe);
             }
 

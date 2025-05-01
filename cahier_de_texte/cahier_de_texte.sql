@@ -1,5 +1,10 @@
 -- Active: 1737733566034@@127.0.0.1@3306@cahier_de_texte
+
+DROP DATABASE cahier_de_texte;
+
+CREATE DATABASE cahier_de_texte;
 use cahier_de_texte;
+
 CREATE TABLE IF NOT EXISTS Utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     prenom VARCHAR(30) NOT NULL,
@@ -10,7 +15,6 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE IF NOT EXISTS Classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
@@ -20,7 +24,6 @@ CREATE TABLE IF NOT EXISTS Classes (
     ON DELETE SET NULL
     ON UPDATE CASCADE
 );
-
 
 CREATE TABLE IF NOT EXISTS Etudiants (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,12 +42,15 @@ CREATE TABLE IF NOT EXISTS Cours (
     code VARCHAR(20) UNIQUE NOT NULL,
     intitule VARCHAR(200) NOT NULL,
     credits INT NOT NULL,
-    enseignant_id INT NOT NULL ,
+    enseignant_id INT ,
     
     FOREIGN KEY (enseignant_id) REFERENCES Utilisateurs(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+
+desc Cours;
 
 CREATE TABLE IF NOT EXISTS ClasseCours (
     id_cours INT NOT NULL ,
@@ -61,7 +67,7 @@ CREATE TABLE IF NOT EXISTS ClasseCours (
 
 CREATE TABLE IF NOT EXISTS Seances (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cours_id INT NOT NULL ,
+    cours_id INT ,
     date_seance DATETIME NOT NULL,
     contenu TEXT NOT NULL,
     duree INT NOT NULL,
@@ -73,8 +79,8 @@ CREATE TABLE IF NOT EXISTS Seances (
 
 CREATE TABLE IF NOT EXISTS Validations (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    responsable_id INT NOT NULL ,
-    seance_id INT NOT NULL ,
+    responsable_id INT,
+    seance_id INT ,
     date_validation DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
     FOREIGN KEY (responsable_id) REFERENCES Utilisateurs(id)

@@ -2,6 +2,7 @@ package org.cahier_de_texte.ui.chef.cours;
 
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ChefController;
+import org.cahier_de_texte.controller.chef.CoursController;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
 import javax.swing.*;
@@ -11,14 +12,24 @@ import java.util.Objects;
 public class AssignerCoursUI extends JFrame {
     DashBordChefUI dashHelper;
     ChefController chefController ;
+    CoursController coursController;
 
     JLabel labelEnseignant, labelCours, labelClasse ;
     JComboBox<String> comboBoxEnseignant , comboBoxCours , comboBoxClasse;
     JButton btnValider;
 
+    private int idEnseignant;
+    private int idClasse;
+    private int idCours;
+
+    private String codeCours;
+    private String intituleCours;
+
     public AssignerCoursUI(){
         this.chefController = new ChefController();
         this.dashHelper = new DashBordChefUI();
+        this.coursController = new CoursController();
+
         initUI();
     }
 
@@ -50,8 +61,10 @@ public class AssignerCoursUI extends JFrame {
         formPanel.add(labelEnseignant);
 
         comboBoxEnseignant = new JComboBox<>();
+        comboBoxEnseignant.addItem(null);
         comboBoxEnseignant.setPreferredSize(new Dimension(0 , 40));
         this.chefController.enseignant(comboBoxEnseignant);
+
         formPanel.add(comboBoxEnseignant , "pushx , growx");
 
         labelCours = new JLabel("Cours");
@@ -59,6 +72,7 @@ public class AssignerCoursUI extends JFrame {
         formPanel.add(labelCours);
 
         comboBoxCours = new JComboBox<>();
+        comboBoxCours.addItem(null);
         comboBoxCours.setPreferredSize(new Dimension(0 , 40));
         this.chefController.cours(comboBoxCours);
         formPanel.add(comboBoxCours , "pushx , growx");
@@ -68,6 +82,7 @@ public class AssignerCoursUI extends JFrame {
         formPanel.add(labelClasse);
 
         comboBoxClasse = new JComboBox<>();
+        comboBoxClasse.addItem("");
         comboBoxClasse.setPreferredSize(new Dimension(0 , 40));
         this.chefController.classe(comboBoxClasse);
         formPanel.add(comboBoxClasse , "pushx , growx");
@@ -80,6 +95,35 @@ public class AssignerCoursUI extends JFrame {
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");
+
+        btnValider.addActionListener(e->{
+            String selectedItemEnseignant = Objects.requireNonNull(comboBoxEnseignant.getSelectedItem()).toString();
+            String selectedItemCours = Objects.requireNonNull(comboBoxCours.getSelectedItem()).toString();
+            String selectedItemClasse = Objects.requireNonNull(comboBoxClasse.getSelectedItem()).toString();
+
+            if (selectedItemEnseignant.isEmpty() || selectedItemCours.isEmpty() || selectedItemClasse.isEmpty()){
+                JOptionPane.showMessageDialog(
+                        null ,
+                        "Les champs sont obligatoires !",
+                        null,
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }else{
+                String[] partEnseignant = selectedItemEnseignant.split(" - ");
+                String[] partCours = selectedItemCours.split(" - ");
+                String[] partClasse = selectedItemClasse.split(" - ");
+
+                idEnseignant = Integer.parseInt(partEnseignant[0]);
+
+                idCours = Integer.parseInt(partCours[0]);
+                codeCours = partCours[1];
+                intituleCours = partCours[2];
+
+                idClasse = Integer.parseInt(partClasse[0]);
+
+                this.coursController.assignerCours(idEnseignant , codeCours , intituleCours , idCours , idClasse);
+            }
+        });
 
         return formPanel;
     }
