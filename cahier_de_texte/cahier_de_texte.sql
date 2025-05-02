@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS Seances (
     date_seance DATETIME NOT NULL,
     contenu TEXT NOT NULL,
     duree INT NOT NULL,
+    Valide BOOLEAN DEFAULT FALSE,
 
     FOREIGN KEY (cours_id) REFERENCES Cours(id)
     ON DELETE CASCADE
@@ -213,41 +214,3 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 ('Aissatou', 'Balde', 'aissatou.balde@univ.sn', 5),
 ('Fallou', 'Diouf', 'fallou.diouf@univ.sn', 5),
 ('Fatoumata', 'Ndoye', 'fatoumata.ndoye@univ.sn', 5);
-
-
-SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
-        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
-FROM `Seances`
-INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
-INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
-INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
-INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe;
-
-
-SELECT `Cours`.id, `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
-        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
-FROM `Seances`
-INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
-INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
-INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
-INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
-WHERE `Classes`.nom = "L1 Informatique";
-
-SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
-        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
-FROM `Seances`
-INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
-INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
-INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
-INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
-WHERE `Enseignant`.id = 6 AND `Classes`.nom = "L1 Informatique" AND `Cours`.intitule LIKE "Syst%";
-
-
-SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
-        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
-FROM `Seances`
-INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
-INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
-INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
-INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
-WHERE `Cours`.id = 1 AND `Classes`.id = 2;

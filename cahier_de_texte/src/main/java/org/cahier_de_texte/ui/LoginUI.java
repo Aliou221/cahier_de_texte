@@ -39,6 +39,7 @@ public class LoginUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    JLabel passForget;
     public JPanel createPanel(){
         ImageIcon imageUser = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profile.png")));
         Icon resizeImageUser = new ImageIcon(imageUser.getImage().getScaledInstance(80 , 80 , Image.SCALE_SMOOTH));
@@ -78,14 +79,20 @@ public class LoginUI extends JFrame implements ActionListener {
         panelPassword.add(inputPassword);
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
-        JLabel passForget = new JLabel("Mot de passe oublier ?");
+        passForget = new JLabel("Mot de passe oublier ?");
         passForget.setForeground(new Color(0x4d4429));
         passForget.setFont(new Font("" , Font.BOLD , 13));
         passForget.setHorizontalTextPosition(JLabel.CENTER);
         passForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        passForget.setBorder(BorderFactory.createEmptyBorder(0 , 3 , 10 , 0));
+        passForget.setBorder(BorderFactory.createEmptyBorder(10 , 3 , 15 , 0));
         mainPanelLogin.add(passForget , "wrap , center");
 
+        mainPanelLogin.add(panelButton() , "center , pushx , growx");
+
+        return mainPanelLogin;
+    }
+
+    public JPanel panelButton(){
         JPanel panbtn = new JPanel(new GridLayout(1 , 2 , 10 , 10));
 
         btnConnect = myButton(0x4caf50 , "Se connecter");
@@ -96,9 +103,7 @@ public class LoginUI extends JFrame implements ActionListener {
         btnClear.addActionListener(this);
         panbtn.add(btnClear);
 
-        mainPanelLogin.add(panbtn , "center , pushx , growx");
-
-        return mainPanelLogin;
+        return panbtn;
     }
 
     public JButton myButton(int color , String title){
@@ -115,6 +120,12 @@ public class LoginUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == passForget){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Modifier votre mot de passe"
+            );
+        }
         if (e.getSource() == btnConnect) {
             connect();
         }

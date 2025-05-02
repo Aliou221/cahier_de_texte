@@ -15,8 +15,8 @@ public class ResponsableDAO {
 
 
     public boolean chargeListeSeances(DefaultTableModel model , int idResponsable){
-        String sql = "SELECT c.code AS codeCours , " +
-                " c.intitule AS intitule ,s.contenu, " +
+        String sql = "SELECT s.id AS idSeance, s.Valide AS etat , c.code AS codeCours , " +
+                " c.intitule AS intitule , s.contenu, " +
                 " s.duree , s.date_seance, CONCAT(u.prenom, ' ', u.nom) AS enseignant " +
                 "FROM Seances s " +
                 "LEFT JOIN Cours c ON s.cours_id = c.id " +
@@ -33,17 +33,18 @@ public class ResponsableDAO {
             pst = con.prepareStatement(sql);
             pst.setInt(1 , idResponsable);
             res = pst.executeQuery();
-
             model.setRowCount(0);
             while (res.next()){
+                int idSeance = res.getInt("idSeance");
                 String codeCours = res.getString("codeCours");
                 String intitule = res.getString("intitule");
                 String contenu = res.getString("contenu");
                 int duree = res.getInt("duree");
                 String dateSeance = res.getString("date_seance");
                 String enseignant = res.getString("enseignant");
+                boolean valide = res.getBoolean("etat");
 
-                model.addRow(new Object[]{codeCours , intitule , contenu , duree , dateSeance , enseignant , false});
+                model.addRow(new Object[]{idSeance , codeCours , intitule , contenu , duree , dateSeance , enseignant , valide});
             }
             return true;
 
@@ -54,5 +55,58 @@ public class ResponsableDAO {
         return false;
     }
 
+    public boolean valideSeance(int idResponsable , int idSeance){
+        String sql = "INSERT INTO Validations (responsable_id , seance_id) VALUES" +
+                "(? , ?)";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idResponsable);
+            pst.setInt(2 , idSeance);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean valide(int idSeance){
+        String sql = "UPDATE Seances SET Valide = ? WHERE id = ?";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setBoolean(1 , true);
+            pst.setInt(2 , idSeance);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur de valider la seance " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean verifIdSeance(int idSeance){
+        String sql = "SELECT * FROM Validations WHERE seance_id = ?";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idSeance);
+            ResultSet res = pst.executeQuery();
+
+            if (res.next()){
+                return true;
+            }
+
+        }catch (SQLException e){
+            System.out.println("Erreur de recherche ! " + e.getMessage());
+        }
+
+        return false;
+    }
 
 }

@@ -11,11 +11,11 @@ import org.kordamp.ikonli.swing.FontIcon;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class DashBordResponsableUI extends JFrame {
+public class DashBordResponsableUI extends JFrame implements ActionListener {
     DashBordChefUI dashHelper;
     ResponsableController responsableController;
     
@@ -69,8 +69,9 @@ public class DashBordResponsableUI extends JFrame {
         return sideBarPanel;
     }
 
-    JButton btnListeSeances;
+
     public JPanel getPanelSidebar(){
+        JButton btnListeSeances;
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
@@ -82,11 +83,10 @@ public class DashBordResponsableUI extends JFrame {
         return panelSideBar;
     }
 
-    JButton btnDeconnexion;
+    JTable tabSeances;
+    DefaultTableModel modelTabSeances;
+    JButton btnDeconnexion , btnValiderSeances , btnListeSeances ;
     public JPanel homePanel(){
-
-        JTable tabSeances;
-        DefaultTableModel modelTabSeances;
 
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
@@ -105,58 +105,39 @@ public class DashBordResponsableUI extends JFrame {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
+        btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
         btnListeSeances.setFont(new Font("Roboto" , Font.BOLD , 16));
         btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeSeances.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        panel.add(btnListeSeances , "split 2");
 
-        String[] columnCours = {"Code", "Intitulé", "Contenu", "Duree", "Date", "Enseignant",  "Validé"};
+
+        String[] columnCours = {"ID Seance", "Code", "Intitulé", "Contenu", "Duree", "Date", "Enseignant",  "Validé"};
 
         modelTabSeances = new DefaultTableModel(null, columnCours) {
             @Override
             public boolean isCellEditable(int row, int col) {
-                return col == 6;
+                return col == 7;
             }
 
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 6) return Boolean.class;
+                if (columnIndex == 7) return Boolean.class;
                 return String.class;
             }
         };
 
-        JButton btnValiderSeances = this.dashHelper.btnMenuSideBar("Valider la séance");
+        btnValiderSeances = this.dashHelper.btnMenuSideBar("Valider la séance");
         btnValiderSeances.setIcon(FontIcon.of(FontAwesome.CHECK, 18));
         btnValiderSeances.setFont(new Font("Roboto", Font.BOLD, 16));
         btnValiderSeances.setPreferredSize(new Dimension(getWidth() , 45));
         btnValiderSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        panel.add(btnValiderSeances, "wrap");
 
-        btnValiderSeances.addActionListener(e -> {
-            for (int i = 0; i < modelTabSeances.getRowCount(); i++) {
-                boolean isValide = (boolean) modelTabSeances.getValueAt(i, 6);
-                if (isValide) {
-                    // Appelle ton DAO ou affiche dans la console pour simuler
-                    System.out.println("Séance validée : " + modelTabSeances.getValueAt(i, 1));
-                    JOptionPane.showMessageDialog(
-                            null ,
-                            "Séance validée" ,
-                            null ,
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
-                }
-            }
-        });
+        btnValiderSeances.addActionListener(this);
 
         tabSeances = new JTable(modelTabSeances);
-        TableColumnModel columnModel = tabSeances.getColumnModel();
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(300);
-        columnModel.getColumn(3).setPreferredWidth(80);
-        columnModel.getColumn(4).setPreferredWidth(150);
-        columnModel.getColumn(5).setPreferredWidth(200);
-        columnModel.getColumn(6).setPreferredWidth(80);
-
         tabSeances.setRowHeight(30);
         tabSeances.setFont(new Font("Roboto" , Font.BOLD , 13));
 
@@ -164,12 +145,60 @@ public class DashBordResponsableUI extends JFrame {
         tabSeances.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabSeances);
 
-        panel.add(btnListeSeances , "split 2");
-        panel.add(btnValiderSeances, "wrap");
+
+
         panel.add(scrollPane , "span , push , grow");
 
         this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
 
         return panel;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnValiderSeances){
+            int row = tabSeances.getSelectedRow();
+            if (row == -1){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Veuillez sélectioner une seance svp !",
+                        null,
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }else{
+                int idSeance = (int) tabSeances.getValueAt(row , 0);
+                boolean isValide = (boolean) modelTabSeances.getValueAt(row, 7);
+                if (isValide) {
+                    if (this.responsableController.verifIdSeance(idSeance)){
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Cette séance a été déja validé",
+                                null,
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }else{
+                        this.responsableController.insertSeanceValide(this.idResponsable , idSeance);
+                        this.responsableController.valide(idSeance);
+                        System.out.println("Séance validée : " + modelTabSeances.getValueAt(row , 2));
+                        JOptionPane.showMessageDialog(
+                                null ,
+                                "Séance validée" ,
+                                null ,
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+
+                    this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
+
+                }else{
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Veuillez cocher le chekbox pour valider ",
+                            null,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
+        }
     }
 }
