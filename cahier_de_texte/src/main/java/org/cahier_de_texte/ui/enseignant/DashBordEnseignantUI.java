@@ -1,6 +1,8 @@
 package org.cahier_de_texte.ui.enseignant;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
+import org.cahier_de_texte.controller.chef.CoursController;
 import org.cahier_de_texte.controller.enseignant.EnseignantController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
@@ -11,30 +13,34 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class DashBordEnseignantUI extends JFrame {
+public class DashBordEnseignantUI extends JFrame implements ActionListener {
     DashBordChefUI dashHelper;
     EnseignantController enseignantController;
+    CoursController coursController;
     
     private final String nom;
     private final String prenom;
     private final int idEnseignant;
 
     public DashBordEnseignantUI(String prenom , String nom , int idEnseignant){
-        this.idEnseignant = idEnseignant;
         this.dashHelper = new DashBordChefUI();
         this.enseignantController = new EnseignantController();
+        this.coursController = new CoursController();
+        this.idEnseignant = idEnseignant;
         this.prenom = prenom;
         this.nom = nom;
         initUI();
     }
 
     public void initUI(){
+        FlatLightLaf.setup();
         add(createSideBarPanel() , BorderLayout.WEST);
         add(homePanel() , BorderLayout.CENTER);
 
-        setTitle("Bienvenue M./Mme " + this.prenom + " " + this.nom);
+        setTitle("Bienvenue " + this.prenom + " " + this.nom);
         setSize(1200 , 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -42,7 +48,6 @@ public class DashBordEnseignantUI extends JFrame {
 
     //Creation de notre Sidebar
     public  JPanel createSideBarPanel(){
-
         JPanel getPanelSideBar ,  sideBarPanel ;
 
         sideBarPanel = new JPanel(new MigLayout("gap 8"));
@@ -67,29 +72,24 @@ public class DashBordEnseignantUI extends JFrame {
         return sideBarPanel;
     }
 
-    JButton btnAjouterSeance , btnListeCours;
+    JButton btnAjouterSeance;
     public JPanel getPanelSidebar(){
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeCours = this.dashHelper.btnMenuSideBar("Liste des cours");
-        btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        panelSideBar.add(btnListeCours , "wrap , pushx , growx");
-
         btnAjouterSeance = this.dashHelper.btnMenuSideBar("Ajouter une séance");
         btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
+        btnAjouterSeance.addActionListener(this);
         panelSideBar.add(btnAjouterSeance , "wrap , pushx , growx");
 
         return panelSideBar;
     }
 
     JButton btnDeconnexion;
+    JTable tabCours;
+    DefaultTableModel modelTabCours;
     public JPanel homePanel(){
-
-        JTable tabCours;
-        DefaultTableModel modelTabCours;
-
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
@@ -135,5 +135,32 @@ public class DashBordEnseignantUI extends JFrame {
         this.enseignantController.chargeListeCoursAssigner(modelTabCours , this.idEnseignant);
 
         return panel;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnAjouterSeance){
+            int selectedRow = tabCours.getSelectedRow();
+            if (selectedRow == -1){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Veuillez choisir une classe svp !",
+                        null,
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }else{
+                String nomClasse = tabCours.getValueAt(selectedRow , 3).toString();
+                String coursIntitule = tabCours.getValueAt(selectedRow , 1).toString();
+                String codeCours = tabCours.getValueAt(selectedRow , 0).toString();
+                int idCours = this.coursController.getIdCours(codeCours);
+
+                System.out.println("Classe : " + nomClasse);
+                System.out.println("Cours : " + codeCours);
+                System.out.println("Id cours : " + idCours);
+
+                new AjouterSeanceClasseUI(nomClasse , this.prenom ,  this.nom , this.idEnseignant , coursIntitule , idCours).setVisible(true);
+                dispose();
+            }
+        }
     }
 }

@@ -80,6 +80,4 @@ public class AjouterEtudiantUI extends JFrame {
 
         return formPanel;
     }
-
-
 }

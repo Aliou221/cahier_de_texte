@@ -29,12 +29,6 @@ public class UserController {
         boolean verifUser = userDAO.verifeUser(user);
 
         if (verifUser){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Connexion reussi !",
-                    null,
-                    JOptionPane.INFORMATION_MESSAGE
-            );
             return user;
         }else{
             JOptionPane.showMessageDialog(

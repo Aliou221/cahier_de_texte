@@ -137,12 +137,12 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
         btnDeconnexion.addActionListener(this);
 
-        panEnsignants = panelStat("Nombre d’enseignants" , this.chefController.getNbEnseignant() , new Color(0, 132, 209) , FontAwesome.USER);
-        panResponsables = panelStat("Nombre de responsables" , this.chefController.getNbResponsable() , new Color(137, 69, 69) , FontAwesome.USER_CIRCLE);
-        panEtudiants = panelStat("Nombre d’étudiants" , this.chefController.getNbEtudiant() , new Color(0, 153, 102) , FontAwesome.GRADUATION_CAP);
-        panSeanceValider = panelStat("Nombre de séances validées" , this.chefController.getNbSeanceValide() ,new Color(241, 196, 15) , FontAwesome.CHECK_CIRCLE);
-        panCours = panelStat("Nombre de cours total" , this.chefController.getNbCours() , new Color(0, 194, 219) , FontAwesome.BOOK);
-        panClasses = panelStat("Nombre de classes" , this.chefController.getNbClasse() , new Color(200, 100, 0) , FontAwesome.BUILDING);
+        panEnsignants = panelStat("Nombre d’enseignants" , this.chefController.getNbEnseignant() , new Color(0, 132, 209) , FontAwesome.USER);//Color(63, 81, 181)
+        panResponsables = panelStat("Nombre de responsables" , this.chefController.getNbResponsable() , new Color(137, 69, 69) , FontAwesome.USER_CIRCLE);//Color(255, 152, 0)
+        panEtudiants = panelStat("Nombre d’étudiants" , this.chefController.getNbEtudiant() , new Color(0, 153, 102) , FontAwesome.GRADUATION_CAP);//Color(251, 192, 45)
+        panSeanceValider = panelStat("Nombre de séances validées" , this.chefController.getNbSeanceValide() ,new Color(241, 196, 15) , FontAwesome.CHECK_CIRCLE);//Color(56, 142, 60)
+        panCours = panelStat("Nombre de cours total" , this.chefController.getNbCours() , new Color(0, 194, 219) , FontAwesome.BOOK); //Color(33, 150, 243)
+        panClasses = panelStat("Nombre de classes" , this.chefController.getNbClasse() , new Color(200, 100, 0) , FontAwesome.BUILDING);//Color(76, 175, 80)
 
         JPanel panelThree = new JPanel(new MigLayout("wrap 3"));
         panelThree.add(panEnsignants , "pushx , growx");

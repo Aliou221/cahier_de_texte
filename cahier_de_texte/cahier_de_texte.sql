@@ -3,7 +3,7 @@
 DROP DATABASE cahier_de_texte;
 
 CREATE DATABASE cahier_de_texte;
-use cahier_de_texte;
+USE cahier_de_texte;
 
 CREATE TABLE IF NOT EXISTS Utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,9 +48,6 @@ CREATE TABLE IF NOT EXISTS Cours (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
-
-
-desc Cours;
 
 CREATE TABLE IF NOT EXISTS ClasseCours (
     id_cours INT NOT NULL ,
@@ -216,3 +213,41 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 ('Aissatou', 'Balde', 'aissatou.balde@univ.sn', 5),
 ('Fallou', 'Diouf', 'fallou.diouf@univ.sn', 5),
 ('Fatoumata', 'Ndoye', 'fatoumata.ndoye@univ.sn', 5);
+
+
+SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
+        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
+FROM `Seances`
+INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
+INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
+INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
+INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe;
+
+
+SELECT `Cours`.id, `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
+        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
+FROM `Seances`
+INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
+INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
+INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
+INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
+WHERE `Classes`.nom = "L1 Informatique";
+
+SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
+        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
+FROM `Seances`
+INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
+INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
+INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
+INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
+WHERE `Enseignant`.id = 6 AND `Classes`.nom = "L1 Informatique" AND `Cours`.intitule LIKE "Syst%";
+
+
+SELECT `Cours`.code , `Cours`.intitule , `Seances`.contenu , `Seances`.duree , `Seances`.date_seance , 
+        `Classes`.nom , CONCAT(`Enseignant`.prenom , " " , `Enseignant`.nom)
+FROM `Seances`
+INNER JOIN `Cours` ON `Cours`.id = `Seances`.cours_id
+INNER JOIN `Utilisateurs` AS Enseignant ON `Enseignant`.id = `Cours`.enseignant_id
+INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
+INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
+WHERE `Cours`.id = 1 AND `Classes`.id = 2;

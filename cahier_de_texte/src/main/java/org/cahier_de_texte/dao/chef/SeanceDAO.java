@@ -80,4 +80,97 @@ public class SeanceDAO {
             System.out.println("Erreur ! " + e.getMessage());
         }
     }
+
+    public void chargeListeSeances(DefaultTableModel model , String classe , int idEnseignant ,String cours){
+        String sql = "SELECT Seances.id, Cours.code , Cours.intitule , Seances.contenu , Seances.duree , Seances.date_seance ,  " +
+                "        Classes.nom , CONCAT(Enseignant.prenom , ' ' , Enseignant.nom) " +
+                "FROM Seances " +
+                "INNER JOIN Cours ON Cours.id = Seances.cours_id " +
+                "INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id " +
+                "INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id " +
+                "INNER JOIN Classes ON Classes.id = ClasseCours.id_classe " +
+                "WHERE Classes.nom = ? AND Enseignant.id = ? AND Cours.intitule = ? ";
+        ResultSet res;
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , classe);
+            pst.setInt(2 , idEnseignant);
+            pst.setString(3 , cours);
+            res = pst.executeQuery();
+            model.setRowCount(0);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            while (res.next()){
+                int idSeance = res.getInt("id");
+                String code = res.getString("code");
+                String intitule = res.getString("intitule");
+                String contenu = res.getString("contenu");
+                String duree = res.getString("duree");
+                Timestamp dateSeance = res.getTimestamp("date_seance");
+                String formattedDateSeance = dateFormat.format(dateSeance);
+
+
+                model.addRow(new Object[]{idSeance , code, intitule, contenu, duree, formattedDateSeance});
+
+            }
+
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+    }
+
+    public boolean ajouterSeance(int idCours , Timestamp dateSeance , String contenu , int duree){
+        String sql = "INSERT INTO Seances (cours_id , date_seance , contenu , duree) VALUES " +
+                "(?,?,?,?)";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idCours);
+            pst.setTimestamp(2 , dateSeance);
+            pst.setString(3 , contenu);
+            pst.setInt(4 , duree);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur lors de l'ajout de la seance ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean modifierSeance(int idSeance , Timestamp dateSeance , String contenu , int duree){
+        String sql = "UPDATE Seances SET contenu = ? , date_seance = ? ,  duree = ? WHERE id = ?";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , contenu);
+            pst.setTimestamp(2 , dateSeance);
+            pst.setInt(3 , duree);
+            pst.setInt(4 , idSeance);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur lors de modification de la seance ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean supprimerSeance(int idSeance){
+        String sql = "DELETE FROM Seances WHERE id = ?";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idSeance);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur de suppression de la seance ! " + e.getMessage());
+        }
+        return false;
+    }
 }

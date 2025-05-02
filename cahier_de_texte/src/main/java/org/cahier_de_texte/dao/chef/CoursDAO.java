@@ -63,13 +63,51 @@ public class CoursDAO {
             pst.executeUpdate();
 
             return true;
-
         }catch (SQLException e){
             System.out.println("Erreur de modifier l'ID de enseignant dans cours ! " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean asignerCoursAjouter(String code , String intitule , int credit , int idEnseignant){
+        String sqlCours = "INSERT INTO Cours (code , intitule , credits , enseignant_id) VALUES" +
+                "(? , ? , ? , ?)";
+
+        try {
+            pst = con.prepareStatement(sqlCours);
+            pst.setString(1 , code);
+            pst.setString(2 , intitule);
+            pst.setInt(3 , credit);
+            pst.setInt(4 , idEnseignant);
+            pst.executeUpdate();
+
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur lors de l'isertion dans la table cours " + e.getMessage());
         }
 
         return false;
     }
+
+    public boolean verifEnseignantNull(String code){
+        String sql = "SELECT * FROM Cours WHERE enseignant_id IS NULL AND code = ? ";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , code);
+
+            ResultSet res = pst.executeQuery();
+
+            if (res.next()){
+                return true;
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+        return false;
+    }
+
 
     public void ajouterClasseCours(int idCours , int idClasse){
         String sql = "INSERT INTO ClasseCours(id_cours , id_classe) VALUES" +
@@ -100,8 +138,6 @@ public class CoursDAO {
         }
     }
 
-
-
     public void supprimerCours(String code) {
         String sql = "DELETE FROM Cours WHERE code = ?";
 
@@ -116,5 +152,24 @@ public class CoursDAO {
         }
     }
 
+    public int getIDCours(String code){
+        int id = 0;
+
+        String sql = "SELECT id FROM Cours WHERE code = ?";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , code);
+            ResultSet res = pst.executeQuery();
+
+            if (res.next()){
+                id = res.getInt("id");
+            }
+
+        }catch (SQLException e){
+            System.out.println("Erreur de recuperation de l'id du cours ! " + e.getMessage());
+        }
+        return id ;
+    }
 
 }

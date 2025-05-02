@@ -32,6 +32,10 @@ public class CoursController {
         }
     }
 
+    public int getIdCours(String code){
+        return this.coursDAO.getIDCours(code);
+    }
+
     public void modifierCours(String code , String intitule , int credit , String codeFirst){
         this.coursDAO.modifierCours(code , intitule , credit , codeFirst);
     }
