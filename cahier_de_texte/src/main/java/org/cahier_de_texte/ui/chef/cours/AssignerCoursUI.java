@@ -10,121 +10,120 @@ import java.awt.*;
 import java.util.Objects;
 
 public class AssignerCoursUI extends JFrame {
-    DashBordChefUI dashHelper;
-    ChefController chefController ;
-    CoursController coursController;
+    private final DashBordChefUI dashHelper;
+    private final ChefController chefController;
+    private final CoursController coursController;
 
-    JLabel labelEnseignant, labelCours, labelClasse ;
-    JComboBox<String> comboBoxEnseignant , comboBoxCours , comboBoxClasse;
+    private JComboBox<String> comboBoxEnseignant, comboBoxCours, comboBoxClasse;
     JButton btnValider;
 
-    private int idEnseignant;
-    private int idClasse;
-    private int idCours;
-
-    private String codeCours;
-    private String intituleCours;
-
-    public AssignerCoursUI(){
+    public AssignerCoursUI() {
         this.chefController = new ChefController();
-        this.dashHelper = new DashBordChefUI();
         this.coursController = new CoursController();
-
+        this.dashHelper = new DashBordChefUI();
         initUI();
     }
 
-    public void initUI(){
-        add(formePanel());
-
+    private void initUI() {
         setTitle("Attribution des cours");
-        setSize(450 , 500);
-        setMinimumSize(new Dimension(450 , 500));
-        setResizable(false);
+        setSize(500, 500);
+        setLocation(90, 90);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+
+        add(formePanel());
     }
 
-    public JPanel formePanel(){
-        JPanel formPanel = new JPanel(new MigLayout("wrap 1 , gap 8"));
-        formPanel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
+    private JPanel formePanel() {
+        JPanel formPanel = new JPanel(new MigLayout("wrap 1, gap 10"));
+        formPanel.setBorder(dashHelper.emptyBorder(20, 20, 20, 20));
 
+        // Logo
         ImageIcon image = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profil.png")));
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(90 , 90 , Image.SCALE_SMOOTH));
+        Image scaledImage = image.getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage), JLabel.CENTER);
+        formPanel.add(imageLabel, "span, growx, center");
 
-        JLabel label = new JLabel();
-        label.setIcon(icon);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        formPanel.add(label , "span , wrap , pushx , growx");
+        // Enseignant
+        formPanel.add(new JLabel("Enseignant"), "growx");
+        comboBoxEnseignant = createComboBox();
+        chefController.enseignant(comboBoxEnseignant);
+        formPanel.add(comboBoxEnseignant, "growx");
 
-        labelEnseignant = new JLabel("Enseignant");
-        labelEnseignant.setFont(new Font("Roboto", Font.PLAIN , 15));
-        formPanel.add(labelEnseignant);
+        // Cours
+        formPanel.add(new JLabel("Cours"), "growx");
+        comboBoxCours = createComboBox();
+        chefController.cours(comboBoxCours);
+        formPanel.add(comboBoxCours, "growx");
 
-        comboBoxEnseignant = new JComboBox<>();
-        comboBoxEnseignant.addItem(null);
-        comboBoxEnseignant.setPreferredSize(new Dimension(0 , 40));
-        this.chefController.enseignant(comboBoxEnseignant);
+        // Classe
+        formPanel.add(new JLabel("Classe"), "growx");
+        comboBoxClasse = createComboBox();
+        chefController.classe(comboBoxClasse);
+        formPanel.add(comboBoxClasse, "growx");
 
-        formPanel.add(comboBoxEnseignant , "pushx , growx");
+        // Espace
+        formPanel.add(Box.createVerticalStrut(10));
 
-        labelCours = new JLabel("Cours");
-        labelCours.setFont(new Font("Roboto", Font.PLAIN , 15));
-        formPanel.add(labelCours);
-
-        comboBoxCours = new JComboBox<>();
-        comboBoxCours.addItem(null);
-        comboBoxCours.setPreferredSize(new Dimension(0 , 40));
-        this.chefController.cours(comboBoxCours);
-        formPanel.add(comboBoxCours , "pushx , growx");
-
-        labelClasse = new JLabel("Classe");
-        labelClasse.setFont(new Font("Roboto", Font.PLAIN , 15));
-        formPanel.add(labelClasse);
-
-        comboBoxClasse = new JComboBox<>();
-        comboBoxClasse.addItem("");
-        comboBoxClasse.setPreferredSize(new Dimension(0 , 40));
-        this.chefController.classe(comboBoxClasse);
-        formPanel.add(comboBoxClasse , "pushx , growx");
-
-        JLabel l = new JLabel("");
-        l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
-        formPanel.add(l);
-
-        btnValider = this.dashHelper.btnMenuSideBar("Enregistrer");
+        // Bouton
+        btnValider = dashHelper.btnMenuSideBar("Enregistrer");
         btnValider.setBackground(new Color(46, 204, 113));
-        btnValider.setForeground(Color.white);
-        formPanel.add(btnValider , "pushx , growx");
-
-        btnValider.addActionListener(e->{
-            String selectedItemEnseignant = Objects.requireNonNull(comboBoxEnseignant.getSelectedItem()).toString();
-            String selectedItemCours = Objects.requireNonNull(comboBoxCours.getSelectedItem()).toString();
-            String selectedItemClasse = Objects.requireNonNull(comboBoxClasse.getSelectedItem()).toString();
-
-            if (selectedItemEnseignant.isEmpty() || selectedItemCours.isEmpty() || selectedItemClasse.isEmpty()){
-                JOptionPane.showMessageDialog(
-                        null ,
-                        "Les champs sont obligatoires !",
-                        null,
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }else{
-                String[] partEnseignant = selectedItemEnseignant.split(" - ");
-                String[] partCours = selectedItemCours.split(" - ");
-                String[] partClasse = selectedItemClasse.split(" - ");
-
-                idEnseignant = Integer.parseInt(partEnseignant[0]);
-
-                idCours = Integer.parseInt(partCours[0]);
-                codeCours = partCours[1];
-                intituleCours = partCours[2];
-
-                idClasse = Integer.parseInt(partClasse[0]);
-
-                this.coursController.assignerCours(idEnseignant , codeCours , intituleCours , idCours , idClasse);
-            }
-        });
+        btnValider.setForeground(Color.WHITE);
+        btnValider.addActionListener(e -> assignerCours());
+        formPanel.add(btnValider, "growx");
 
         return formPanel;
+    }
+
+    private JComboBox<String> createComboBox() {
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.setPreferredSize(new Dimension(0, 40));
+        comboBox.setMaximumRowCount(10);
+        return comboBox;
+    }
+
+    private void assignerCours() {
+        String enseignant = (String) comboBoxEnseignant.getSelectedItem();
+        String cours = (String) comboBoxCours.getSelectedItem();
+        String classe = (String) comboBoxClasse.getSelectedItem();
+
+        if (enseignant == null || cours == null || classe == null ||
+                enseignant.isEmpty() || cours.isEmpty() || classe.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Tous les champs sont obligatoires.",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            String[] partEnseignant = enseignant.split(" - ");
+            String[] partCours = cours.split(" - ");
+            String[] partClasse = classe.split(" - ");
+
+            int idEnseignant = Integer.parseInt(partEnseignant[0]);
+            int idCours = Integer.parseInt(partCours[0]);
+            String codeCours = partCours[1];
+            String intituleCours = partCours[2];
+            int idClasse = Integer.parseInt(partClasse[0]);
+
+            coursController.assignerCours(idEnseignant, codeCours, intituleCours, idCours, idClasse);
+
+            JOptionPane.showMessageDialog(this,
+                    "Cours assigné avec succès !",
+                    "Succès",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // Nettoyage des champs
+            comboBoxEnseignant.setSelectedIndex(-1);
+            comboBoxCours.setSelectedIndex(-1);
+            comboBoxClasse.setSelectedIndex(-1);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Une erreur s'est produite : " + ex.getMessage(),
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 }

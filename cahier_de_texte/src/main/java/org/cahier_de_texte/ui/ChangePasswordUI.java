@@ -3,10 +3,6 @@ package org.cahier_de_texte.ui;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
-import org.cahier_de_texte.model.Users;
-import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.cahier_de_texte.ui.enseignant.DashBordEnseignantUI;
-import org.cahier_de_texte.ui.responsable.DashBordResponsableUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class LoginUI extends JFrame implements ActionListener {
+
+public class ChangePasswordUI extends JFrame implements ActionListener {
     JLabel labelUser , labelPassword , textTitle;
     JTextField inputUser ;
     JPasswordField inputPassword;
@@ -24,7 +21,7 @@ public class LoginUI extends JFrame implements ActionListener {
 
     UserController userController;
 
-    public LoginUI(){
+    public ChangePasswordUI(){
         FlatLightLaf.setup();
         this.userController = new UserController();
         initUI();
@@ -41,7 +38,7 @@ public class LoginUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    JLabel passForget;
+    JLabel connecter;
     public JPanel createPanel(){
         ImageIcon imageUser = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/profile.png")));
         Icon resizeImageUser = new ImageIcon(imageUser.getImage().getScaledInstance(80 , 80 , Image.SCALE_SMOOTH));
@@ -51,7 +48,7 @@ public class LoginUI extends JFrame implements ActionListener {
         mainPanelLogin = new JPanel(new MigLayout());
         mainPanelLogin.setBorder(BorderFactory.createEmptyBorder(15 , 25 , 20 , 25));
 
-        textTitle = new JLabel("Connexion");
+        textTitle = new JLabel("Modifier mot de passe");
         textTitle.setFont(new Font("Roboto" , Font.BOLD , 23));
         textTitle.setIcon(resizeImageUser);
         textTitle.setHorizontalTextPosition(JLabel.CENTER);
@@ -73,7 +70,7 @@ public class LoginUI extends JFrame implements ActionListener {
         panelPassword = new JPanel(new GridLayout(2, 1));
         panelPassword.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
 
-        labelPassword = new JLabel("Mot de passe ");
+        labelPassword = new JLabel("Nouveau mot de passe ");
         panelPassword.add(labelPassword);
 
         inputPassword = new JPasswordField();
@@ -81,18 +78,18 @@ public class LoginUI extends JFrame implements ActionListener {
         panelPassword.add(inputPassword);
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
-        passForget = new JLabel("Mot de passe oublier ?");
-        passForget.setForeground(new Color(0x4d4429));
-        passForget.setFont(new Font("" , Font.BOLD , 13));
-        passForget.setHorizontalTextPosition(JLabel.CENTER);
-        passForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        passForget.setBorder(BorderFactory.createEmptyBorder(10 , 3 , 15 , 0));
-        mainPanelLogin.add(passForget , "wrap , center");
+        connecter = new JLabel("Connecter avec un compte existant ?");
+        connecter.setForeground(new Color(0x4d4429));
+        connecter.setFont(new Font("" , Font.BOLD , 13));
+        connecter.setHorizontalTextPosition(JLabel.CENTER);
+        connecter.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        connecter.setBorder(BorderFactory.createEmptyBorder(10 , 3 , 15 , 0));
+        mainPanelLogin.add(connecter, "wrap , center");
 
-        passForget.addMouseListener(new MouseAdapter() {
+        connecter.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ChangePasswordUI().setVisible(true);
+                new LoginUI().setVisible(true);
                 dispose();
             }
         });
@@ -105,7 +102,7 @@ public class LoginUI extends JFrame implements ActionListener {
     public JPanel panelButton(){
         JPanel panbtn = new JPanel(new GridLayout(1 , 2 , 10 , 10));
 
-        btnConnect = myButton(0x4caf50 , "Se connecter");
+        btnConnect = myButton(0x4caf50 , "Confirmer");
         btnConnect.addActionListener(this);
         panbtn.add(btnConnect);
 
@@ -131,46 +128,38 @@ public class LoginUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnConnect) {
-            connect();
+            String email = inputUser.getText();
+            String password = new String(inputPassword.getPassword());
+
+            if (email.isEmpty() || password.isEmpty()){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Veuillez remplir tous les champs ! ",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }else{
+
+                if (this.userController.verifUser(email)){
+                    this.userController.updatePassword(email , password);
+                    inputUser.setText(null);
+                    inputPassword.setText(null);
+                }else{
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "L'email n'existe pas ! ",
+                            "Erreur",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+            }
+
         }
 
         if (e.getSource() == btnClear) {
             inputUser.setText(null);
             inputPassword.setText(null);
-        }
-    }
-
-    public void connect(){
-        String email = inputUser.getText();
-        String password = new String(inputPassword.getPassword());
-
-        if (email.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    null ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-        }else{
-            Users user = this.userController.login(email , password);
-            String role = String.valueOf(user.getRole());
-
-
-            switch (role) {
-                case "CHEF" -> {
-                    new DashBordChefUI().setVisible(true);
-                    dispose();
-                }
-                case "ENSEIGNANT" -> {
-                    new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()
-                    ).setVisible(true);
-                    dispose();
-                }
-                case "RESPONSABLE" -> {
-                    new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);
-                    dispose();
-                }
-            }
         }
     }
 }

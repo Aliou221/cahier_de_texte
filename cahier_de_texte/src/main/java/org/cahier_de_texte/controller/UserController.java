@@ -13,32 +13,24 @@ public class UserController {
     }
 
     public Users login(String email , String password){
-        if (email.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    null ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return null;
-        }
-        Users user = new Users();
-        user.setEmail(email);
-        user.setPassword(password);
 
-        boolean verifUser = userDAO.verifeUser(user);
+            Users user = new Users();
+            user.setEmail(email);
+            user.setPassword(password);
 
-        if (verifUser){
-            return user;
-        }else{
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Email ou mot de passe incorrect !",
-                    null,
-                    JOptionPane.ERROR_MESSAGE
-            );
-            return null;
-        }
+            boolean verifUser = userDAO.verifeUser(user);
+
+            if (verifUser){
+                return user;
+            }else{
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Email ou mot de passe incorrect !",
+                        null,
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return null;
+            }
     }
 
     public Users modifierUser(String firstName , String lastName , String email , int id){
@@ -98,5 +90,23 @@ public class UserController {
             );
             return null;
         }
+    }
+
+    public void updatePassword(String email , String password){
+            boolean updateValide = this.userDAO.updatePassword(email , password);
+            if (!updateValide){
+                System.out.println("Modification de mot de passe impossible !");
+            }else{
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Votre mot de passe à été modifié avec succée",
+                        null,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+    }
+
+    public boolean verifUser(String email){
+        return this.userDAO.verifEmail(email);
     }
 }

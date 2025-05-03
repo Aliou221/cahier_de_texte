@@ -71,4 +71,37 @@ public class UserDAO {
         return false;
     }
 
+    public boolean updatePassword(String email , String password){
+        String sql = "UPDATE Utilisateurs SET password = ? WHERE email = ?";
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , password);
+            pst.setString(2 , email);
+            pst.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            System.out.println("Erreur de modification de mot de passe ! " + e.getMessage() + " pour l'email " + email + " et le mot de passe " + password);
+        }
+        return false;
+    }
+
+    public boolean verifEmail(String email){
+        String sql = "SELECT * FROM Utilisateurs WHERE email = ?";
+        ResultSet res;
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , email);
+            res = pst.executeQuery();
+
+            if (res.next()){
+                return true;
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur de connexion ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
 }
