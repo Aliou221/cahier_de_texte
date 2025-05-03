@@ -120,13 +120,13 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         JButton btnListeSeance = this.dashHelper.btnMenuSideBar("Liste des séances validées");
         btnListeSeance.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeSeance.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeSeance , "split 2 , wrap");
+        panel.add(btnListeSeance , "split 2");
 
         btnGenerePDF = this.dashHelper.btnMenuSideBar("Générer un PDF");
         btnGenerePDF.setIcon(FontIcon.of(FontAwesome.FILE_PDF_O , 18));
         btnGenerePDF.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnGenerePDF.addActionListener(this);
-        panel.add(btnGenerePDF , "split 2 , wrap");
+        panel.add(btnGenerePDF , "wrap");
 
         String[] columnClasse = {"Date Séance" , "Code" , "Cours" , "Contenue" , "Duree" , "Enseignant"};
 
@@ -278,7 +278,4 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Erreur lors de la génération du PDF !"); // Message d'erreur
         }
     }
-
-
-
 }

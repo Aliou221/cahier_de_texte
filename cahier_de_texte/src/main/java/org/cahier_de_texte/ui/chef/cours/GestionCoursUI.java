@@ -106,23 +106,26 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         panel.add(btnDeconnexion ,"wrap , split 2 , right");
 
         btnListeEnseignants = myBtn("Enseignant et cours assigner", (FontAwesome.USERS));
-        panel.add(btnListeEnseignants , "split 4");
+        panel.add(btnListeEnseignants , "split 2");
 
         btnAjouterCours = myBtn("Ajouter un cours", FontAwesome.BOOK);
+        btnAjouterCours.setBackground(new Color(46, 204, 113));
+        btnAjouterCours.setForeground(Color.WHITE);
         btnAjouterCours.addActionListener(this);
-        panel.add(btnAjouterCours);
 
         btnListeCours = myBtn("Liste des cours", FontAwesome.BOOKMARK);
         btnListeCours.addActionListener(this);
-        panel.add(btnListeCours);
+        panel.add(btnListeCours , "wrap");
 
         btnAssignerCours = myBtn("Assigner cours" , FontAwesome.LINK);
+        btnAssignerCours.setBackground(new Color(241, 196, 15));
+        btnAssignerCours.setForeground(Color.WHITE);
         btnAssignerCours.addActionListener(this);
-        panel.add(btnAssignerCours);
 
         btnCharger = myBtn("Charger la table" , FontAwesome.REFRESH);
+        btnCharger.setForeground(Color.WHITE);
+        btnCharger.setBackground(new Color(235, 111, 60));
         btnCharger.addActionListener(this);
-        panel.add(btnCharger , "wrap");
 
         String[] columnEnseignant = {"ID","Enseignant", "Email" , "Cours" , "Classe"};
 
@@ -141,6 +144,13 @@ public class GestionCoursUI extends JFrame implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane(tabEnseignant);
         panel.add(scrollPane , "span , push , grow");
+
+        JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20,20));
+        panBtn.add(btnAjouterCours);
+        panBtn.add(btnAssignerCours);
+        panBtn.add(btnCharger);
+
+        panel.add(panBtn , "span , pushx , growx");
 
          this.chefController.chargeTabEnseignantCours(modelTabEnseignant);
 
@@ -203,9 +213,5 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         if (e.getSource() == btnCharger){
             this.chefController.chargeTabEnseignantCours(modelTabEnseignant);
         }
-    }
-
-    public static void main(String[] args) {
-        new GestionCoursUI().setVisible(true);
     }
 }

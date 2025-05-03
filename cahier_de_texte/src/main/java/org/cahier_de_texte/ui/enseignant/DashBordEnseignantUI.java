@@ -107,11 +107,6 @@ public class DashBordEnseignantUI extends JFrame implements ActionListener {
 
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeCours = new JButton("Liste des cours");
-        btnListeCours.setFont(new Font("Roboto" , Font.BOLD , 16));
-        btnListeCours.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        btnListeCours.setPreferredSize(new Dimension(getWidth() , 45));
-        btnListeCours.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         String[] columnCours = {"Code", "Cours", "Crédits" , "Classe concernée"};
 
@@ -129,8 +124,6 @@ public class DashBordEnseignantUI extends JFrame implements ActionListener {
         tabCours.setGridColor(Color.LIGHT_GRAY);
         tabCours.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabCours);
-
-        panel.add(btnListeCours , "wrap");
         panel.add(scrollPane , "span , push , grow");
         this.enseignantController.chargeListeCoursAssigner(modelTabCours , this.idEnseignant);
 
@@ -162,5 +155,9 @@ public class DashBordEnseignantUI extends JFrame implements ActionListener {
                 dispose();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new DashBordEnseignantUI("Jean" , "Dupont" , 15).setVisible(true);
     }
 }

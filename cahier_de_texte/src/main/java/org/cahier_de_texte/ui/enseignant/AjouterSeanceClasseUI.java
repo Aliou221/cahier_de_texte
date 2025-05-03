@@ -126,7 +126,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
         btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
 //        btnListeSeances.setBackground(new Color(33, 150, 243));
-        panel.add(btnListeSeances, "split 4");
+        panel.add(btnListeSeances, "split 1 , wrap");
 
         btnAjouterSeance = this.dashHelper.btnMenuSideBar("Ajouter une séance");
         btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
@@ -135,25 +135,20 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
 //        btnAjouterSeance.setBackground(new Color(46, 204, 113));
         btnAjouterSeance.setBackground(new Color(76, 175, 80));
         btnAjouterSeance.addActionListener(this);
-        panel.add(btnAjouterSeance);
 
         btnModifierSeances = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierSeances.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
         btnModifierSeances.setForeground(Color.white);
         btnModifierSeances.setIconTextGap(5);
         btnModifierSeances.setBackground(new Color(241, 196, 15));
-//        btnModifierSeances.setBackground(new  Color(33, 150, 243));
         btnModifierSeances.addActionListener(this);
-        panel.add(btnModifierSeances);
 
         btnSupprimerSeances = this.dashHelper.btnMenuSideBar("Supprimer");
         btnSupprimerSeances.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
         btnSupprimerSeances.setForeground(Color.white);
         btnSupprimerSeances.setIconTextGap(5);
-//        btnSupprimerSeances.setBackground(new Color(231, 76, 60));
         btnSupprimerSeances.setBackground(new Color(244, 67, 54));
         btnSupprimerSeances.addActionListener(this);
-        panel.add(btnSupprimerSeances , "wrap");
 
         String[] columnSeances = {"ID" , "Code" , "Intitule" , "Contenue" , "Durée" , "Date"};
 
@@ -172,6 +167,12 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(tabSeance);
         panel.add(scrollPane , "span , push , grow");
 
+        JPanel panBtn = new JPanel(new GridLayout(1 , 3 , 20 , 20));
+        panBtn.add(btnAjouterSeance);
+        panBtn.add(btnModifierSeances);
+        panBtn.add(btnSupprimerSeances);
+
+        panel.add(panBtn , "pushx , growx , span");
         this.seanceController.chargeListeSeances(tabSeanceModel, this.classe , this.idEnseignant , this.coursIntitule);
 
         return panel;

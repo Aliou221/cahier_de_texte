@@ -98,7 +98,6 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionEnseignant = new JLabel("Gestion des Enseignants");
-//        labelGestionEnseignant.setBorder(dash.emptyBorder(0 , 0 ,15 , 0));
         labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionEnseignant , "pushx , growx");
 
@@ -265,8 +264,5 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
            enseignantController.chargeTabEnseignant(modelTabEnseignant);
         }
 
-    }
-    public static void main(String[] args) {
-        new GestionEnseignantUI().setVisible(true);
     }
 }
