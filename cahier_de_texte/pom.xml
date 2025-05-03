@@ -38,25 +38,20 @@
             <version>3.6</version>
         </dependency>
 
-        <!-- Ikonli core -->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-core</artifactId>
-            <version>12.3.1</version>
+            <version>12.4.0</version>
         </dependency>
-
-        <!-- Ikonli Swing -->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-swing</artifactId>
-            <version>12.3.1</version>
+            <version>12.4.0</version>
         </dependency>
-
-        <!-- FontAwesome pack -->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontawesome-pack</artifactId>
-            <version>12.3.1</version>
+            <version>12.4.0</version>
         </dependency>
 
         <dependency>

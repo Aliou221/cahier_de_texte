@@ -434,8 +434,4 @@ public class EtudiantUI extends JFrame implements ActionListener {
             }
         }
     }
-
-    public static void main(String[] args) {
-        new EtudiantUI("L1 Informatique").setVisible(true);
-    }
 }

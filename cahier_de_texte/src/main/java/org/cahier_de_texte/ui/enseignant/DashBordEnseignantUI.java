@@ -156,8 +156,4 @@ public class DashBordEnseignantUI extends JFrame implements ActionListener {
             }
         }
     }
-
-    public static void main(String[] args) {
-        new DashBordEnseignantUI("Jean" , "Dupont" , 15).setVisible(true);
-    }
 }
