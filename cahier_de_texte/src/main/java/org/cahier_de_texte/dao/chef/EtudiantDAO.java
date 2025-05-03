@@ -5,10 +5,7 @@ import org.cahier_de_texte.model.Etudiants;
 import org.cahier_de_texte.model.Users;
 
 import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class EtudiantDAO {
     DbConnexion db = new DbConnexion();
@@ -136,7 +133,7 @@ public class EtudiantDAO {
     }
 
     public void chargeListeEtudiant(DefaultTableModel model , String classe){
-        String sql = "SELECT Etudiants.id AS ID , Etudiants.prenom AS prenom, Etudiants.nom AS nom , Etudiants.email AS email , Classes.nom " +
+        String sql = "SELECT Etudiants.id AS ID , Etudiants.responsable , Etudiants.prenom AS prenom, Etudiants.nom AS nom , Etudiants.email AS email , Classes.nom " +
                 "FROM Etudiants " +
                 "INNER JOIN Classes ON Etudiants.classe_id = Classes.id " +
                 "WHERE Classes.nom = ?";
@@ -153,19 +150,112 @@ public class EtudiantDAO {
                 String prenom = res.getString("prenom");
                 String nom = res.getString("nom");
                 String email = res.getString("email");
+                boolean responsable = res.getBoolean("responsable");
 
-                if (verifResponsable(email)) {
-                    model.addRow(new Object[]{id, prenom, nom, email, "Responsable"});
-                }
-                else {
-                    model.addRow(new Object[]{id, prenom, nom, email, ""});
-                }
+                model.addRow(new Object[]{id, prenom, nom, email, responsable});
             }
 
         }catch (SQLException e){
             System.out.println("Erreur ! " + e.getMessage());
         }
     }
+
+    public boolean defResponsable(int idEtudiant){
+        String sql = "UPDATE Etudiants SET responsable = ? WHERE id = ?";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setBoolean(1 , true);
+            pst.setInt(2 , idEtudiant);
+            pst.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            System.out.println("Erreur de definiton du responsable " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean retireResponsable(int idEtudiant){
+        String sql = "UPDATE Etudiants SET responsable = ? WHERE id = ?";
+
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setBoolean(1 , false);
+            pst.setInt(2 , idEtudiant);
+            pst.executeUpdate();
+            return true;
+        }catch (SQLException e){
+            System.out.println("Erreur de definiton du responsable " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean ajouterResponsableUser(String prenom , String nom , String email , String password , String classe){
+        String sql = "INSERT INTO Utilisateurs (prenom , nom , email , password , role) VALUES" +
+                "(? , ? , ? , ? , ?)";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , prenom);
+            pst.setString(2 , nom);
+            pst.setString(3 , email);
+            pst.setString(4 , password);
+            pst.setString(5 , "RESPONSABLE");
+            pst.executeUpdate();
+
+            String sql2 = "SELECT * FROM Utilisateurs WHERE email = ?";
+            pst = con.prepareStatement(sql2);
+            pst.setString(1 , email);
+            ResultSet res = pst.executeQuery();
+
+            if(res.next()){
+                idUser = res.getInt("id");
+                return updateClasse(classe, idUser);
+            }else{
+                return false;
+            }
+
+        }catch (SQLException e){
+            System.out.println("Erreur d'insertion de responsable dans la table Utilisateurs " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteResponsableUser(String email){
+        String sql = "DELETE FROM Utilisateurs WHERE email = ?";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1 , email);
+            pst.executeUpdate();
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur de suppression du responsable " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean updateClasse(String classe , int idUserResponsable){
+        String sql = "UPDATE Classes SET id_responsable = ? WHERE nom = ?";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idUserResponsable);
+            pst.setString(2 , classe);
+            pst.executeUpdate();
+
+            System.out.println("Responsable de la classe " + classe + " a ete mis a jour avec l'id " + idUserResponsable);
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur de modifier le responsable de la classe " + e.getMessage());
+        }
+
+        return false;
+    }
+
 
     public boolean verifResponsable(String email){
         String sql = "SELECT * FROM Utilisateurs " +

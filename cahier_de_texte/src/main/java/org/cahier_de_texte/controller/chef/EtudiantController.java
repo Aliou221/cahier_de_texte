@@ -130,6 +130,38 @@ public class EtudiantController {
         }
     }
 
+    public void defResponsable(int idResponsable){
+        boolean defValide = this.etudiantDAO.defResponsable(idResponsable);
+        if(!defValide){
+            System.out.println("Erreur de modification du id responsable!");
+        }
+    }
+
+    public void retireResponsable(int idResponsable){
+        boolean retireValide = this.etudiantDAO.retireResponsable(idResponsable);
+        if(!retireValide){
+            System.out.println("Erreur de modification du id responsable!");
+        }
+    }
+
+    public boolean verifResponsable(String email){
+        return this.etudiantDAO.verifResponsable(email);
+    }
+
+    public void ajouterResponsable(String prenom , String nom , String email , String password , String classe){
+        boolean ajoutValide = this.etudiantDAO.ajouterResponsableUser(prenom , nom , email , password , classe);
+        if (!ajoutValide){
+            System.out.println("Erreur d'ajout de responsable dans l'utilisateur !");
+        }
+    }
+
+    public void deleteResponsableUser(String email){
+        boolean deleteValide = this.etudiantDAO.deleteResponsableUser(email);
+        if(!deleteValide){
+            System.out.println("Erreur de suppression du responsable !");
+        }
+    }
+
     public void chargeListeEtudiant(DefaultTableModel model , String classe){
        etudiantDAO.chargeListeEtudiant(model , classe);
     }

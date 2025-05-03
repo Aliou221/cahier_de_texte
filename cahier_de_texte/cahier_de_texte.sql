@@ -37,6 +37,9 @@ CREATE TABLE IF NOT EXISTS Etudiants (
     ON UPDATE CASCADE
 );
 
+ALTER TABLE `Etudiants` 
+ADD COLUMN responsable BOOLEAN DEFAULT FALSE;
+
 CREATE TABLE IF NOT EXISTS Cours (
     id INT AUTO_INCREMENT PRIMARY KEY,
     code VARCHAR(20) UNIQUE NOT NULL,
@@ -45,7 +48,7 @@ CREATE TABLE IF NOT EXISTS Cours (
     enseignant_id INT ,
     
     FOREIGN KEY (enseignant_id) REFERENCES Utilisateurs(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE
 );
 
@@ -57,6 +60,7 @@ CREATE TABLE IF NOT EXISTS ClasseCours (
     FOREIGN KEY (id_cours) REFERENCES Cours(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
+
     FOREIGN KEY (id_classe) REFERENCES  Classes(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -71,7 +75,8 @@ CREATE TABLE IF NOT EXISTS Seances (
     Valide BOOLEAN DEFAULT FALSE,
 
     FOREIGN KEY (cours_id) REFERENCES Cours(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
 
 );
 
@@ -82,10 +87,10 @@ CREATE TABLE IF NOT EXISTS Validations (
     date_validation DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
     FOREIGN KEY (responsable_id) REFERENCES Utilisateurs(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE,
     FOREIGN KEY (seance_id) REFERENCES Seances(id)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE
 );
 
@@ -214,3 +219,31 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 ('Aissatou', 'Balde', 'aissatou.balde@univ.sn', 5),
 ('Fallou', 'Diouf', 'fallou.diouf@univ.sn', 5),
 ('Fatoumata', 'Ndoye', 'fatoumata.ndoye@univ.sn', 5);
+
+
+SELECT Cours.code , Cours.intitule , Classes.nom , Cours.credits
+FROM Cours  
+INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id 
+INNER JOIN Classes ON Classes.id = ClasseCours.id_classe  
+INNER JOIN Utilisateurs ON Utilisateurs.id = Cours.enseignant_id 
+WHERE Utilisateurs.id = 13;
+
+
+SELECT Seances.id, Cours.code , Cours.intitule , Seances.contenu , Seances.duree , Seances.date_seance , 
+        Classes.nom , CONCAT(Enseignant.prenom , ' ' , Enseignant.nom)
+FROM Seances 
+INNER JOIN Cours ON Cours.id = Seances.cours_id
+INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id
+INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id
+INNER JOIN Classes ON Classes.id = ClasseCours.id_classe
+WHERE Classes.nom = "L3 Informatique" AND Enseignant.id = 13 AND Cours.intitule = "Systèmes d’exploitation" ;
+
+
+SELECT Utilisateurs.id, CONCAT(Utilisateurs.prenom , ' ' , Utilisateurs.nom) AS Enseignant,
+Utilisateurs.email AS Email , Cours.intitule AS Cours , Classes.nom AS Classe
+FROM Utilisateurs 
+INNER JOIN Cours ON Cours.enseignant_id = Utilisateurs.id 
+INNER JOIN ClasseCours ON ClasseCours.id_cours = Cours.id 
+INNER JOIN Classes ON ClasseCours.id_classe = Classes.id 
+WHERE Utilisateurs.role = "Enseignant"
+ORDER BY `Utilisateurs`.id  LIMIT 1;

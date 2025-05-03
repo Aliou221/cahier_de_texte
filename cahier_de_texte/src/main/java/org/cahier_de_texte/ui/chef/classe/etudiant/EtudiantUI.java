@@ -91,7 +91,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
         return panelSideBar;
     }
 
-    JButton btnDeconnexion, btnListeEtudiant , btnResponsable , btnAjouterEtudiant , btnModifierEtudiant , btnSupprimerEtudiant;
+    JButton btnDeconnexion, btnListeEtudiant , btnResponsable , btnRetireResponsable, btnAjouterEtudiant , btnModifierEtudiant , btnSupprimerEtudiant;
     JTable tabClasse;
     DefaultTableModel tabClasseModel;
 
@@ -100,7 +100,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionClasse = new JLabel("Gestion des classes");
+        JLabel labelGestionClasse = new JLabel("Classe : " + this.classe);
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionClasse , "pushx , growx");
@@ -113,21 +113,33 @@ public class EtudiantUI extends JFrame implements ActionListener {
         btnListeEtudiant = this.dashHelper.btnMenuSideBar("Liste des étudiants");
         btnListeEtudiant.setIcon(FontIcon.of(FontAwesome.LIST , 18));
         btnListeEtudiant.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeEtudiant , "split 2");
+        panel.add(btnListeEtudiant , "split 3");
 
         btnResponsable = this.dashHelper.btnMenuSideBar("Définir comme responsable");
-        btnResponsable.setIcon(FontIcon.of(FontAwesome.ID_BADGE , 18));
+        btnResponsable.setIcon(FontIcon.of(FontAwesome.PENCIL , 18));
         btnResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnResponsable.addActionListener(this);
+        panel.add(btnResponsable);
 
-        panel.add(btnResponsable , "split 2 , wrap");
+        btnRetireResponsable = this.dashHelper.btnMenuSideBar("Retire role responsable");
+        btnRetireResponsable.setIcon(FontIcon.of(FontAwesome.ERASER , 18));
+        btnRetireResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnRetireResponsable.addActionListener(this);
 
-        String[] columnClasse = {"ID" , "Prenom" , "Nom" , "Email" , "Profile"};
+        panel.add(btnRetireResponsable , "wrap");
+
+        String[] columnClasse = {"ID" , "Prenom" , "Nom" , "Email" , "Responsable"};
 
         tabClasseModel = new DefaultTableModel(columnClasse , 0){
             @Override
             public boolean isCellEditable(int row, int col) {
-                return false;
+                return col == 4;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 4) return Boolean.class;
+                return String.class;
             }
         };
 
@@ -138,7 +150,6 @@ public class EtudiantUI extends JFrame implements ActionListener {
         tabClasse.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabClasse);
         panel.add(scrollPane , "span , push , grow");
-
 
         btnAjouterEtudiant = this.dashHelper.btnMenuSideBar("Ajouter un Etudiant");
         btnAjouterEtudiant.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
@@ -294,27 +305,137 @@ public class EtudiantUI extends JFrame implements ActionListener {
             }
         }
 
+        if (e.getSource() == btnRetireResponsable){
+            int rowSelected = tabClasse.getSelectedRow();
+            if (rowSelected == -1){
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Veuillez choisir un étudiant svp !",
+                        null,
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }else{
+                int idEtudiant = (int) tabClasse.getValueAt(rowSelected , 0);
+                boolean isValide = (boolean) tabClasseModel.getValueAt(rowSelected, 4);
+                String emailEtudiant = (String) tabClasse.getValueAt(rowSelected , 3);
+                String prenomEtudiant = (String) tabClasse.getValueAt(rowSelected , 1);
+                String nomEtudiant = (String) tabClasse.getValueAt(rowSelected , 2);
+
+                if(!isValide){
+                    this.etudiantController.retireResponsable(idEtudiant);
+                    if (this.etudiantController.verifResponsable(emailEtudiant)){
+                        this.etudiantController.deleteResponsableUser(emailEtudiant);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                prenomEtudiant + " " + nomEtudiant + " n'est plus responsable pour cette classe !",
+                                null,
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    }else{
+                        JOptionPane.showMessageDialog(
+                                null,
+                                prenomEtudiant + " " + nomEtudiant + " n'est pas responsable pour cette classe !",
+                                null,
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Veuillez désélectionner le chekbox\n pour retirer comme responsable svp !",
+                            null,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
+
+            }
+        }
+
         if (e.getSource() == btnResponsable){
             int rowSelected = tabClasse.getSelectedRow();
 
             if (rowSelected == -1){
                 JOptionPane.showMessageDialog(
                         null,
-                        "Veuillez choisir une étudiant svp !"
+                        "Veuillez choisir un étudiant svp !",
+                        null,
+                        JOptionPane.WARNING_MESSAGE
                 );
             }else{
-                ResponsableUI responsableView = new ResponsableUI(this.classe);
-                responsableView.setVisible(true);
+                int idEtudiant = (int) tabClasse.getValueAt(rowSelected , 0);
+                boolean isValide = (boolean) tabClasseModel.getValueAt(rowSelected, 4);
 
-//            int id = (int) tabClasse.getValueAt(rowSelected , 0);
-                String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
-                String nom = (String) tabClasse.getValueAt(rowSelected , 2);
-                String email = (String) tabClasse.getValueAt(rowSelected , 3);
+                if(isValide){
+                    this.etudiantController.defResponsable(idEtudiant);
 
-                responsableView.inputFirstName.setText(prenom);
-                responsableView.inputLastName.setText(nom);
-                responsableView.inputEmail.setText(email);
+                    ResponsableUI responsableView = new ResponsableUI(this.classe);
+                    responsableView.setVisible(true);
+
+                    String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
+                    String nom = (String) tabClasse.getValueAt(rowSelected , 2);
+                    String email = (String) tabClasse.getValueAt(rowSelected , 3);
+
+                    responsableView.inputFirstName.setText(prenom);
+                    responsableView.inputLastName.setText(nom);
+                    responsableView.inputEmail.setText(email);
+
+                    responsableView.btnValider.addActionListener((ActionEvent event)->{
+                        String nouveauPrenom = responsableView.inputFirstName.getText();
+                        String nouveauNom = responsableView.inputLastName.getText();
+                        String nouveauEmail = responsableView.inputEmail.getText();
+                        String password = new String(responsableView.inputPassword.getPassword());
+
+                        if (nouveauPrenom.isEmpty() || nouveauNom.isEmpty() || nouveauEmail.isEmpty() || password.isEmpty()){
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Veuillez remplir tous les champs svp!",
+                                    null,
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }else{
+                            if (this.etudiantController.verifResponsable(nouveauEmail)){
+                                JOptionPane.showMessageDialog(
+                                        null,
+                                        "Cette etudiant est deja un responsable !",
+                                        null,
+                                        JOptionPane.ERROR_MESSAGE
+                                );
+                            }else{
+
+                                this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
+                                JOptionPane.showMessageDialog(
+                                        null,
+                                        nouveauPrenom + " " + nouveauNom + " est nomé comme responsable pour cette classe !",
+                                        null,
+                                        JOptionPane.INFORMATION_MESSAGE
+                                );
+                                this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                            }
+
+                            responsableView.inputFirstName.setText(null);
+                            responsableView.inputLastName.setText(null);
+                            responsableView.inputEmail.setText(null);
+                            responsableView.inputPassword.setText(null);
+
+                            responsableView.dispose();
+                        }
+
+                    });
+
+                }else{
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Veuillez cocher le chekbox \npour definir comme responsable",
+                            null,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new EtudiantUI("L1 Informatique").setVisible(true);
     }
 }

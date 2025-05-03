@@ -145,8 +145,6 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         tabSeances.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabSeances);
 
-
-
         panel.add(scrollPane , "span , push , grow");
 
         this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
