@@ -116,27 +116,22 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
 
     public JPanel panelButton(){
         JPanel panbtn = new JPanel(new GridLayout(1 , 2 , 10 , 10));
-
         btnConnect = myButton(0x4caf50 , "Confirmer");
         btnConnect.addActionListener(this);
         panbtn.add(btnConnect);
-
         btnClear = myButton(0x8f5151 , "Annuler");
         btnClear.addActionListener(this);
         panbtn.add(btnClear);
-
         return panbtn;
     }
 
     public JButton myButton(int color , String title){
         JButton btn = new JButton(title);
-
         btn.setPreferredSize(new Dimension(0, 40));
         btn.setBackground(new Color(color));
         btn.setForeground(Color.white);
         btn.setFont(new Font("Roboto" , Font.PLAIN , 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
         return btn;
     }
 
@@ -169,7 +164,6 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
                     return;
                 }
             }
-
         }
 
         if (e.getSource() == btnClear) {

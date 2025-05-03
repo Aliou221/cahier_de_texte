@@ -8,7 +8,7 @@ import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
 import org.cahier_de_texte.ui.chef.classe.responsable.ResponsableUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -79,12 +79,12 @@ public class EtudiantUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
         btnBack = this.dashHelper.btnMenuSideBar("Voir la liste des classes");
-        btnBack.setIcon(FontIcon.of(FontAwesome.HAND_O_LEFT , 18));
+        btnBack.setIcon(FontIcon.of(FontAwesomeSolid.HAND_POINT_LEFT , 18));
         btnBack.addActionListener(this);
         panelSideBar.add(btnBack , "wrap , pushx , growx");
 
@@ -106,23 +106,23 @@ public class EtudiantUI extends JFrame implements ActionListener {
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         btnListeEtudiant = this.dashHelper.btnMenuSideBar("Liste des étudiants");
-        btnListeEtudiant.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeEtudiant.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeEtudiant.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeEtudiant , "split 3");
 
         btnResponsable = this.dashHelper.btnMenuSideBar("Définir comme responsable");
-        btnResponsable.setIcon(FontIcon.of(FontAwesome.PENCIL , 18));
+        btnResponsable.setIcon(FontIcon.of(FontAwesomeSolid.PENCIL_ALT , 18));
         btnResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnResponsable.addActionListener(this);
         panel.add(btnResponsable);
 
         btnRetireResponsable = this.dashHelper.btnMenuSideBar("Retire role responsable");
-        btnRetireResponsable.setIcon(FontIcon.of(FontAwesome.ERASER , 18));
+        btnRetireResponsable.setIcon(FontIcon.of(FontAwesomeSolid.ERASER , 18));
         btnRetireResponsable.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRetireResponsable.addActionListener(this);
 
@@ -152,21 +152,21 @@ public class EtudiantUI extends JFrame implements ActionListener {
         panel.add(scrollPane , "span , push , grow");
 
         btnAjouterEtudiant = this.dashHelper.btnMenuSideBar("Ajouter un Etudiant");
-        btnAjouterEtudiant.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
+        btnAjouterEtudiant.setIcon(FontIcon.of(FontAwesomeSolid.PLUS_CIRCLE, 18));
         btnAjouterEtudiant.setForeground(Color.white);
         btnAjouterEtudiant.setIconTextGap(5);
         btnAjouterEtudiant.setBackground(new Color(46, 204, 113));
         btnAjouterEtudiant.addActionListener(this);
 
         btnModifierEtudiant = this.dashHelper.btnMenuSideBar("Modifier");
-        btnModifierEtudiant.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierEtudiant.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
         btnModifierEtudiant.setForeground(Color.white);
         btnModifierEtudiant.setIconTextGap(5);
         btnModifierEtudiant.setBackground(new Color(241, 196, 15));
         btnModifierEtudiant.addActionListener(this);
 
         btnSupprimerEtudiant = this.dashHelper.btnMenuSideBar("Supprimer");
-        btnSupprimerEtudiant.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerEtudiant.setIcon(FontIcon.of(FontAwesomeSolid.TRASH, 18));
         btnSupprimerEtudiant.setForeground(Color.white);
         btnSupprimerEtudiant.setIconTextGap(5);
         btnSupprimerEtudiant.setBackground(new Color(231, 76, 60));

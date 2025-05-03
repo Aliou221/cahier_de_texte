@@ -5,7 +5,7 @@ import org.cahier_de_texte.controller.chef.ChefController;
 import org.cahier_de_texte.controller.chef.CoursController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -72,7 +72,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
         btnTabBord.addActionListener((ActionEvent e)->{
@@ -100,29 +100,29 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         panel.add(labelAttCours , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
 
         panel.add(btnDeconnexion ,"wrap , split 2 , right");
 
-        btnListeEnseignants = myBtn("Enseignant et cours assigner", (FontAwesome.USERS));
+        btnListeEnseignants = myBtn("Enseignant et cours assigner", (FontAwesomeSolid.USERS));
         panel.add(btnListeEnseignants , "split 2");
 
-        btnAjouterCours = myBtn("Ajouter un cours", FontAwesome.BOOK);
+        btnAjouterCours = myBtn("Ajouter un cours", FontAwesomeSolid.BOOK);
         btnAjouterCours.setBackground(new Color(46, 204, 113));
         btnAjouterCours.setForeground(Color.WHITE);
         btnAjouterCours.addActionListener(this);
 
-        btnListeCours = myBtn("Liste des cours", FontAwesome.BOOKMARK);
+        btnListeCours = myBtn("Liste des cours", FontAwesomeSolid.BOOKMARK);
         btnListeCours.addActionListener(this);
         panel.add(btnListeCours , "wrap");
 
-        btnAssignerCours = myBtn("Assigner cours" , FontAwesome.LINK);
+        btnAssignerCours = myBtn("Assigner cours" , FontAwesomeSolid.LINK);
         btnAssignerCours.setBackground(new Color(241, 196, 15));
         btnAssignerCours.setForeground(Color.WHITE);
         btnAssignerCours.addActionListener(this);
 
-        btnCharger = myBtn("Charger la table" , FontAwesome.REFRESH);
+        btnCharger = myBtn("Charger la table" , FontAwesomeSolid.RECYCLE);
         btnCharger.setForeground(Color.WHITE);
         btnCharger.setBackground(new Color(235, 111, 60));
         btnCharger.addActionListener(this);
@@ -157,7 +157,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         return panel;
     }
 
-    public JButton myBtn(String title , FontAwesome icon){
+    public JButton myBtn(String title , FontAwesomeSolid icon){
         JButton btn;
 
         btn = this.dashHelper.btnMenuSideBar(title);

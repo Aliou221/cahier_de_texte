@@ -50,10 +50,7 @@ public class EnseignantController {
         }
     }
 
-
     public void chargeTabEnseignant(DefaultTableModel model){
         enseignantDAO.chargerTabEnseignant(model);
     }
-
-
 }

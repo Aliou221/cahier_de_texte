@@ -6,7 +6,7 @@ import org.cahier_de_texte.controller.chef.EnseignantController;
 import org.cahier_de_texte.model.Users;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -75,7 +75,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
         btnTabBord.addActionListener((ActionEvent e)->{
@@ -102,7 +102,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panel.add(labelGestionEnseignant , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
             dispose();
@@ -111,26 +111,26 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         btnAjouterEnseignants = this.dashHelper.btnMenuSideBar("Ajouter un Enseignant");
-        btnAjouterEnseignants.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
+        btnAjouterEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.PLUS_CIRCLE, 18));
         btnAjouterEnseignants.setForeground(Color.white);
         btnAjouterEnseignants.setIconTextGap(5);
         btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
         btnAjouterEnseignants.addActionListener(this);
 
         btnListeEnseignants = this.dashHelper.btnMenuSideBar("Liste des enseignants");
-        btnListeEnseignants.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeEnseignants.setPreferredSize(new Dimension(getWidth() , 45));
         btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnModifierEnseignants = this.dashHelper.btnMenuSideBar("Modifier");
-        btnModifierEnseignants.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
         btnModifierEnseignants.setForeground(Color.white);
         btnModifierEnseignants.setIconTextGap(5);
         btnModifierEnseignants.setBackground(new Color(241, 196, 15));
         btnModifierEnseignants.addActionListener(this);
 
         btnSupprimerEnseignants = this.dashHelper.btnMenuSideBar("Supprimer");
-        btnSupprimerEnseignants.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.TRASH, 18));
         btnSupprimerEnseignants.setForeground(Color.white);
         btnSupprimerEnseignants.setIconTextGap(5);
         btnSupprimerEnseignants.setBackground(new Color(231, 76, 60));

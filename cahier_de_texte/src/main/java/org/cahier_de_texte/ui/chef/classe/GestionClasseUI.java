@@ -6,7 +6,7 @@ import org.cahier_de_texte.controller.chef.ClasseController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.cahier_de_texte.ui.chef.classe.etudiant.EtudiantUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -71,7 +71,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
@@ -93,12 +93,12 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
-        btnListeClasses.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeClasses.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeClasses , "split 2");
 
@@ -125,21 +125,21 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         panel.add(scrollPane , "span , push , grow");
 
         btnAjouterClasses = this.dashHelper.btnMenuSideBar("Ajouter un Classe");
-        btnAjouterClasses.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
+        btnAjouterClasses.setIcon(FontIcon.of(FontAwesomeSolid.PLUS_CIRCLE, 18));
         btnAjouterClasses.setForeground(Color.white);
         btnAjouterClasses.setIconTextGap(5);
         btnAjouterClasses.setBackground(new Color(46, 204, 113));
         btnAjouterClasses.addActionListener(this);
 
         btnModifierClasses = this.dashHelper.btnMenuSideBar("Modifier");
-        btnModifierClasses.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierClasses.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
         btnModifierClasses.setForeground(Color.white);
         btnModifierClasses.setIconTextGap(5);
         btnModifierClasses.setBackground(new Color(241, 196, 15));
         btnModifierClasses.addActionListener(this);
 
         btnSupprimerClasse = this.dashHelper.btnMenuSideBar("Supprimer");
-        btnSupprimerClasse.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerClasse.setIcon(FontIcon.of(FontAwesomeSolid.TRASH, 18));
         btnSupprimerClasse.setForeground(Color.white);
         btnSupprimerClasse.setIconTextGap(5);
         btnSupprimerClasse.setBackground(new Color(231, 76, 60));

@@ -5,7 +5,7 @@ import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.SeanceController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -70,7 +70,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
@@ -92,12 +92,12 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         panel.add(labelGestionSeances , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
-        btnListeClasses.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeClasses.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeClasses , "split 2");
 

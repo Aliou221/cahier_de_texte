@@ -130,13 +130,11 @@ public class LoginUI extends JFrame implements ActionListener {
 
     public JButton myButton(int color , String title){
         JButton btn = new JButton(title);
-
         btn.setPreferredSize(new Dimension(0, 40));
         btn.setBackground(new Color(color));
         btn.setForeground(Color.white);
         btn.setFont(new Font("Roboto" , Font.PLAIN , 16));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
         return btn;
     }
 

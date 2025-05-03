@@ -10,7 +10,7 @@ import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.SeanceController;
 import org.cahier_de_texte.ui.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -85,12 +85,12 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME , 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
         btnBack = this.dashHelper.btnMenuSideBar("Voir la liste des classes");
-        btnBack.setIcon(FontIcon.of(FontAwesome.HAND_O_LEFT , 18));
+        btnBack.setIcon(FontIcon.of(FontAwesomeSolid.HAND_POINT_LEFT , 18));
         btnBack.addActionListener(this);
         panelSideBar.add(btnBack , "wrap , pushx , growx");
 
@@ -113,17 +113,17 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
 
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         JButton btnListeSeance = this.dashHelper.btnMenuSideBar("Liste des séances validées");
-        btnListeSeance.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeance.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeSeance.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnListeSeance , "split 2");
 
         btnGenerePDF = this.dashHelper.btnMenuSideBar("Générer un PDF");
-        btnGenerePDF.setIcon(FontIcon.of(FontAwesome.FILE_PDF_O , 18));
+        btnGenerePDF.setIcon(FontIcon.of(FontAwesomeSolid.FILE_PDF , 18));
         btnGenerePDF.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnGenerePDF.addActionListener(this);
         panel.add(btnGenerePDF , "wrap");

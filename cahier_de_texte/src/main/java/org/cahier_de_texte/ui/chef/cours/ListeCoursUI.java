@@ -3,7 +3,7 @@ package org.cahier_de_texte.ui.chef.cours;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.CoursController;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class ListeCoursUI extends JFrame implements ActionListener {
         JPanel tabPanel = new JPanel(new MigLayout());
 
         btnModifierCours = dashHelper.btnMenuSideBar("Modifier un cours");
-        btnModifierCours.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierCours.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
         btnModifierCours.setForeground(Color.white);
         btnModifierCours.setIconTextGap(5);
         btnModifierCours.setBackground(new Color(241, 196, 15));
@@ -53,7 +53,7 @@ public class ListeCoursUI extends JFrame implements ActionListener {
         tabPanel.add(btnModifierCours , "split 2");
 
         btnSupprimerCours = dashHelper.btnMenuSideBar("Supprimer un cours");
-        btnSupprimerCours.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerCours.setIcon(FontIcon.of(FontAwesomeSolid.TRASH, 18));
         btnSupprimerCours.setForeground(Color.white);
         btnSupprimerCours.setIconTextGap(5);
         btnSupprimerCours.setBackground(new Color(231, 76, 60));

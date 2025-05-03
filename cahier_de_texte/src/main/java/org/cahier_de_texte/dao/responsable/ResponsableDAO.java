@@ -13,7 +13,6 @@ public class ResponsableDAO {
     Connection con = db.getConnection();
     PreparedStatement pst;
 
-
     public boolean chargeListeSeances(DefaultTableModel model , int idResponsable){
         String sql = "SELECT s.id AS idSeance, s.Valide AS etat , c.code AS codeCours , " +
                 " c.intitule AS intitule , s.contenu, " +
@@ -108,5 +107,4 @@ public class ResponsableDAO {
 
         return false;
     }
-
 }

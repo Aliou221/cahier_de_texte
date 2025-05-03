@@ -57,5 +57,4 @@ public class ChefController {
     public void classe(JComboBox<String> combo){
         chefDAO.listeClasse(combo);
     }
-
 }

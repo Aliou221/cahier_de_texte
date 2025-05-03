@@ -1,7 +1,6 @@
 package org.cahier_de_texte.controller.enseignant;
 
 import org.cahier_de_texte.dao.enseignant.EnseignantDAO;
-import org.cahier_de_texte.dao.responsable.ResponsableDAO;
 
 import javax.swing.table.DefaultTableModel;
 
