@@ -8,7 +8,7 @@ import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
 import org.cahier_de_texte.ui.chef.cours.GestionCoursUI;
 import org.cahier_de_texte.ui.chef.enseignant.GestionEnseignantUI;
 import org.cahier_de_texte.ui.chef.seances.GestionSeancesUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -76,34 +76,32 @@ public class DashBordChefUI extends JFrame implements ActionListener {
     JButton btnTabBord , btnGestionEnseignant , btnAttCours , btnGestionClasses , btnGestionSeance;
 
     public JPanel getPanelSidebar(){
-
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
         btnTabBord = btnMenuSideBar("Tableau de bord");
-        btnTabBord.setIcon(FontIcon.of(FontAwesome.HOME, 18));
+        btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME, 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
         btnGestionEnseignant = btnMenuSideBar("Gestion des Ensignants");
-        btnGestionEnseignant.setIcon(FontIcon.of(FontAwesome.USERS, 18));
+        btnGestionEnseignant.setIcon(FontIcon.of(FontAwesomeSolid.USERS, 18));
         panelSideBar.add(btnGestionEnseignant , "wrap , pushx , growx");
         btnGestionEnseignant.addActionListener(this);
 
         btnGestionClasses = btnMenuSideBar("Gestion des Classes");
-        btnGestionClasses.setIcon(FontIcon.of(FontAwesome.GRADUATION_CAP, 18));
+        btnGestionClasses.setIcon(FontIcon.of(FontAwesomeSolid.GRADUATION_CAP, 18));
         panelSideBar.add(btnGestionClasses , "wrap , pushx , growx");
         btnGestionClasses.addActionListener(this);
 
         btnAttCours = btnMenuSideBar("Attribution des Cours");
-        btnAttCours.setIcon(FontIcon.of(FontAwesome.BOOK, 18));
+        btnAttCours.setIcon(FontIcon.of(FontAwesomeSolid.BOOK, 18));
         panelSideBar.add(btnAttCours , "wrap , pushx , growx");
         btnAttCours.addActionListener(this);
 
         btnGestionSeance  = btnMenuSideBar("Gestion des Séances");
-        btnGestionSeance.setIcon(FontIcon.of(FontAwesome.CALENDAR, 18));
+        btnGestionSeance.setIcon(FontIcon.of(FontAwesomeSolid.CALENDAR, 18));
         btnGestionSeance.addActionListener(this);
         panelSideBar.add(btnGestionSeance , "wrap , pushx , growx");
-
 
         return panelSideBar;
     }
@@ -134,15 +132,15 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         labelTabBord.setFont(new Font("Roboto" , Font.BOLD , 20));
 
         btnDeconnexion = btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT, 18));
         btnDeconnexion.addActionListener(this);
 
-        panEnsignants = panelStat("Nombre d’enseignants" , this.chefController.getNbEnseignant() , new Color(63, 81, 181) , FontAwesome.USER);//Color(63, 81, 181)
-        panResponsables = panelStat("Nombre de responsables" , this.chefController.getNbResponsable() , new Color(255, 152, 0) , FontAwesome.USER_CIRCLE);//Color(255, 152, 0)
-        panEtudiants = panelStat("Nombre d’étudiants" , this.chefController.getNbEtudiant() , new Color(251, 192, 45) , FontAwesome.GRADUATION_CAP);//Color(251, 192, 45)
-        panSeanceValider = panelStat("Nombre de séances validées" , this.chefController.getNbSeanceValide() ,new Color(56, 142, 60) , FontAwesome.CHECK_CIRCLE);//Color(56, 142, 60)
-        panCours = panelStat("Nombre de cours total" , this.chefController.getNbCours() , new Color(33, 150, 243) , FontAwesome.BOOK); //Color(33, 150, 243)
-        panClasses = panelStat("Nombre de classes" , this.chefController.getNbClasse() , new Color(76, 175, 80) , FontAwesome.BUILDING);//Color(76, 175, 80)
+        panEnsignants = panelStat("Nombre d’enseignants" , this.chefController.getNbEnseignant() , new Color(63, 81, 181) , FontAwesomeSolid.USER);//Color(63, 81, 181)
+        panResponsables = panelStat("Nombre de responsables" , this.chefController.getNbResponsable() , new Color(255, 152, 0) , FontAwesomeSolid.USER_CIRCLE);//Color(255, 152, 0)
+        panEtudiants = panelStat("Nombre d’étudiants" , this.chefController.getNbEtudiant() , new Color(251, 192, 45) , FontAwesomeSolid.GRADUATION_CAP);//Color(251, 192, 45)
+        panSeanceValider = panelStat("Nombre de séances validées" , this.chefController.getNbSeanceValide() ,new Color(56, 142, 60) , FontAwesomeSolid.CHECK_CIRCLE);//Color(56, 142, 60)
+        panCours = panelStat("Nombre de cours total" , this.chefController.getNbCours() , new Color(33, 150, 243) , FontAwesomeSolid.BOOK); //Color(33, 150, 243)
+        panClasses = panelStat("Nombre de classes" , this.chefController.getNbClasse() , new Color(76, 175, 80) , FontAwesomeSolid.BUILDING);//Color(76, 175, 80)
 
         JPanel panelThree = new JPanel(new MigLayout("wrap 3"));
         panelThree.add(panEnsignants , "pushx , growx");
@@ -228,7 +226,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         return scrollPane;
     }
 
-    public JPanel panelStat(String title , int numbre , Color color , FontAwesome icofont){
+    public JPanel panelStat(String title , int numbre , Color color , FontAwesomeSolid icofont){
 
         Border shadow = BorderFactory.createLineBorder(new Color(0, 0, 0, 50), 4, true);
 

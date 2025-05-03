@@ -43,14 +43,22 @@
             <artifactId>ikonli-core</artifactId>
             <version>12.4.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-swing</artifactId>
             <version>12.4.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontawesome-pack</artifactId>
+            <version>12.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
             <version>12.4.0</version>
         </dependency>
 
@@ -79,6 +87,5 @@
         </dependency>
 
     </dependencies>
-
 
 </project>

@@ -34,9 +34,9 @@ public class LoginUI extends JFrame implements ActionListener {
         add(createPanel());
 
         setTitle("Connexion");
-        setSize(400 , 500);
+        setSize(400 , 550);
         setResizable(false);
-        setMinimumSize(new Dimension(350 , 450));
+        setMinimumSize(new Dimension(400 , 550));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -49,15 +49,16 @@ public class LoginUI extends JFrame implements ActionListener {
         JPanel panelUser , panelPassword , mainPanelLogin;
 
         mainPanelLogin = new JPanel(new MigLayout());
-        mainPanelLogin.setBorder(BorderFactory.createEmptyBorder(15 , 25 , 20 , 25));
+        mainPanelLogin.setBorder(BorderFactory.createEmptyBorder(15 , 25 , 0 , 25));
 
         textTitle = new JLabel("Connexion");
-        textTitle.setFont(new Font("Roboto" , Font.BOLD , 23));
+        textTitle.setFont(new Font("Roboto" , Font.PLAIN , 22));
         textTitle.setIcon(resizeImageUser);
         textTitle.setHorizontalTextPosition(JLabel.CENTER);
         textTitle.setVerticalTextPosition(JLabel.BOTTOM);
         textTitle.setVerticalAlignment(JLabel.CENTER);
         textTitle.setHorizontalAlignment(JLabel.CENTER);
+        textTitle.setIconTextGap(15);
         mainPanelLogin.add(textTitle , "pushx , growx , wrap");
 
         //Panel de champs utilisateur et mot de passe
@@ -71,7 +72,6 @@ public class LoginUI extends JFrame implements ActionListener {
         mainPanelLogin.add(panelUser , "pushx , growx , wrap");
 
         panelPassword = new JPanel(new GridLayout(2, 1));
-        panelPassword.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
 
         labelPassword = new JLabel("Mot de passe ");
         panelPassword.add(labelPassword);
@@ -81,12 +81,27 @@ public class LoginUI extends JFrame implements ActionListener {
         panelPassword.add(inputPassword);
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
+        JCheckBox Box = new JCheckBox("Afficher le mot de passe");
+        Box.setFont(new Font("Roboto" , Font.PLAIN , 12));
+        Box.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        Box.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
+        mainPanelLogin.add(Box , "wrap , pushx , growx");
+        inputPassword.setEchoChar('●');
+        Box.setSelected(false);
+        Box.addActionListener( ev->{
+            if (Box.isSelected()){
+                inputPassword.setEchoChar((char)0);
+            }else{
+                inputPassword.setEchoChar('●');
+            }
+        });
+
         passForget = new JLabel("Mot de passe oublier ?");
         passForget.setForeground(new Color(0x4d4429));
-        passForget.setFont(new Font("" , Font.BOLD , 13));
+        passForget.setFont(new Font("Roboto" , Font.BOLD , 13));
         passForget.setHorizontalTextPosition(JLabel.CENTER);
         passForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        passForget.setBorder(BorderFactory.createEmptyBorder(10 , 3 , 15 , 0));
+        passForget.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 25 , 0));
         mainPanelLogin.add(passForget , "wrap , center");
 
         passForget.addMouseListener(new MouseAdapter() {
@@ -104,15 +119,12 @@ public class LoginUI extends JFrame implements ActionListener {
 
     public JPanel panelButton(){
         JPanel panbtn = new JPanel(new GridLayout(1 , 2 , 10 , 10));
-
         btnConnect = myButton(0x4caf50 , "Se connecter");
         btnConnect.addActionListener(this);
         panbtn.add(btnConnect);
-
         btnClear = myButton(0x8f5151 , "Annuler");
         btnClear.addActionListener(this);
         panbtn.add(btnClear);
-
         return panbtn;
     }
 

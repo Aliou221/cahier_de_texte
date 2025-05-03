@@ -31,9 +31,9 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         add(createPanel());
 
         setTitle("Connexion");
-        setSize(400 , 500);
+        setSize(400 , 550);
         setResizable(false);
-        setMinimumSize(new Dimension(350 , 450));
+        setMinimumSize(new Dimension(400 , 550));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -49,12 +49,13 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         mainPanelLogin.setBorder(BorderFactory.createEmptyBorder(15 , 25 , 20 , 25));
 
         textTitle = new JLabel("Modifier mot de passe");
-        textTitle.setFont(new Font("Roboto" , Font.BOLD , 23));
+        textTitle.setFont(new Font("Roboto" , Font.PLAIN , 22));
         textTitle.setIcon(resizeImageUser);
         textTitle.setHorizontalTextPosition(JLabel.CENTER);
         textTitle.setVerticalTextPosition(JLabel.BOTTOM);
         textTitle.setVerticalAlignment(JLabel.CENTER);
         textTitle.setHorizontalAlignment(JLabel.CENTER);
+        textTitle.setIconTextGap(15);
         mainPanelLogin.add(textTitle , "pushx , growx , wrap");
 
         //Panel de champs utilisateur et mot de passe
@@ -68,7 +69,6 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         mainPanelLogin.add(panelUser , "pushx , growx , wrap");
 
         panelPassword = new JPanel(new GridLayout(2, 1));
-        panelPassword.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
 
         labelPassword = new JLabel("Nouveau mot de passe ");
         panelPassword.add(labelPassword);
@@ -78,12 +78,27 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         panelPassword.add(inputPassword);
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
+        JCheckBox Box = new JCheckBox("Afficher le mot de passe");
+        Box.setFont(new Font("Roboto" , Font.PLAIN , 12));
+        Box.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        Box.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
+        mainPanelLogin.add(Box , "wrap , pushx , growx");
+        inputPassword.setEchoChar('●');
+        Box.setSelected(false);
+        Box.addActionListener( ev->{
+            if (Box.isSelected()){
+                inputPassword.setEchoChar((char)0);
+            }else{
+                inputPassword.setEchoChar('●');
+            }
+        });
+
         connecter = new JLabel("Connecter avec un compte existant ?");
         connecter.setForeground(new Color(0x4d4429));
-        connecter.setFont(new Font("" , Font.BOLD , 13));
+        connecter.setFont(new Font("Roboto" , Font.BOLD , 13));
         connecter.setHorizontalTextPosition(JLabel.CENTER);
         connecter.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        connecter.setBorder(BorderFactory.createEmptyBorder(10 , 3 , 15 , 0));
+        connecter.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 25 , 0));
         mainPanelLogin.add(connecter, "wrap , center");
 
         connecter.addMouseListener(new MouseAdapter() {
