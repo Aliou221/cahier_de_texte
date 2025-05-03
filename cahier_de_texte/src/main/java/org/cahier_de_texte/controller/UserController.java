@@ -34,16 +34,6 @@ public class UserController {
     }
 
     public Users modifierUser(String firstName , String lastName , String email , int id){
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    "Erreur" ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return null;
-        }
-
         Users user = new Users();
         user.setFirstName(firstName);
         user.setLastName(lastName);

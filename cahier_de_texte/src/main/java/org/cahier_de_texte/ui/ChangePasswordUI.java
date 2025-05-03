@@ -103,9 +103,7 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
 
         connecter.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                new LoginUI().setVisible(true);
-                dispose();
+            public void mouseClicked(MouseEvent e) { new LoginUI().setVisible(true); dispose();
             }
         });
 
@@ -138,37 +136,29 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnConnect) {
-            String email = inputUser.getText();
-            String password = new String(inputPassword.getPassword());
-
-            if (email.isEmpty() || password.isEmpty()){
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Veuillez remplir tous les champs ! ",
-                        "Erreur",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }else{
-
-                if (this.userController.verifUser(email)){
-                    this.userController.updatePassword(email , password);
-                    inputUser.setText(null);
-                    inputPassword.setText(null);
-                }else{
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "L'email n'existe pas ! ",
-                            "Erreur",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
-                }
-            }
+           confirm();
         }
 
         if (e.getSource() == btnClear) {
             inputUser.setText(null);
             inputPassword.setText(null);
+        }
+    }
+
+    private void confirm(){
+        String email = inputUser.getText();
+        String password = new String(inputPassword.getPassword());
+
+        if (email.isEmpty() || password.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs ! ", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if (this.userController.verifUser(email)){
+                this.userController.updatePassword(email , password);
+                inputUser.setText(null);
+                inputPassword.setText(null);
+            }else{
+                JOptionPane.showMessageDialog(null, "L'email n'existe pas ! ", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

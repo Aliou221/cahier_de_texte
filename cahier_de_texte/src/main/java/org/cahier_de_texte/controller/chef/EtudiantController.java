@@ -15,16 +15,6 @@ public class EtudiantController {
     }
 
     public void ajouterEtudiant(String firstName , String lastName , String email , String classe){
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    "Erreur" ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
         Etudiants etudiants = new Etudiants();
         etudiants.setFirstName(firstName);
         etudiants.setLastName(lastName);
@@ -49,16 +39,6 @@ public class EtudiantController {
     }
 
     public void modifierEtudiant(String firstName , String lastName , String email , int id){
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    "Erreur" ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
         Etudiants etudiants = new Etudiants();
         etudiants.setFirstName(firstName);
         etudiants.setLastName(lastName);
@@ -95,8 +75,12 @@ public class EtudiantController {
         }
     }
 
-    public boolean verifEtudiant(String email){
+    public boolean verifMailResponsable(String email){
         return etudiantDAO.verifResponsable(email);
+    }
+
+    public boolean verfMailEtudiant(String email){
+        return etudiantDAO.verifMailEtudiant(email);
     }
 
     public int getRespo(String email){

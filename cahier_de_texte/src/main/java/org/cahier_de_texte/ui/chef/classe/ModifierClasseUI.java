@@ -25,7 +25,7 @@ public class ModifierClasseUI extends JFrame {
         setMinimumSize(new Dimension(300 , 350));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+        setLocationRelativeTo(null);
     }
 
     JLabel labelNiveau;

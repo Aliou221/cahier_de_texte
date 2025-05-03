@@ -32,7 +32,7 @@ public class ResponsableUI extends JFrame {
         setMinimumSize(new Dimension(350 , 550));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+        setLocationRelativeTo(null);
     }
 
     public JPanel formePanel(){
@@ -90,7 +90,4 @@ public class ResponsableUI extends JFrame {
 
         return formPanel;
     }
-
-
-
 }

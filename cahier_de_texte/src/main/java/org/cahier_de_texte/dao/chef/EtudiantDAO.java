@@ -256,6 +256,26 @@ public class EtudiantDAO {
         return false;
     }
 
+    public boolean verifMailEtudiant(String email){
+        String sql = "SELECT * FROM Etudiants " +
+                "WHERE email = ?";
+        ResultSet res;
+        try{
+            pst = con.prepareStatement(sql);
+            pst.setString(1, email);
+            res = pst.executeQuery();
+
+            if(res.next()){
+                idUser = res.getInt("id");
+                return true;
+            }
+
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+        return false;
+    }
+
 
     public boolean verifResponsable(String email){
         String sql = "SELECT * FROM Utilisateurs " +

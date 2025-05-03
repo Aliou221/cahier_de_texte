@@ -28,7 +28,7 @@ public class AjouterEnseignantUI extends JFrame {
         setMinimumSize(new Dimension(350 , 550));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 80);
+        setLocationRelativeTo(null);
     }
 
     public JPanel formePanel(){

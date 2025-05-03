@@ -140,46 +140,27 @@ public class LoginUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnConnect) {
-            connect();
-        }
-
+        if (e.getSource() == btnConnect) { connect(); }
         if (e.getSource() == btnClear) {
             inputUser.setText(null);
             inputPassword.setText(null);
         }
     }
 
-    public void connect(){
+    private void connect(){
         String email = inputUser.getText();
         String password = new String(inputPassword.getPassword());
 
         if (email.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    null ,
-                    JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , null , JOptionPane.WARNING_MESSAGE);
         }else{
             Users user = this.userController.login(email , password);
             String role = String.valueOf(user.getRole());
 
-
             switch (role) {
-                case "CHEF" -> {
-                    new DashBordChefUI().setVisible(true);
-                    dispose();
-                }
-                case "ENSEIGNANT" -> {
-                    new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()
-                    ).setVisible(true);
-                    dispose();
-                }
-                case "RESPONSABLE" -> {
-                    new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);
-                    dispose();
-                }
+                case "CHEF" -> { new DashBordChefUI().setVisible(true); dispose(); }
+                case "ENSEIGNANT" -> { new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()).setVisible(true);dispose();}
+                case "RESPONSABLE" -> {new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);dispose();}
             }
         }
     }

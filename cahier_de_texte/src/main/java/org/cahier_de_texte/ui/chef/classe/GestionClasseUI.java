@@ -78,7 +78,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         return panelSideBar;
     }
 
-    JButton btnDeconnexion, btnPlusInfo , btnListeClasses , btnAjouterClasses , btnModifierClasses , btnSupprimerClasse;
+    JButton btnDeconnexion, btnPlusInfo , btnAjouterClasses , btnModifierClasses , btnSupprimerClasse;
     JTable tabClasse;
     DefaultTableModel tabClasseModel;
 
@@ -87,7 +87,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionClasse = new JLabel("Gestion des classes");
+        JLabel labelGestionClasse = new JLabel("Liste des classes et effectifs");
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionClasse , "pushx , growx");
@@ -97,12 +97,8 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
-        btnListeClasses.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
-        btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeClasses , "split 2");
-
         btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
+        btnPlusInfo.setIcon(FontIcon.of(FontAwesomeSolid.INFO_CIRCLE , 18));
         panel.add(btnPlusInfo , "wrap , split 2");
         btnPlusInfo.addActionListener(this);
 
@@ -163,9 +159,21 @@ public class GestionClasseUI extends JFrame implements ActionListener {
 
             ajoutClasse.btnValider.addActionListener((ActionEvent even)->{
                 String nom = ajoutClasse.inputNiveau.getText();
-                this.classeController.ajouterClasse(nom);
-                this.classeController.chargeTabClasse(tabClasseModel);
-                ajoutClasse.inputNiveau.setText(null);
+
+                if (nom.isEmpty()){
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Veuillez remplir ce champs svp!",
+                            null,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }else{
+                    this.classeController.ajouterClasse(nom);
+                    this.classeController.chargeTabClasse(tabClasseModel);
+                    ajoutClasse.inputNiveau.setText(null);
+
+                    ajoutClasse.dispose();
+                }
             });
         }
 
@@ -190,11 +198,20 @@ public class GestionClasseUI extends JFrame implements ActionListener {
                 modifClasse.btnValider.addActionListener((ActionEvent event)->{
                     String nouveauNom = modifClasse.inputNiveau.getText();
 
-                    this.classeController.modifierClasse(nom , nouveauNom);
-                    this.classeController.chargeTabClasse(tabClasseModel);
+                    if (nouveauNom.isEmpty()){
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Veuillez remplir ce champs svp !",
+                                null,
+                                JOptionPane.WARNING_MESSAGE
+                        );
+                    }else{
+                        this.classeController.modifierClasse(nom , nouveauNom);
+                        this.classeController.chargeTabClasse(tabClasseModel);
 
-                    modifClasse.inputNiveau.setText(null);
-
+                        modifClasse.inputNiveau.setText(null);
+                        modifClasse.dispose();
+                    }
                 });
             }
         }
@@ -221,7 +238,6 @@ public class GestionClasseUI extends JFrame implements ActionListener {
                     this.classeController.chargeTabClasse(tabClasseModel);
                 }
             }
-
         }
 
         if(e.getSource() == btnTabBord){

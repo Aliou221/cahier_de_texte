@@ -25,7 +25,7 @@ public class ModifierEtudiantUI extends JFrame {
         setMinimumSize(new Dimension(350 , 500));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+        setLocationRelativeTo(null);
     }
 
     JLabel labelFirstName , labelLastName , labelEmail ;

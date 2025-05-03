@@ -87,7 +87,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
     }
 
     JButton btnDeconnexion , btnAjouterEnseignants ,
-            btnListeEnseignants , btnModifierEnseignants,
+            btnModifierEnseignants,
             btnSupprimerEnseignants;
     JTable tabEnseignant;
     DefaultTableModel modelTabEnseignant;
@@ -97,7 +97,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionEnseignant = new JLabel("Gestion des Enseignants");
+        JLabel labelGestionEnseignant = new JLabel("Liste des enseignants");
         labelGestionEnseignant.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelGestionEnseignant , "pushx , growx");
 
@@ -116,11 +116,6 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         btnAjouterEnseignants.setIconTextGap(5);
         btnAjouterEnseignants.setBackground(new Color(46, 204, 113));
         btnAjouterEnseignants.addActionListener(this);
-
-        btnListeEnseignants = this.dashHelper.btnMenuSideBar("Liste des enseignants");
-        btnListeEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
-        btnListeEnseignants.setPreferredSize(new Dimension(getWidth() , 45));
-        btnListeEnseignants.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnModifierEnseignants = this.dashHelper.btnMenuSideBar("Modifier");
         btnModifierEnseignants.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
@@ -160,13 +155,11 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         panBtn.add(btnModifierEnseignants );
         panBtn.add(btnSupprimerEnseignants);
 
-        panel.add(btnListeEnseignants , "wrap , split 2");
         panel.add(scrollPane , "span , push , grow");
         panel.add(panBtn , "pushx , split 2 , growx , span , right" );
 
         return panel;
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -192,13 +185,33 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
                     email = fenetre.inputEmail.getText(),
                     password = new String(fenetre.inputPassword.getPassword());
 
-            enseignantController.enregistreUser(firstname , lastname , email , password);
-            enseignantController.chargeTabEnseignant(modelTabEnseignant);
+            if (firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() || password.isEmpty()){
+                JOptionPane.showMessageDialog(
+                        null ,
+                        "Veuillez remplir tous les champs svp !" ,
+                        "Erreur" ,
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }else{
+                if (this.userController.verifUser(email)){
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Cette email est deja utiliser par un autre utilisateur !",
+                            null,
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }else{
+                    enseignantController.enregistreUser(firstname , lastname , email , password);
+                    enseignantController.chargeTabEnseignant(modelTabEnseignant);
 
-            fenetre.inputFirstName.setText(null);
-            fenetre.inputLastName.setText(null);
-            fenetre.inputEmail.setText(null);
-            fenetre.inputPassword.setText(null);
+                    fenetre.inputFirstName.setText(null);
+                    fenetre.inputLastName.setText(null);
+                    fenetre.inputEmail.setText(null);
+                    fenetre.inputPassword.setText(null);
+
+                    fenetre.dispose();
+                }
+            }
         });
     }
 
@@ -213,56 +226,72 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
                     null,
                     JOptionPane.WARNING_MESSAGE
             );
-            return;
+        }else{
+            int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
+            String prenom = (String) modelTabEnseignant.getValueAt(rowSelected , 1);
+            String nom = (String) modelTabEnseignant.getValueAt(rowSelected , 2);
+            String email = (String) modelTabEnseignant.getValueAt(rowSelected , 3);
+
+            ModifierEnseignantUI fenetre = new ModifierEnseignantUI();
+            fenetre.setVisible(true);
+
+            fenetre.inputFirstName.setText(prenom);
+            fenetre.inputLastName.setText(nom);
+            fenetre.inputEmail.setText(email);
+
+            fenetre.btnModifier.addActionListener((ActionEvent even)->{
+                String newFirstName = fenetre.inputFirstName.getText();
+                String newLastname = fenetre.inputLastName.getText();
+                String newEmail = fenetre.inputEmail.getText();
+
+                if (newFirstName.isEmpty() || newLastname.isEmpty() || newEmail.isEmpty()){
+                    JOptionPane.showMessageDialog(
+                            null ,
+                            "Veuillez remplir tous les champs svp !" ,
+                            "Erreur" ,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }else{
+                    if (this.userController.verifUser(newEmail)){
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Cette email est deja utiliser par un autre utilisateur !",
+                                null,
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }else{
+                        this.enseignant = userController.modifierUser(newFirstName , newLastname , newEmail , id);
+                        enseignantController.chargeTabEnseignant(modelTabEnseignant);
+
+                        fenetre.inputFirstName.setText(null);
+                        fenetre.inputLastName.setText(null);
+                        fenetre.inputEmail.setText(null);
+
+                        fenetre.dispose();
+                    }
+                }
+            });
         }
-
-        int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
-        String prenom = (String) modelTabEnseignant.getValueAt(rowSelected , 1);
-        String nom = (String) modelTabEnseignant.getValueAt(rowSelected , 2);
-        String email = (String) modelTabEnseignant.getValueAt(rowSelected , 3);
-
-        ModifierEnseignantUI fenetre = new ModifierEnseignantUI();
-        fenetre.setVisible(true);
-
-        fenetre.inputFirstName.setText(prenom);
-        fenetre.inputLastName.setText(nom);
-        fenetre.inputEmail.setText(email);
-
-        fenetre.btnModifier.addActionListener((ActionEvent even)->{
-            String newFirstName = fenetre.inputFirstName.getText();
-            String newLastname = fenetre.inputLastName.getText();
-            String newEmail = fenetre.inputEmail.getText();
-
-            this.enseignant = userController.modifierUser(newFirstName , newLastname , newEmail , id);
-            enseignantController.chargeTabEnseignant(modelTabEnseignant);
-
-            fenetre.inputFirstName.setText(null);
-            fenetre.inputLastName.setText(null);
-            fenetre.inputEmail.setText(null);
-
-        });
     }
 
     public void supprimerEnseignants(){
         int rowSelected = tabEnseignant.getSelectedRow();
         if(rowSelected == -1){
             JOptionPane.showMessageDialog(null , "Veuillez selectionez la ligne\n que vous voulez supprimer !" , "Conseil" , JOptionPane.WARNING_MESSAGE);
-            return;
+        }else{
+            int reponse = JOptionPane.showConfirmDialog(
+                    null,
+                    "Voulez vous vraiment supprimer l'utilisateur ?",
+                    null,
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
+
+            if (reponse == JOptionPane.YES_OPTION){
+                this.enseignant =  userController.deleteUser(id);
+                enseignantController.chargeTabEnseignant(modelTabEnseignant);
+            }
         }
-
-        int reponse = JOptionPane.showConfirmDialog(
-                null,
-                "Voulez vous vraiment supprimer l'utilisateur ?",
-                null,
-                JOptionPane.YES_NO_OPTION
-        );
-
-        int id = (int) modelTabEnseignant.getValueAt(rowSelected , 0);
-
-        if (reponse == JOptionPane.YES_OPTION){
-           this.enseignant =  userController.deleteUser(id);
-           enseignantController.chargeTabEnseignant(modelTabEnseignant);
-        }
-
     }
 }

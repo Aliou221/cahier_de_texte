@@ -13,16 +13,6 @@ public class ClasseController {
     }
 
     public void ajouterClasse(String nomClasse){
-        if (nomClasse.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Veuillez remplir ce champs svp!",
-                    null,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
         if (classeDAO.ajouterClasse(nomClasse)){
             JOptionPane.showMessageDialog(
                     null,
@@ -41,16 +31,6 @@ public class ClasseController {
     }
 
     public void modifierClasse(String nom , String autreNom){
-        if (autreNom.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Veuillez remplir ce champs svp !",
-                    null,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
         if (classeDAO.modifierClasse(nom , autreNom)){
             JOptionPane.showMessageDialog(
                     null,

@@ -15,17 +15,6 @@ public class EnseignantController {
 
     // Enregistre un utilisateur avec le rôle Enseignant
     public void enregistreUser(String firstName , String lastName , String email , String password){
-
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "Veuillez remplir tous les champs svp !" ,
-                    "Erreur" ,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
         Users user = new Users();
         user.setFirstName(firstName);
         user.setLastName(lastName);
