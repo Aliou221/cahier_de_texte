@@ -16,8 +16,15 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GestionSeancesUI extends JFrame implements ActionListener {
-    DashBordChefUI dashHelper;
-    SeanceController seanceController ;
+    private final DashBordChefUI dashHelper;
+    private final SeanceController seanceController;
+
+    private JButton btnTabBord;
+    private JButton btnDeconnexion;
+    private JButton btnPlusInfo;
+
+    private JTable tabClasse;
+
 
     public GestionSeancesUI(){
         this.seanceController = new SeanceController();
@@ -38,7 +45,6 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
 
     //Creation de notre Sidebar
     public  JPanel createSideBarPanel(){
-
         JPanel getPanelSideBar ,  sideBarPanel ;
 
         sideBarPanel = new JPanel(new MigLayout("gap 8"));
@@ -63,26 +69,17 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-    JButton btnTabBord;
     public JPanel getPanelSidebar(){
-
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
-
         btnTabBord = this.dashHelper.btnMenuSideBar("Tableau de bord");
         btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME , 18));
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
-
         return panelSideBar;
     }
 
-    JButton btnDeconnexion, btnPlusInfo , btnListeClasses;
-    JTable tabClasse;
-    DefaultTableModel tabClasseModel;
-
     public JPanel homePanelClasses(){
-
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
@@ -96,10 +93,10 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
+        JButton btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
         btnListeClasses.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeClasses , "split 2");
+        panel.add(btnListeClasses, "split 2");
 
         btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
         panel.add(btnPlusInfo , "wrap , split 2");
@@ -107,7 +104,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
 
         String[] columnClasse = {"Classe", "Responsable" , "Email Reponsable" , "Séances validées"};
 
-        tabClasseModel = new DefaultTableModel(columnClasse , 0){
+        DefaultTableModel tabClasseModel = new DefaultTableModel(columnClasse, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
@@ -129,46 +126,30 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnTabBord){
-            new DashBordChefUI().setVisible(true);
-            dispose();
+        if(e.getSource() == btnTabBord){ tableauBordAction(); }
+        if(e.getSource() == btnPlusInfo){ plusInfoAction(); }
+        if(e.getSource() == btnDeconnexion){ new LoginUI().setVisible(true); dispose(); }
+    }
+
+    private void tableauBordAction(){
+        new DashBordChefUI().setVisible(true);
+        dispose();
+    }
+
+    private void plusInfoAction(){
+        int rowSelected = tabClasse.getSelectedRow();
+        if(rowSelected == -1){
+            JOptionPane.showMessageDialog(null , "Veuillez choisir une classe svp !", null, JOptionPane.WARNING_MESSAGE);
         }
+        else{
+            String classeName = (String) tabClasse.getValueAt(rowSelected , 0);
+            String responsable = (String) tabClasse.getValueAt(rowSelected , 1);
+            int option = JOptionPane.showConfirmDialog(null , "Voulez vous consulter la liste de : \n" + classeName , null , JOptionPane.YES_NO_OPTION);
 
-        if(e.getSource() == btnPlusInfo){
-            int rowSelected = tabClasse.getSelectedRow();
-
-            if(rowSelected == -1){
-                JOptionPane.showMessageDialog(
-                        null ,
-                        "Veuillez choisir une classe svp !",
-                        null,
-                        JOptionPane.WARNING_MESSAGE
-                );
+            if (option == JOptionPane.YES_OPTION){
+                new SeanceClasseUI(classeName , responsable).setVisible(true);
+                dispose();
             }
-            else{
-
-                String classeName = (String) tabClasse.getValueAt(rowSelected , 0);
-                String responsable = (String) tabClasse.getValueAt(rowSelected , 1);
-
-                int option = JOptionPane.showConfirmDialog(
-                        null ,
-                        "Voulez vous consulter la liste de : \n" + classeName ,
-                        null ,
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if (option == JOptionPane.YES_OPTION){
-                    new SeanceClasseUI(classeName , responsable).setVisible(true);
-                    dispose();
-                }
-
-            }
-
-        }
-
-        if(e.getSource() == btnDeconnexion){
-            new LoginUI().setVisible(true);
-            dispose();
         }
     }
 }
