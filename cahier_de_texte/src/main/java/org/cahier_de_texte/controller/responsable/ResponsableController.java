@@ -11,8 +11,15 @@ public class ResponsableController {
         responsableDAO = new ResponsableDAO();
     }
 
-    public void chargeSeance(DefaultTableModel model, int idResponsable){
-        boolean valide = responsableDAO.chargeListeSeances(model , idResponsable);
+    public void chargeSeanceValide(DefaultTableModel model, int idResponsable){
+        boolean valide = responsableDAO.chargeListeSeancesValide(model , idResponsable);
+        if(!valide){
+            System.out.println("Erreur dans chargement des Séances");
+        }
+    }
+
+    public void chargeSeanceNonValide(DefaultTableModel model, int idResponsable){
+        boolean valide = responsableDAO.chargeListeSeancesNoValide(model , idResponsable);
         if(!valide){
             System.out.println("Erreur dans chargement des Séances");
         }

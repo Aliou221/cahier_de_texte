@@ -13,7 +13,7 @@ public class ResponsableDAO {
     Connection con = db.getConnection();
     PreparedStatement pst;
 
-    public boolean chargeListeSeances(DefaultTableModel model , int idResponsable){
+    public boolean chargeListeSeancesNoValide(DefaultTableModel model , int idResponsable){
         String sql = "SELECT s.id AS idSeance, s.Valide AS etat , c.code AS codeCours , " +
                 " c.intitule AS intitule , s.contenu, " +
                 " s.duree , s.date_seance, CONCAT(u.prenom, ' ', u.nom) AS enseignant " +
@@ -23,7 +23,48 @@ public class ResponsableDAO {
                 "LEFT JOIN ClasseCours cc ON cc.id_cours = c.id " +
                 "LEFT JOIN Classes cl ON cl.id = cc.id_classe " +
                 "WHERE cl.id = (" +
-                "    SELECT id FROM `Classes` WHERE id_responsable = ? " +
+                "    SELECT id FROM `Classes` WHERE id_responsable = ? AND s.Valide = false " +
+                ")  " +
+                "ORDER BY s.date_seance ";
+        ResultSet res;
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1 , idResponsable);
+            res = pst.executeQuery();
+            model.setRowCount(0);
+            while (res.next()){
+                int idSeance = res.getInt("idSeance");
+                String codeCours = res.getString("codeCours");
+                String intitule = res.getString("intitule");
+                String contenu = res.getString("contenu");
+                int duree = res.getInt("duree");
+                String dateSeance = res.getString("date_seance");
+                String enseignant = res.getString("enseignant");
+                boolean valide = res.getBoolean("etat");
+
+                model.addRow(new Object[]{idSeance , codeCours , intitule , contenu , duree + " Heurs" , dateSeance , enseignant , valide});
+            }
+            return true;
+
+        }catch (SQLException e){
+            System.out.println("Erreur ! " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean chargeListeSeancesValide(DefaultTableModel model , int idResponsable){
+        String sql = "SELECT s.id AS idSeance, s.Valide AS etat , c.code AS codeCours , " +
+                " c.intitule AS intitule , s.contenu, " +
+                " s.duree , s.date_seance, CONCAT(u.prenom, ' ', u.nom) AS enseignant " +
+                "FROM Seances s " +
+                "LEFT JOIN Cours c ON s.cours_id = c.id " +
+                "LEFT JOIN Utilisateurs u ON c.enseignant_id = u.id " +
+                "LEFT JOIN ClasseCours cc ON cc.id_cours = c.id " +
+                "LEFT JOIN Classes cl ON cl.id = cc.id_classe " +
+                "WHERE cl.id = (" +
+                "    SELECT id FROM `Classes` WHERE id_responsable = ? AND s.Valide = true " +
                 ")  " +
                 "ORDER BY s.date_seance";
         ResultSet res;
@@ -43,7 +84,7 @@ public class ResponsableDAO {
                 String enseignant = res.getString("enseignant");
                 boolean valide = res.getBoolean("etat");
 
-                model.addRow(new Object[]{idSeance , codeCours , intitule , contenu , duree , dateSeance , enseignant , valide});
+                model.addRow(new Object[]{idSeance , codeCours , intitule , contenu , duree + " Heurs" , dateSeance , enseignant , valide});
             }
             return true;
 

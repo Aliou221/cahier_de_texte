@@ -69,29 +69,29 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         return sideBarPanel;
     }
 
-
+    JButton btnListeSeancesValide;
     public JPanel getPanelSidebar(){
-        JButton btnListeSeances;
 
         JPanel panelSideBar = new JPanel(new MigLayout());
         panelSideBar.setBackground(Color.getColor(null));
 
-        btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
-        btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        panelSideBar.add(btnListeSeances , "wrap , pushx , growx");
+        btnListeSeancesValide = this.dashHelper.btnMenuSideBar("Séances Valides");
+        btnListeSeancesValide.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeancesValide.addActionListener(this);
+        panelSideBar.add(btnListeSeancesValide, "wrap , pushx , growx");
 
         return panelSideBar;
     }
 
     JTable tabSeances;
     DefaultTableModel modelTabSeances;
-    JButton btnDeconnexion , btnValiderSeances , btnListeSeances ;
+    JButton btnDeconnexion , btnValiderSeances ;
     public JPanel homePanel(){
 
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelListeSeances = new JLabel("Liste des séances");
+        JLabel labelListeSeances = new JLabel("Liste des séances non validés");
         labelListeSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelListeSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
         panel.add(labelListeSeances , "pushx , growx");
@@ -104,14 +104,6 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         });
 
         panel.add(btnDeconnexion ,"wrap , split 2");
-
-        btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
-        btnListeSeances.setFont(new Font("Roboto" , Font.BOLD , 16));
-        btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
-        btnListeSeances.setPreferredSize(new Dimension(getWidth() , 45));
-        btnListeSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeSeances , "split 2");
-
 
         String[] columnCours = {"ID Seance", "Code", "Intitulé", "Contenu", "Duree", "Date", "Enseignant",  "Validé"};
 
@@ -147,55 +139,41 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
 
         panel.add(scrollPane , "span , push , grow");
 
-        this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
+        this.responsableController.chargeSeanceNonValide(modelTabSeances, this.idResponsable);
 
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnListeSeancesValide){
+            new DashBordSeanceValideUI(this.responsable , this.idResponsable).setVisible(true);
+            dispose();
+        }
+
         if (e.getSource() == btnValiderSeances){
-            int row = tabSeances.getSelectedRow();
-            if (row == -1){
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Veuillez sélectioner une seance svp !",
-                        null,
-                        JOptionPane.WARNING_MESSAGE
-                );
-            }else{
-                int idSeance = (int) tabSeances.getValueAt(row , 0);
-                boolean isValide = (boolean) modelTabSeances.getValueAt(row, 7);
-                if (isValide) {
-                    if (this.responsableController.verifIdSeance(idSeance)){
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Cette séance a été déja validé",
-                                null,
-                                JOptionPane.ERROR_MESSAGE
-                        );
-                    }else{
-                        this.responsableController.insertSeanceValide(this.idResponsable , idSeance);
-                        this.responsableController.valide(idSeance);
-                        System.out.println("Séance validée : " + modelTabSeances.getValueAt(row , 2));
-                        JOptionPane.showMessageDialog(
-                                null ,
-                                "Séance validée" ,
-                                null ,
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
-                    }
+            validerSeance();
+        }
+    }
 
-                    this.responsableController.chargeSeance(modelTabSeances, this.idResponsable);
-
+    private void validerSeance(){
+        int row = tabSeances.getSelectedRow();
+        if (row == -1){
+            JOptionPane.showMessageDialog(null, "Veuillez sélectioner une seance svp !", null, JOptionPane.WARNING_MESSAGE);
+        }else{
+            int idSeance = (int) tabSeances.getValueAt(row , 0);
+            boolean isValide = (boolean) modelTabSeances.getValueAt(row, 7);
+            if (isValide) {
+                if (this.responsableController.verifIdSeance(idSeance)){
+                    JOptionPane.showMessageDialog(null, "Cette séance a été déja validé", null, JOptionPane.ERROR_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Veuillez cocher le chekbox pour valider ",
-                            null,
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    this.responsableController.insertSeanceValide(this.idResponsable , idSeance);
+                    this.responsableController.valide(idSeance);
+                    JOptionPane.showMessageDialog(null , "La Séance a été validée avec succée !" , null , JOptionPane.INFORMATION_MESSAGE);
                 }
+                this.responsableController.chargeSeanceNonValide(modelTabSeances, this.idResponsable);
+            }else{
+                JOptionPane.showMessageDialog(null, "Veuillez cocher le case pour valider ", null, JOptionPane.WARNING_MESSAGE);
             }
         }
     }

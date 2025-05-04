@@ -372,7 +372,6 @@ public class EtudiantUI extends JFrame implements ActionListener {
             boolean isValide = (boolean) tabClasseModel.getValueAt(rowSelected, 4);
 
             if(isValide){
-                this.etudiantController.defResponsable(idEtudiant);
                 responsableUI.setVisible(true);
 
                 String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
@@ -395,6 +394,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
                         if(this.etudiantController.verifResponsable(nouveauEmail)){
                             JOptionPane.showMessageDialog(null, "Cette etudiant est deja un responsable !", null, JOptionPane.ERROR_MESSAGE);
                         }else{
+                            this.etudiantController.defResponsable(idEtudiant);
                             this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
                             JOptionPane.showMessageDialog(null, nouveauPrenom + " " + nouveauNom + " est nomé comme responsable pour cette classe !", null, JOptionPane.INFORMATION_MESSAGE);
                             this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
