@@ -73,7 +73,7 @@ public class SeanceDAO {
                 String enseignant = res.getString("enseignant");
 
                 
-                model.addRow(new Object[]{formattedDate, code_cours, cours, contenu, duree , enseignant});
+                model.addRow(new Object[]{formattedDate, code_cours, cours, contenu, duree + " Heurs" , enseignant});
             }
 
         }catch (SQLException e){

@@ -228,7 +228,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
 
             //Ajouter le titre principal du tableau
             com.itextpdf.text.Font titreFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY); // Police pour le titre
-            Paragraph titre = new Paragraph("Liste des Séances de " + classe, titreFont); // Texte avec nom de la classe
+            Paragraph titre = new Paragraph("Liste des Séances de la " + classe, titreFont); // Texte avec nom de la classe
             titre.setAlignment(Element.ALIGN_CENTER); // Centre le titre
             titre.setSpacingBefore(10f); // Espace avant
             titre.setSpacingAfter(20f); // Espace après

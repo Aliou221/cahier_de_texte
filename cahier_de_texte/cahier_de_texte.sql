@@ -217,17 +217,3 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 ('Aissatou', 'Balde', 'aissatou.balde@univ.sn', 5),
 ('Fallou', 'Diouf', 'fallou.diouf@univ.sn', 5),
 ('Fatoumata', 'Ndoye', 'fatoumata.ndoye@univ.sn', 5);
-
-
-SELECT s.id AS idSeance, s.Valide AS etat , c.code AS codeCours , 
- c.intitule AS intitule , s.contenu, 
- s.duree , s.date_seance, CONCAT(u.prenom, ' ', u.nom) AS enseignant 
-FROM Seances s 
-LEFT JOIN Cours c ON s.cours_id = c.id 
-LEFT JOIN Utilisateurs u ON c.enseignant_id = u.id 
-LEFT JOIN ClasseCours cc ON cc.id_cours = c.id 
-LEFT JOIN Classes cl ON cl.id = cc.id_classe
-WHERE cl.id = (
-    SELECT id FROM `Classes` WHERE id_responsable = 8 
-) AND s.`Valide` = false
-ORDER BY s.date_seance;
