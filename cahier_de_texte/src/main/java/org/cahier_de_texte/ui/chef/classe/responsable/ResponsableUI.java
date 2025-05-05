@@ -49,7 +49,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelFirstName = new JLabel("Prénom");
-        labelFirstName.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        labelFirstName.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelFirstName);
 
         inputFirstName = new JTextField();
@@ -57,7 +57,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputFirstName , "pushx , growx");
 
         labelLastName = new JLabel("Nom");
-        labelLastName.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        labelLastName.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelLastName);
 
         inputLastName = new JTextField();
@@ -65,7 +65,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputLastName , "pushx , growx");
 
         labelEmail = new JLabel("Email");
-        labelEmail.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        labelEmail.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelEmail);
 
         inputEmail = new JTextField();
@@ -73,7 +73,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputEmail , "pushx , growx");
 
         labelPassword = new JLabel("Mot de passe");
-        labelPassword.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        labelPassword.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelPassword);
 
         inputPassword = new JPasswordField();

@@ -1,11 +1,12 @@
 package org.cahier_de_texte.ui.responsable;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.responsable.ResponsableController;
 import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class DashBordSeanceValideUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Roboto",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -74,10 +75,9 @@ public class DashBordSeanceValideUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnListeSeancesNonValide = this.dashHelper.btnMenuSideBar("Séances non validées");
-        btnListeSeancesNonValide.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeancesNonValide.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeSeancesNonValide.addActionListener(this);
         panelSideBar.add(btnListeSeancesNonValide, "wrap , pushx , growx");
-
 
         return panelSideBar;
     }
@@ -92,11 +92,11 @@ public class DashBordSeanceValideUI extends JFrame implements ActionListener {
 
         JLabel labelListeSeances = new JLabel("Liste des séances validées");
         labelListeSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelListeSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelListeSeances.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelListeSeances , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
             dispose();
@@ -121,8 +121,6 @@ public class DashBordSeanceValideUI extends JFrame implements ActionListener {
 
         tabSeancesValide = new JTable(modelTabSeancesValide);
         tabSeancesValide.setRowHeight(30);
-        tabSeancesValide.setFont(new Font("Roboto" , Font.BOLD , 13));
-
         tabSeancesValide.setGridColor(Color.LIGHT_GRAY);
         tabSeancesValide.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabSeancesValide);

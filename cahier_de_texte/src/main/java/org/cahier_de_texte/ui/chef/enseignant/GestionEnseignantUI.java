@@ -88,7 +88,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20, 20, 20, 20));
 
-        JLabel labelGestionEnseignant = new JLabel("Liste des enseignants");
+        JLabel labelGestionEnseignant = new JLabel("Liste des enseignants".toUpperCase());
         labelGestionEnseignant.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionEnseignant, "pushx , growx");
 
@@ -118,7 +118,6 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
 
         tabEnseignant = new JTable(modelTabEnseignant);
         tabEnseignant.setRowHeight(30);
-        tabEnseignant.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
         tabEnseignant.setGridColor(Color.LIGHT_GRAY);
         tabEnseignant.setShowGrid(true);
 
@@ -139,7 +138,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
     public JButton createStyledButton(String title, FontAwesomeSolid icon) {
         JButton btn = this.dashHelper.btnMenuSideBar(title);
         btn.setIcon(FontIcon.of(icon, 18));
-        btn.putClientProperty(FlatClientProperties.STYLE, "font: bold 14 Roboto");
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         return btn;
     }
 

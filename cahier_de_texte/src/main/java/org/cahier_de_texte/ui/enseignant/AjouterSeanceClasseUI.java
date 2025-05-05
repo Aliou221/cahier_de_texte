@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.enseignant;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.controller.chef.EtudiantController;
@@ -8,7 +9,7 @@ import org.cahier_de_texte.model.Users;
 import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -74,7 +75,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Arial",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -96,7 +97,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnBack = this.dashHelper.btnMenuSideBar("Retour");
-        btnBack.setIcon(FontIcon.of(FontAwesome.HAND_O_LEFT , 18));
+        btnBack.setIcon(FontIcon.of(FontAwesomeSolid.HAND_POINT_LEFT , 18));
         btnBack.addActionListener(this);
         panelSideBar.add(btnBack , "wrap , pushx , growx");
 
@@ -114,22 +115,22 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
 
         JLabel labelGestionClasse = new JLabel("Classe : " + classe);
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
         btnListeSeances = this.dashHelper.btnMenuSideBar("Liste des séances");
-        btnListeSeances.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeances.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
 //        btnListeSeances.setBackground(new Color(33, 150, 243));
         panel.add(btnListeSeances, "split 1 , wrap");
 
         btnAjouterSeance = this.dashHelper.btnMenuSideBar("Ajouter une séance");
-        btnAjouterSeance.setIcon(FontIcon.of(FontAwesome.PLUS_CIRCLE, 18));
+        btnAjouterSeance.setIcon(FontIcon.of(FontAwesomeSolid.PLUS_CIRCLE, 18));
         btnAjouterSeance.setForeground(Color.white);
         btnAjouterSeance.setIconTextGap(5);
 //        btnAjouterSeance.setBackground(new Color(46, 204, 113));
@@ -137,14 +138,14 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
         btnAjouterSeance.addActionListener(this);
 
         btnModifierSeances = this.dashHelper.btnMenuSideBar("Modifier");
-        btnModifierSeances.setIcon(FontIcon.of(FontAwesome.EDIT, 18));
+        btnModifierSeances.setIcon(FontIcon.of(FontAwesomeSolid.EDIT, 18));
         btnModifierSeances.setForeground(Color.white);
         btnModifierSeances.setIconTextGap(5);
         btnModifierSeances.setBackground(new Color(241, 196, 15));
         btnModifierSeances.addActionListener(this);
 
         btnSupprimerSeances = this.dashHelper.btnMenuSideBar("Supprimer");
-        btnSupprimerSeances.setIcon(FontIcon.of(FontAwesome.TRASH, 18));
+        btnSupprimerSeances.setIcon(FontIcon.of(FontAwesomeSolid.TRASH, 18));
         btnSupprimerSeances.setForeground(Color.white);
         btnSupprimerSeances.setIconTextGap(5);
         btnSupprimerSeances.setBackground(new Color(244, 67, 54));
@@ -161,7 +162,6 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
 
         tabSeance = new JTable(tabSeanceModel);
         tabSeance.setRowHeight(30);
-        tabSeance.setFont(new Font("Roboto" , Font.BOLD , 13));
         tabSeance.setGridColor(Color.LIGHT_GRAY);
         tabSeance.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabSeance);
@@ -212,24 +212,14 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
             String dureeSeance = ajouterSeanceUI.inputDuree.getText();
 
             if (contenue.isEmpty() || dateSeance.isEmpty() || dureeSeance.isEmpty()){
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Veuillez remplir tous les champs svp !",
-                        null,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs svp !", null,JOptionPane.WARNING_MESSAGE);
             }else{
                 int duree = Integer.parseInt(dureeSeance);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime dateTime = LocalDateTime.parse(dateSeance, formatter);
 
                 this.seanceController.ajouterSeance(this.idCours , Timestamp.valueOf(dateTime), contenue , duree);
-                JOptionPane.showMessageDialog(
-                        null,
-                        "La séance a été ajouté avec succée !",
-                        null,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "La séance a été ajouté avec succée !", null, JOptionPane.INFORMATION_MESSAGE);
 
                 this.seanceController.chargeListeSeances(tabSeanceModel, this.classe , this.idEnseignant , this.coursIntitule);
 
@@ -243,12 +233,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
     private void modifierSeance(){
         int row = tabSeance.getSelectedRow();
         if (row == -1){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Veuillez selectioner une séance svp !",
-                    null,
-                    JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Veuillez selectioner une séance svp !", null, JOptionPane.WARNING_MESSAGE);
         }else{
             int idSeance = (int) tabSeanceModel.getValueAt(row , 0);
             String contenueSeance = (String) tabSeanceModel.getValueAt(row , 3);
@@ -275,12 +260,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
                 String duree = modifierSeanceUI.inputDuree.getText();
 
                 if (contenue.isEmpty() || date.isEmpty() || duree.isEmpty()){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Veuillez remplir tous les champs svp !",
-                            null,
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs svp !", null, JOptionPane.WARNING_MESSAGE);
                 }else{
                     int dureeCours = Integer.parseInt(duree);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -288,12 +268,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
 
                     this.seanceController.modifierSeance(idSeance , Timestamp.valueOf(dateTimeSeance),  contenue , dureeCours);
 
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "La séance a été modifié avec succée !",
-                            null,
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(null, "La séance a été modifié avec succée !", null, JOptionPane.INFORMATION_MESSAGE);
                     this.seanceController.chargeListeSeances(tabSeanceModel, this.classe , this.idEnseignant , this.coursIntitule);
 
                     modifierSeanceUI.inputContenue.setText(null);
@@ -308,30 +283,15 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
     public void supprimerSeance(){
         int row = tabSeance.getSelectedRow();
         if (row == -1){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Veuillez selectionez une seance svp !",
-                    null,
-                    JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Veuillez selectionez une seance svp !", null, JOptionPane.WARNING_MESSAGE);
         }else{
             int idSeance = (int) tabSeanceModel.getValueAt(row , 0);
 
-            int opt = JOptionPane.showConfirmDialog(
-                    null,
-                    "Voulez vous vraiment supprimer cette séance ?",
-                    null,
-                    JOptionPane.YES_NO_OPTION
-            );
+            int opt = JOptionPane.showConfirmDialog(null, "Voulez vous vraiment supprimer cette séance ?", null, JOptionPane.YES_NO_OPTION);
 
             if (opt == JOptionPane.YES_OPTION){
                 this.seanceController.supprimerSeance(idSeance);
-                JOptionPane.showMessageDialog(
-                  null,
-                  "La séance a été supprimé avec succée !",
-                  null,
-                  JOptionPane.INFORMATION_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "La séance a été supprimé avec succée !", null, JOptionPane.INFORMATION_MESSAGE);
                 this.seanceController.chargeListeSeances(tabSeanceModel, this.classe , this.idEnseignant , this.coursIntitule);
             }
         }

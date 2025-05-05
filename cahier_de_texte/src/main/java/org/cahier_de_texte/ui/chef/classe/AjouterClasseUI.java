@@ -47,7 +47,7 @@ public class AjouterClasseUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelNiveau = new JLabel("Nom de la classe");
-        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: bold 15 Roboto");
+        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelNiveau);
 
         inputNiveau = new JTextField();
@@ -58,7 +58,7 @@ public class AjouterClasseUI extends JFrame {
         l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));
         formPanel.add(l);
 
-        btnValider = this.dashHelper.btnMenuSideBar("Valider");
+        btnValider = this.dashHelper.btnMenuSideBar("Ajouter");
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.white);
         formPanel.add(btnValider , "pushx , growx");

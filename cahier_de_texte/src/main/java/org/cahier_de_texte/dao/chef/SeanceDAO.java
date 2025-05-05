@@ -73,7 +73,7 @@ public class SeanceDAO {
                 String enseignant = res.getString("enseignant");
 
                 
-                model.addRow(new Object[]{formattedDate, code_cours, cours, contenu, duree + " Heurs" , enseignant});
+                model.addRow(new Object[]{formattedDate, code_cours, cours, contenu, duree + " Heures" , enseignant});
             }
 
         }catch (SQLException e){
@@ -109,10 +109,7 @@ public class SeanceDAO {
                 String duree = res.getString("duree");
                 Timestamp dateSeance = res.getTimestamp("date_seance");
                 String formattedDateSeance = dateFormat.format(dateSeance);
-
-
-                model.addRow(new Object[]{idSeance , code, intitule, contenu, duree, formattedDateSeance});
-
+                model.addRow(new Object[]{idSeance , code, intitule, contenu, duree + "Heures", formattedDateSeance});
             }
 
         }catch (SQLException e){
@@ -155,7 +152,6 @@ public class SeanceDAO {
         }catch (SQLException e){
             System.out.println("Erreur lors de modification de la seance ! " + e.getMessage());
         }
-
         return false;
     }
 

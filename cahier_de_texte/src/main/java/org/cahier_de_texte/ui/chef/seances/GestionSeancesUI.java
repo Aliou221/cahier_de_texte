@@ -84,7 +84,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionSeances = new JLabel("Gestion des séances validées par classe");
+        JLabel labelGestionSeances = new JLabel("Gestion des seances validees par responsable".toUpperCase());
         labelGestionSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionSeances.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionSeances , "pushx , growx");
@@ -100,6 +100,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         panel.add(btnListeClasses, "split 2");
 
         btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
+        btnPlusInfo.setIcon(FontIcon.of(FontAwesomeSolid.INFO_CIRCLE , 18));
         panel.add(btnPlusInfo , "wrap , split 2");
         btnPlusInfo.addActionListener(this);
 

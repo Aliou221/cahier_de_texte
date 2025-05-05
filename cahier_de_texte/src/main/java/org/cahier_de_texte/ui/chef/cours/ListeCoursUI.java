@@ -37,7 +37,7 @@ public class ListeCoursUI extends JFrame implements ActionListener {
         setMinimumSize(new Dimension(600 , 500));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(90 , 90);
+        setLocationRelativeTo(null);
     }
 
     public JPanel formePanel(){
@@ -88,12 +88,7 @@ public class ListeCoursUI extends JFrame implements ActionListener {
         if (e.getSource() == btnModifierCours){
             int rowSelected = tabCours.getSelectedRow();
             if (rowSelected == -1){
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Veuillez choisir un cour svp !",
-                        null,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "Veuillez choisir un cour svp !", null, JOptionPane.WARNING_MESSAGE);
             }else{
                 String code = tabCours.getValueAt(rowSelected , 0).toString();
                 String nomCours = tabCours.getValueAt(rowSelected , 1).toString();
@@ -112,20 +107,10 @@ public class ListeCoursUI extends JFrame implements ActionListener {
                     int newCredit = Integer.parseInt(modifierCoursUI.inputCredit.getText());
 
                     if (newCode.isEmpty() || newIntitule.isEmpty() || modifierCoursUI.inputCredit.getText().isEmpty()){
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Veuillez remplir tous les champs svp !",
-                                null,
-                                JOptionPane.WARNING_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs svp !", null, JOptionPane.WARNING_MESSAGE);
                     }else{
                         this.coursController.modifierCours(newCode , newIntitule , newCredit , code);
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Modification du cour avec succée !",
-                                null,
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(null, "Modification du cour avec succée !", null, JOptionPane.INFORMATION_MESSAGE);
                         this.coursController.listeDesCours(modelCours);
 
                         modifierCoursUI.inputCode.setText(null);
@@ -140,33 +125,16 @@ public class ListeCoursUI extends JFrame implements ActionListener {
         if (e.getSource() == btnSupprimerCours){
             int selectedRow = tabCours.getSelectedRow();
             if (selectedRow == -1){
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Veuillez choisir un cour svp !",
-                        null,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "Veuillez choisir un cour svp !", null,    JOptionPane.WARNING_MESSAGE);
             }else{
-                int opt = JOptionPane.showConfirmDialog(
-                        null,
-                        "Voulez vous vraiment supprimer ce cours ?\n" +
-                                tabCours.getValueAt(selectedRow , 1),
-                        null,
-                        JOptionPane.YES_NO_OPTION
-                );
+                int opt = JOptionPane.showConfirmDialog(null, "Voulez vous vraiment supprimer ce cours ?\n" + tabCours.getValueAt(selectedRow , 1), null, JOptionPane.YES_NO_OPTION);
 
                 if (opt == JOptionPane.YES_OPTION){
                     this.coursController.supprimerCours((String) tabCours.getValueAt(selectedRow , 0));
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "La suppression a été effectué avec succées !",
-                            null,
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(null, "La suppression a été effectué avec succées !", null, JOptionPane.INFORMATION_MESSAGE);
                     this.coursController.listeDesCours(modelCours);
                 }
             }
-
         }
     }
 }

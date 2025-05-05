@@ -95,7 +95,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelAttCours = new JLabel("Attribution des cours");
+        JLabel labelAttCours = new JLabel("Attribution des cours pour un enseignant".toUpperCase());
         labelAttCours.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelAttCours.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelAttCours , "pushx , growx");
@@ -189,12 +189,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
                 String credit = ajouterCoursUI.inputCredit.getText().trim();
 
                 if (code.isEmpty() || intituler.isEmpty() || credit.isEmpty()){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Veuillez remplir tous les champs svp!",
-                            null,
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs svp!", null, JOptionPane.WARNING_MESSAGE);
                 }else{
                     int creditCours = Integer.parseInt(credit);
                     this.coursController.ajouterCours(code , intituler , creditCours);

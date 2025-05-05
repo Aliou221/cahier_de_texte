@@ -1,8 +1,9 @@
+
 package org.cahier_de_texte.ui.chef.seances;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.itextpdf.text.*;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -40,7 +41,6 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
     JTable tabClasse;
     private DefaultTableModel tabClasseModel;
 
-
     public SeanceClasseUI(String classe , String responsable){
         this.seanceController = new SeanceController();
         this.dashHelper = new DashBordChefUI();
@@ -60,9 +60,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    //Creation de notre Sidebar
     public JPanel createSideBarPanel(){
-
         JPanel getPanelSideBar ,  sideBarPanel ;
 
         sideBarPanel = new JPanel(new MigLayout("gap 8"));
@@ -73,7 +71,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Roboto",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -105,13 +103,12 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
     }
 
     public JPanel homePanelClasses(String classe){
-
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
         JLabel labelGestionClasse = new JLabel("Gestion des séances");
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
@@ -140,13 +137,13 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         };
 
         tabClasse = new JTable(tabClasseModel);
-
         tabClasse.setRowHeight(30);
         tabClasse.setGridColor(Color.LIGHT_GRAY);
         tabClasse.setShowGrid(true);
+
         JScrollPane scrollPane = new JScrollPane(tabClasse);
         panel.add(scrollPane , "span , push , grow");
-        
+
         this.seanceController.chargeListeSeancesClasse(tabClasseModel , classe);
 
         return panel;
@@ -154,14 +151,14 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnTabBord){ new DashBordChefUI().setVisible(true); dispose(); }
+        if(e.getSource() == btnTabBord){ new DashBordChefUI().setVisible(true); dispose(); }
         if(e.getSource() == btnDeconnexion){ new LoginUI().setVisible(true); dispose();}
-        if (e.getSource() == btnGenerePDF ){ genererPDF(); }
+        if(e.getSource() == btnGenerePDF ){ genererPDF(); }
         if(e.getSource() == btnBack){ new GestionSeancesUI().setVisible(true); dispose(); }
     }
 
     private void genererPDF() {
-        Document document = new Document(); // Crée un nouveau document PDF vide
+        Document document = new Document();
 
         try {
             preparerDocument(document);
@@ -170,112 +167,115 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
             ajouterTableauSeances(document);
 
         } catch (Exception ex) {
-           System.out.println("Erreur ! " + ex.getMessage());// Affiche l'erreur dans la console
-            JOptionPane.showMessageDialog(this, "Erreur lors de la génération du PDF !"); // Message d'erreur
+            JOptionPane.showMessageDialog(this, "Une erreur est survenue lors de la génération du PDF");
         }
     }
 
     private void preparerDocument(Document document) throws FileNotFoundException, DocumentException {
-        // Préparer le nom du fichier (nom de la classe + date et heure précises)
-        LocalDateTime dateTime = LocalDateTime.now(); // Récupère la date et l'heure actuelles
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"); // Définit le format
-        String dateString = dateTime.format(formatter); // Formate la date et l'heure
-        String nomFichier = this.classe + "_" + dateString + ".pdf"; // Nom du fichier
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+        String dateString = dateTime.format(formatter);
+        String nomFichier = this.classe + "_" + dateString + ".pdf";
 
-        // Préparer l'écriture du fichier PDF
-        PdfWriter.getInstance(document, new FileOutputStream(nomFichier)); // Crée le PDF sur disque
-        document.open(); // Ouvre le document pour écrire dedans
+        PdfWriter.getInstance(document, new FileOutputStream(nomFichier));
+        document.open();
     }
 
     private void ajouterLogo(Document document) throws DocumentException, IOException {
-        // Ajouter le logo centré en haut
-        ImageIcon logoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/logo-uidt.png"))); // Charge le logo
-        com.itextpdf.text.Image logo = com.itextpdf.text.Image.getInstance(logoIcon.getImage(), null); // Convertit en Image PDF
-        logo.scaleAbsolute(80, 80); // Redimensionne l'image à 80x80 pixels
-        logo.setAlignment(com.itextpdf.text.Image.ALIGN_CENTER); // Centre le logo
-        document.add(logo); // Ajoute le logo au document
+        ImageIcon logoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/img/logo-uidt.png")));
+        com.itextpdf.text.Image logo = com.itextpdf.text.Image.getInstance(logoIcon.getImage(), null);
+        logo.scaleAbsolute(80, 80);
+        logo.setAlignment(com.itextpdf.text.Image.ALIGN_CENTER);
+        document.add(logo);
     }
 
     private void ajouterInformationsEntete(Document document) throws DocumentException {
-        //Ajouter le texte "Université Iba Der Thiam de Thiès" sous le logo
-        com.itextpdf.text.Font universiteFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 14, Font.BOLD); // Définit une police pour le texte
-        Paragraph universite = new Paragraph("Université Iba Der Thiam de Thiès", universiteFont); // Crée le paragraphe
-        universite.setAlignment(Element.ALIGN_CENTER); // Centre le texte
-        universite.setSpacingAfter(10f); // Ajoute un espace après le texte
-        document.add(universite); // Ajoute au document
+        com.itextpdf.text.Font universiteFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 14, Font.BOLD);
+        Paragraph universite = new Paragraph("Université Iba Der Thiam de Thiès", universiteFont);
+        universite.setAlignment(Element.ALIGN_CENTER);
+        universite.setSpacingAfter(10f);
+        document.add(universite);
     }
 
     private void ajouterTableauSeances(Document document) throws DocumentException {
-        //Créer un tableau pour l'infos
-        PdfPTable headerTable = new PdfPTable(1); // Crée un tableau
-        headerTable.setWidthPercentage(100); // Le tableau prend toute la largeur du document
-        headerTable.setSpacingBefore(10f); // Espace avant le tableau
-        headerTable.setSpacingAfter(10f); // Espace après le tableau
-        float[] headerWidths = {4f}; // Largeur du colonne
-        headerTable.setWidths(headerWidths); // Applique les largeurs
+        PdfPTable headerTable = getPdfPTable();
+        document.add(headerTable);
 
-        // Ajouter les informations à droite
-        com.itextpdf.text.Font infoFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.NORMAL);
+        com.itextpdf.text.Font titreFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
+        Paragraph titre = new Paragraph("Liste des Séances de la " + classe, titreFont);
+        titre.setAlignment(Element.ALIGN_CENTER);
+        titre.setSpacingBefore(10f);
+        titre.setSpacingAfter(20f);
+        document.add(titre);
 
-        Paragraph infos = new Paragraph(); // Nouveau paragraphe pour les informations
-        infos.add(new Phrase("Département Informatique\n", infoFont)); // Ajoute "Département Informatique"
-        infos.add(new Phrase(this.classe + "\n", infoFont));
-        infos.add(new Phrase("Nom du Responsable : " + this.responsable + "\n", infoFont)); // Ajoute nom du responsable
-        infos.add(new Phrase("Année universitaire : 2024-2025\n", infoFont)); // Ajoute année universitaire
+        PdfPTable table = new PdfPTable(6);
+        table.setWidthPercentage(105);
+        table.setSpacingBefore(10f);
+        table.setSpacingAfter(10f);
+        float[] columnWidths = {2.2f, 2f, 3.8f, 5f, 2f, 2.3f};
+        table.setWidths(columnWidths);
 
-        PdfPCell infosCell = new PdfPCell(infos); // Crée une cellule avec le texte
-        infosCell.setBorder(Rectangle.NO_BORDER); // Pas de bordure
-        infosCell.setHorizontalAlignment(Element.ALIGN_LEFT); // Aligne à gauche
-        infosCell.setVerticalAlignment(Element.ALIGN_MIDDLE); // Centre verticalement
-        headerTable.addCell(infosCell); // Ajoute la cellule d'infos au tableau
+        com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+        BaseColor headerColor = BaseColor.GRAY;
 
-        document.add(headerTable); // Ajoute le tableau au document
-
-        //Ajouter le titre principal du tableau
-        com.itextpdf.text.Font titreFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY); // Police pour le titre
-        Paragraph titre = new Paragraph("Liste des Séances de la " + classe, titreFont); // Texte avec nom de la classe
-        titre.setAlignment(Element.ALIGN_CENTER); // Centre le titre
-        titre.setSpacingBefore(10f); // Espace avant
-        titre.setSpacingAfter(20f); // Espace après
-        document.add(titre); // Ajoute le titre au document
-
-        //Créer le tableau pour afficher la liste des séances
-        PdfPTable table = new PdfPTable(6); // Crée un tableau à 6 colonnes
-        table.setWidthPercentage(100); // Largeur totale
-        table.setSpacingBefore(10f); // Espace avant
-        table.setSpacingAfter(10f); // Espace après
-        float[] columnWidths = {2f, 2f, 3f, 4f, 1f, 2f}; // Largeur de chaque colonne
-        table.setWidths(columnWidths); // Applique la largeur
-
-        // Définir le style de l'entête (en-tête des colonnes)
-        com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE); // Police blanche
-        BaseColor headerColor = BaseColor.GRAY; // Couleur de fond grise
-
-        String[] columnClasse = {"Date Séance", "Code", "Cours", "Contenu", "Durée", "Enseignant"}; // Titres des colonnes
+        String[] columnClasse = {"Date Séance", "Code", "Cours", "Contenu", "Durée", "Enseignant"};
         for (String entete : columnClasse) {
-            PdfPCell cell = new PdfPCell(new Phrase(entete, fontHeader)); // Crée une cellule pour chaque titre
-            cell.setBackgroundColor(headerColor); // Fond gris
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER); // Centre le texte
-            cell.setPadding(4); // Marge intérieure
-            table.addCell(cell); // Ajoute la cellule au tableau
+            PdfPCell cell = new PdfPCell(new Phrase(entete, fontHeader));
+            cell.setBackgroundColor(headerColor);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setPadding(4);
+            table.addCell(cell);
         }
 
-        // Remplir le tableau avec les données de tabClasseModel
-        int rowCount = tabClasseModel.getRowCount(); // Nombre de lignes dans le modèle
-        int columnCount = tabClasseModel.getColumnCount(); // Nombre de colonnes
+        int rowCount = tabClasseModel.getRowCount();
+        int columnCount = tabClasseModel.getColumnCount();
 
-        for (int row = 0; row < rowCount; row++) { // Parcourt chaque ligne
-            for (int col = 0; col < columnCount; col++) { // Parcourt chaque colonne
-                Object value = tabClasseModel.getValueAt(row, col); // Récupère la valeur de la cellule
-                PdfPCell cell = new PdfPCell(new Phrase(value != null ? value.toString() : "")); // Met la valeur (ou vide si null)
-                cell.setPadding(3); // Marge intérieure
-                table.addCell(cell); // Ajoute la cellule au tableau
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
+                Object value = tabClasseModel.getValueAt(row, col);
+                PdfPCell cell = new PdfPCell(new Phrase(value != null ? value.toString() : ""));
+                cell.setPadding(3);
+                table.addCell(cell);
             }
         }
 
-        document.add(table); // Ajoute le tableau rempli au document
-        document.close(); // Ferme le document (finalise le PDF)
+        document.add(table);
+        document.close();
 
-        JOptionPane.showMessageDialog(this, "PDF généré avec succès !"); // Message de succès
+        JOptionPane.showMessageDialog(this, "PDF généré avec succès !");
+    }
+
+    private PdfPTable getPdfPTable() throws DocumentException {
+        PdfPTable headerTable = new PdfPTable(2);
+        headerTable.setWidthPercentage(50);
+        headerTable.setSpacingBefore(10f);
+        headerTable.setSpacingAfter(10f);
+        float[] headerWidths = {3f, 3f};
+        headerTable.setWidths(headerWidths);
+
+        com.itextpdf.text.Font infoFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.NORMAL);
+
+        String[][] infos = {
+                {"Département", "Informatique"},
+                {"Classe", this.classe},
+                {"Nom du Responsable", this.responsable},
+                {"Année universitaire", "2024-2025"}
+        };
+
+        for (String[] row : infos) {
+            PdfPCell labelCell = new PdfPCell(new Phrase(row[0], infoFont));
+            labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            labelCell.setVerticalAlignment(Element.ALIGN_LEFT);
+            labelCell.setPadding(5);
+
+            PdfPCell valueCell = new PdfPCell(new Phrase(row[1], infoFont));
+            valueCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            valueCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            valueCell.setPadding(5);
+
+            headerTable.addCell(labelCell);
+            headerTable.addCell(valueCell);
+        }
+        return headerTable;
     }
 }

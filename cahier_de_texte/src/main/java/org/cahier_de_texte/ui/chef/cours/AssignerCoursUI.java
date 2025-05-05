@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.cours;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ChefController;
 import org.cahier_de_texte.controller.chef.CoursController;
@@ -27,7 +28,7 @@ public class AssignerCoursUI extends JFrame {
     private void initUI() {
         setTitle("Attribution des cours");
         setSize(500, 500);
-        setLocation(90, 90);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         add(formePanel());
@@ -44,28 +45,32 @@ public class AssignerCoursUI extends JFrame {
         formPanel.add(imageLabel, "span, growx, center");
 
         // Enseignant
-        formPanel.add(new JLabel("Enseignant"), "growx");
+        JLabel labelEnseignant = new JLabel("Enseignant");
+        labelEnseignant.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        formPanel.add(labelEnseignant, "growx");
         comboBoxEnseignant = createComboBox();
         chefController.enseignant(comboBoxEnseignant);
         formPanel.add(comboBoxEnseignant, "growx");
 
         // Cours
-        formPanel.add(new JLabel("Cours"), "growx");
+        JLabel labelCours = new JLabel("Cours");
+        labelCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        formPanel.add(labelCours , "growx");
         comboBoxCours = createComboBox();
         chefController.cours(comboBoxCours);
         formPanel.add(comboBoxCours, "growx");
 
         // Classe
-        formPanel.add(new JLabel("Classe"), "growx");
+        JLabel labelClasse = new JLabel("Classe");
+        labelClasse.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        formPanel.add(labelClasse, "growx");
         comboBoxClasse = createComboBox();
         chefController.classe(comboBoxClasse);
         formPanel.add(comboBoxClasse, "growx");
 
-        // Espace
         formPanel.add(Box.createVerticalStrut(10));
 
-        // Bouton
-        btnValider = dashHelper.btnMenuSideBar("Enregistrer");
+        btnValider = dashHelper.btnMenuSideBar("Assigner");
         btnValider.setBackground(new Color(46, 204, 113));
         btnValider.setForeground(Color.WHITE);
         btnValider.addActionListener(e -> assignerCours());
@@ -86,12 +91,8 @@ public class AssignerCoursUI extends JFrame {
         String cours = (String) comboBoxCours.getSelectedItem();
         String classe = (String) comboBoxClasse.getSelectedItem();
 
-        if (enseignant == null || cours == null || classe == null ||
-                enseignant.isEmpty() || cours.isEmpty() || classe.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Tous les champs sont obligatoires.",
-                    "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+        if (enseignant == null || cours == null || classe == null || enseignant.isEmpty() || cours.isEmpty() || classe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tous les champs sont obligatoires.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -108,22 +109,16 @@ public class AssignerCoursUI extends JFrame {
 
             coursController.assignerCours(idEnseignant, codeCours, intituleCours, idCours, idClasse);
 
-            JOptionPane.showMessageDialog(this,
-                    "Cours assigné avec succès !",
-                    "Succès",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cours assigné avec succès !", "Succès", JOptionPane.INFORMATION_MESSAGE);
 
             // Nettoyage des champs
             comboBoxEnseignant.setSelectedIndex(-1);
             comboBoxCours.setSelectedIndex(-1);
             comboBoxClasse.setSelectedIndex(-1);
+            dispose();
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Une erreur s'est produite : " + ex.getMessage(),
-                    "Erreur",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

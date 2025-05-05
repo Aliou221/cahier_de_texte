@@ -27,7 +27,7 @@ public class ModifierCoursUI extends JFrame {
         setMinimumSize(new Dimension(350 , 450));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(700 , 90);
+        setLocationRelativeTo(null);
     }
 
     public JPanel formePanel(){

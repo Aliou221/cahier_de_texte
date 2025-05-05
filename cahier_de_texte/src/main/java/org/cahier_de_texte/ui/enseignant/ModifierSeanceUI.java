@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.enseignant;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
@@ -46,7 +47,7 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelContenue = new JLabel("Contenue de la séance : ");
-        labelContenue.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelContenue.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelContenue);
 
         inputContenue = new JTextArea();
@@ -55,7 +56,7 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(scrollPane , "pushx , growx");
 
         labelDate = new JLabel("Date : (ex: aaaa-MM-dd HH:mm:ss)");
-        labelDate.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelDate.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelDate);
 
         inputDate = new JTextField();
@@ -63,13 +64,12 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(inputDate, "pushx , growx");
 
         labelDuree = new JLabel("Durée (en Heures ) :");
-        labelDuree.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelDuree.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelDuree);
 
         inputDuree = new JTextField();
         inputDuree.setPreferredSize(new Dimension(0 , 40));
         formPanel.add(inputDuree, "pushx , growx");
-
 
         JLabel l = new JLabel("");
         l.setBorder(this.dashHelper.emptyBorder(10 , 0 , 0 , 0));

@@ -118,9 +118,9 @@ public class EtudiantUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionClasse = new JLabel("Classe : " + this.classe);
+        JLabel labelGestionClasse = new JLabel("Classe : ".toUpperCase() + this.classe);
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Roboto");
+        labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = getButton("Deconnexion" , FontAwesomeSolid.SIGN_OUT_ALT , Color.white);
@@ -207,7 +207,6 @@ public class EtudiantUI extends JFrame implements ActionListener {
         if(e.getSource() == btnResponsable){responsableAction();}
     }
 
-    // Méthodes de gestion des événements
     private void tableauBordAction() {
         new DashBordChefUI().setVisible(true);
         dispose();
@@ -235,13 +234,16 @@ public class EtudiantUI extends JFrame implements ActionListener {
             String email = this.ajouterEtudiantUI.inputEmail.getText();
 
             if(prenom.isEmpty() || nom.isEmpty() || email.isEmpty()){
-                JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , "Erreur" , JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , null , JOptionPane.WARNING_MESSAGE);
             }else{
                 if (this.userController.verifUser(email)){
                     JOptionPane.showMessageDialog(null , "Cette email a été utilisé par un autre utilisateur !" , null , JOptionPane.ERROR_MESSAGE);
                 }else{
                     this.etudiantController.ajouterEtudiant(prenom , nom , email , this.classe);
                     this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    ajouterEtudiantUI.inputFirstName.setText(null);
+                    ajouterEtudiantUI.inputLastName.setText(null);
+                    ajouterEtudiantUI.inputEmail.setText(null);
                     ajouterEtudiantUI.dispose();
                 }
             }
@@ -304,7 +306,6 @@ public class EtudiantUI extends JFrame implements ActionListener {
                         modifierEtudiantUI.dispose();
                         return;
                     }
-
                     this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
                     this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
                     modifierEtudiantUI.dispose();
@@ -404,8 +405,5 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Veuillez cocher le chekbox \npour definir comme responsable", null, JOptionPane.WARNING_MESSAGE);
             }
         }
-    }
-    public static void main(String[] args) {
-        new EtudiantUI("D2 Informatique").setVisible(true);
     }
 }

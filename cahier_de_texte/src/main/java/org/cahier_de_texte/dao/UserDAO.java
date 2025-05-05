@@ -100,7 +100,6 @@ public class UserDAO {
         }catch (SQLException e){
             System.out.println("Erreur de connexion ! " + e.getMessage());
         }
-
         return false;
     }
 }

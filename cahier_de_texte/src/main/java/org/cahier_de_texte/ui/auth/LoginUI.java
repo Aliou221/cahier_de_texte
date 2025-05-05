@@ -157,13 +157,19 @@ public class LoginUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , null , JOptionPane.WARNING_MESSAGE);
         }else{
             Users user = this.userController.login(email , password);
-            String role = String.valueOf(user.getRole());
+            if (user == null) {
+                JOptionPane.showMessageDialog(null, "Email ou mot de passe incorrect !", null, JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            String role = String.valueOf(user.getRole());
             switch (role) {
                 case "CHEF" -> { new DashBordChefUI().setVisible(true); dispose(); }
                 case "ENSEIGNANT" -> { new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()).setVisible(true);dispose();}
                 case "RESPONSABLE" -> {new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);dispose();}
+                default -> {System.out.println("Role non reconnue");}
             }
+
         }
     }
 }

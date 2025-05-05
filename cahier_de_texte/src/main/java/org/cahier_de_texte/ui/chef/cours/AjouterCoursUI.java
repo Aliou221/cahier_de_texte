@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.cours;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
@@ -26,7 +27,7 @@ public class AjouterCoursUI extends JFrame {
         setMinimumSize(new Dimension(350 , 450));
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocation(300 , 90);
+        setLocationRelativeTo(null);
     }
 
     public JPanel formePanel(){
@@ -43,7 +44,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelCode = new JLabel("Code");
-        labelCode.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelCode.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelCode);
 
         inputCode = new JTextField();
@@ -51,7 +52,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(inputCode , "pushx , growx");
 
         labelNomCours = new JLabel("Intitulé");
-        labelNomCours.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelNomCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelNomCours);
 
         inputNomCours = new JTextField();
@@ -59,7 +60,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(inputNomCours , "pushx , growx");
 
         labelCredit = new JLabel("Crédits");
-        labelCredit.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelCredit.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         formPanel.add(labelCredit);
 
         inputCredit = new JTextField();

@@ -13,24 +13,15 @@ public class UserController {
     }
 
     public Users login(String email , String password){
+        Users user = new Users();
+        user.setEmail(email);
+        user.setPassword(password);
+        boolean verifUser = userDAO.verifeUser(user);
 
-            Users user = new Users();
-            user.setEmail(email);
-            user.setPassword(password);
-
-            boolean verifUser = userDAO.verifeUser(user);
-
-            if (verifUser){
-                return user;
-            }else{
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Email ou mot de passe incorrect !",
-                        null,
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return null;
-            }
+        if (verifUser){
+            return user;
+        }
+        return null;
     }
 
     public Users modifierUser(String firstName , String lastName , String email , int id){
@@ -41,20 +32,10 @@ public class UserController {
         user.setId(id);
 
         if (userDAO.modifierUser(user)){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Enseignant a été modifié avec succés !",
-                    null,
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Enseignant a été modifié avec succés !", null, JOptionPane.INFORMATION_MESSAGE);
             return user;
         }else{
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Erreur de modification !",
-                    null,
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Erreur de modification !", null, JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -64,20 +45,10 @@ public class UserController {
         user.setId(id);
 
         if(userDAO.supprimerUser(user)){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Enseignant a été supprimé avec succés !",
-                    null,
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Enseignant a été supprimé avec succés !", null, JOptionPane.INFORMATION_MESSAGE);
             return user;
         }else{
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Erreur de suppression !",
-                    null,
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Erreur de suppression !", null, JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -87,12 +58,7 @@ public class UserController {
             if (!updateValide){
                 System.out.println("Modification de mot de passe impossible !");
             }else{
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Votre mot de passe à été modifié avec succée",
-                        null,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null, "Votre mot de passe à été modifié avec succée", null, JOptionPane.INFORMATION_MESSAGE);
             }
     }
 

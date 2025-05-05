@@ -85,7 +85,7 @@ public class GestionClasseUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20, 20, 20, 20));
 
-        JLabel labelGestionClasse = new JLabel("Liste des classes et effectifs");
+        JLabel labelGestionClasse = new JLabel("Liste des classes et effectifs".toUpperCase());
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10, 0, 15, 0));
         labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionClasse, "pushx, growx");

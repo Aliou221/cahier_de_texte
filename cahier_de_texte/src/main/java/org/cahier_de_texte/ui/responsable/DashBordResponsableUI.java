@@ -1,11 +1,12 @@
 package org.cahier_de_texte.ui.responsable;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.responsable.ResponsableController;
 import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
-import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Roboto",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -76,7 +77,7 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         panelSideBar.setBackground(Color.getColor(null));
 
         btnListeSeancesValide = this.dashHelper.btnMenuSideBar("Séances Valides");
-        btnListeSeancesValide.setIcon(FontIcon.of(FontAwesome.LIST , 18));
+        btnListeSeancesValide.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
         btnListeSeancesValide.addActionListener(this);
         panelSideBar.add(btnListeSeancesValide, "wrap , pushx , growx");
 
@@ -91,13 +92,13 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelListeSeances = new JLabel("Liste des séances non validés");
+        JLabel labelListeSeances = new JLabel("Liste des séances non validees".toUpperCase());
         labelListeSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelListeSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelListeSeances.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelListeSeances , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
-        btnDeconnexion.setIcon(FontIcon.of(FontAwesome.SIGN_OUT , 18));
+        btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT , 18));
         btnDeconnexion.addActionListener((ActionEvent e)->{
             new LoginUI().setVisible(true);
             dispose();
@@ -121,8 +122,8 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
         };
 
         btnValiderSeances = this.dashHelper.btnMenuSideBar("Valider la séance");
-        btnValiderSeances.setIcon(FontIcon.of(FontAwesome.CHECK, 18));
-        btnValiderSeances.setFont(new Font("Roboto", Font.BOLD, 16));
+        btnValiderSeances.setIcon(FontIcon.of(FontAwesomeSolid.CHECK, 18));
+        btnValiderSeances.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
         btnValiderSeances.setPreferredSize(new Dimension(getWidth() , 45));
         btnValiderSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnValiderSeances, "wrap");
@@ -131,8 +132,6 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
 
         tabSeances = new JTable(modelTabSeances);
         tabSeances.setRowHeight(30);
-        tabSeances.setFont(new Font("Roboto" , Font.BOLD , 13));
-
         tabSeances.setGridColor(Color.LIGHT_GRAY);
         tabSeances.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabSeances);
