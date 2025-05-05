@@ -284,8 +284,4 @@ public class DashBordChefUI extends JFrame implements ActionListener {
             dispose();
         }
     }
-
-    public static void main(String[] args) {
-        new DashBordChefUI().setVisible(true);
-    }
 }
