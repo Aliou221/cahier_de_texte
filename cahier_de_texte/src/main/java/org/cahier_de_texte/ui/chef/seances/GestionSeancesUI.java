@@ -1,9 +1,10 @@
 package org.cahier_de_texte.ui.chef.seances;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.SeanceController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -55,7 +56,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Arial",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -85,7 +86,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
 
         JLabel labelGestionSeances = new JLabel("Gestion des séances validées par classe");
         labelGestionSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionSeances.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelGestionSeances.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionSeances , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
@@ -113,7 +114,6 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
 
         tabClasse = new JTable(tabClasseModel);
         tabClasse.setRowHeight(30);
-        tabClasse.setFont(new Font("Roboto" , Font.BOLD , 13));
         tabClasse.setGridColor(Color.LIGHT_GRAY);
         tabClasse.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabClasse);

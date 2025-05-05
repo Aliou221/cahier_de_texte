@@ -45,28 +45,16 @@ public class EtudiantController {
         etudiants.setEmail(email);
 
         if (etudiantDAO.modifierEtudiant(etudiants , id)){
-            JOptionPane.showMessageDialog(
-                    null ,
-                            "Etudiant à été modifié avec succès !" ,
-                    "Succès" ,
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        }else{
-            JOptionPane.showMessageDialog(
-                    null ,
-                    "La modification a echoué" ,
-                    null ,
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null , "Etudiant à été modifié avec succès !" , "Succès" , JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    public void modifRespo(String firstName , String lastName , String email , int id ){
+    public void modifRespo(String firstName , String lastName , String email , String emailEtudiant ){
         Users user = new Users();
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
-        if(etudiantDAO.modifRespo(user , id)){
+        if(etudiantDAO.modifRespo(user , emailEtudiant)){
             System.out.println("prenom: " + firstName);
             System.out.println("nom: " + lastName);
             System.out.println("email: " + email);
@@ -106,8 +94,8 @@ public class EtudiantController {
         }
     }
 
-    public void deleteRespo(int id){
-        if(etudiantDAO.deleteResponsable(id)){
+    public void deleteRespo(String email){
+        if(etudiantDAO.deleteResponsable(email)){
            System.out.println("Responsable a été supprimé avec succés !");
         }else{
             System.out.println("La suppression du responsable a echoué !");

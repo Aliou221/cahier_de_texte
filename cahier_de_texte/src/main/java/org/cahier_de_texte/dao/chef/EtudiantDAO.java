@@ -59,18 +59,17 @@ public class EtudiantDAO {
         return false;
     }
 
-    public boolean modifRespo(Users user, int etudiantId) {
+    public boolean modifRespo(Users user, String emailEtudiant) {
             try {
-
                 // Mise à jour dans la table Utilisateurs
-                String sqlUtilisateur = "UPDATE Utilisateurs SET prenom = ?, nom = ?, email = ? WHERE id = ?";
+                String sqlUtilisateur = "UPDATE Utilisateurs SET prenom = ?, nom = ?, email = ? WHERE email = ?";
                 pst = con.prepareStatement(sqlUtilisateur);
                 pst.setString(1, user.getFirstName());
                 pst.setString(2, user.getLastName());
                 pst.setString(3, user.getEmail());
-                pst.setInt(4, etudiantId);
+                pst.setString(4, emailEtudiant);
                 pst.executeUpdate();
-                System.out.println("Utilisateur a ete modifier : " + etudiantId);
+                System.out.println("Utilisateur a ete modifier : " + emailEtudiant);
                 return true;
             } catch (SQLException ex) {
                 System.out.println("Erreur ! " + ex.getMessage());
@@ -96,11 +95,11 @@ public class EtudiantDAO {
         return false;
     }
 
-    public boolean deleteResponsable(int id){
-        String sql = "DELETE FROM Utilisateurs WHERE id = ?";
+    public boolean deleteResponsable(String email){
+        String sql = "DELETE FROM Utilisateurs WHERE email = ?";
         try{
             pst = con.prepareStatement(sql);
-            pst.setInt(1 , id);
+            pst.setString(1 , email);
             pst.executeUpdate();
             return true;
 

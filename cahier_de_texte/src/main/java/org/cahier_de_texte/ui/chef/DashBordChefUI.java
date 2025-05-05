@@ -1,9 +1,10 @@
 package org.cahier_de_texte.ui.chef;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ChefController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
 import org.cahier_de_texte.ui.chef.cours.GestionCoursUI;
 import org.cahier_de_texte.ui.chef.enseignant.GestionEnseignantUI;
@@ -59,7 +60,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Roboto",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -113,7 +114,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         btn.setPreferredSize(new Dimension(0 , 45));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setHorizontalAlignment(JButton.CENTER);
-        btn.setFont(new Font("Roboto" , Font.BOLD , 14));
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: bold 14 Roboto");
 
         return btn;
     }
@@ -129,7 +130,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         JLabel labelTabBord = new JLabel("Tableau de bord ");
         labelTabBord.setBorder(emptyBorder(5 ,0 , 15 , 0));
-        labelTabBord.setFont(new Font("Roboto" , Font.BOLD , 20));
+        labelTabBord.putClientProperty(FlatClientProperties.STYLE, "font: bold 20 Poppins");
 
         btnDeconnexion = btnMenuSideBar("Deconnexion");
         btnDeconnexion.setIcon(FontIcon.of(FontAwesomeSolid.SIGN_OUT_ALT, 18));
@@ -152,11 +153,11 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         panelThree.add(panClasses , "pushx , growx");
 
         JLabel labelResponsableTab = new JLabel("Responsables et leur classe");
-        labelResponsableTab.setFont(new Font("Roboto", Font.BOLD , 20));
+        labelResponsableTab.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         labelResponsableTab.setBorder(emptyBorder(15 , 0 , 20 , 0));
 
         JLabel labelProf = new JLabel("Enseignants et Cours Assignés");
-        labelProf.setFont(new Font("Roboto", Font.BOLD , 20));
+        labelProf.putClientProperty(FlatClientProperties.STYLE, "font: bold 20 Poppins");
         labelProf.setBorder(emptyBorder(15 , 0 , 20 , 0));
 
         String[] columns = {"Responsable" , "Email" , "Classe"};
@@ -192,7 +193,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         scrollPane.setPreferredSize(new Dimension(0 , 400));
 
         JTableHeader header = table.getTableHeader();
-        header.setFont(header.getFont().deriveFont(Font.BOLD, 14f));
+        header.putClientProperty(FlatClientProperties.STYLE, "font: bold 14 Poppins");
 
         this.chefController.chargeTabResponsable(model);
         return scrollPane;
@@ -207,8 +208,6 @@ public class DashBordChefUI extends JFrame implements ActionListener {
                 return false;
             }
         };
-
-
 
         JTable table = new JTable(model);
         table.setRowHeight(30);
@@ -236,13 +235,13 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         JLabel labelName = new JLabel(title);
         labelName.setBorder(emptyBorder(15 , 20 , 15 , 10));
-        labelName.setFont(new Font("Roboto" , Font.BOLD , 16));
+        labelName.putClientProperty(FlatClientProperties.STYLE, "font: bold 16 Roboto");
         labelName.setForeground(Color.white);
 
         numbre = (char) numbre;
         JLabel labelStat = new JLabel(String.valueOf(numbre));
         labelStat.setIcon(FontIcon.of(icofont , 30));
-        labelStat.setFont(new Font("Roboto" , Font.BOLD , 20));
+        labelStat.putClientProperty(FlatClientProperties.STYLE, "font: bold 18 Poppins");
         labelStat.setForeground(Color.white);
         labelStat.setIconTextGap(10);
         labelStat.setBorder(emptyBorder(0 , 20 , 15 , 10));
@@ -284,6 +283,9 @@ public class DashBordChefUI extends JFrame implements ActionListener {
             new LoginUI().setVisible(true);
             dispose();
         }
+    }
 
+    public static void main(String[] args) {
+        new DashBordChefUI().setVisible(true);
     }
 }

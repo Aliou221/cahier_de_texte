@@ -8,7 +8,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.SeanceController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -142,7 +142,6 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         tabClasse = new JTable(tabClasseModel);
 
         tabClasse.setRowHeight(30);
-        tabClasse.setFont(new Font("Roboto" , Font.BOLD , 13));
         tabClasse.setGridColor(Color.LIGHT_GRAY);
         tabClasse.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabClasse);
@@ -249,7 +248,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         table.setWidths(columnWidths); // Applique la largeur
 
         // Définir le style de l'entête (en-tête des colonnes)
-        com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 11, Font.BOLD, BaseColor.WHITE); // Police blanche
+        com.itextpdf.text.Font fontHeader = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE); // Police blanche
         BaseColor headerColor = BaseColor.GRAY; // Couleur de fond grise
 
         String[] columnClasse = {"Date Séance", "Code", "Cours", "Contenu", "Durée", "Enseignant"}; // Titres des colonnes

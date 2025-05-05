@@ -72,8 +72,6 @@ public class ListeCoursUI extends JFrame implements ActionListener {
 
         tabCours = new JTable(modelCours);
         tabCours.setRowHeight(30);
-        tabCours.setFont(new Font("Roboto" , Font.BOLD , 13));
-
         tabCours.setGridColor(Color.LIGHT_GRAY);
         tabCours.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabCours);

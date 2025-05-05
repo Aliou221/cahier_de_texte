@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.classe;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
@@ -47,7 +48,7 @@ public class ModifierClasseUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelNiveau = new JLabel("Nom de la classe");
-        labelNiveau.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: bold 15 Roboto");
 
         inputNiveau = new JTextField();
         inputNiveau.setPreferredSize(new Dimension(0 , 40));

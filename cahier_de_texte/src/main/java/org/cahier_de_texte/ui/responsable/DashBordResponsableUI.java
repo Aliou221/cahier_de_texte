@@ -3,7 +3,7 @@ package org.cahier_de_texte.ui.responsable;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.responsable.ResponsableController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;

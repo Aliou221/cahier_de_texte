@@ -1,10 +1,11 @@
 package org.cahier_de_texte.ui.chef.classe.etudiant;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.controller.chef.EtudiantController;
 import org.cahier_de_texte.model.Users;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.cahier_de_texte.ui.chef.classe.GestionClasseUI;
 import org.cahier_de_texte.ui.chef.classe.responsable.ResponsableUI;
@@ -80,7 +81,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Arial",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -119,7 +120,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
 
         JLabel labelGestionClasse = new JLabel("Classe : " + this.classe);
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelGestionClasse.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Roboto");
         panel.add(labelGestionClasse , "pushx , growx");
 
         btnDeconnexion = getButton("Deconnexion" , FontAwesomeSolid.SIGN_OUT_ALT , Color.white);
@@ -159,7 +160,6 @@ public class EtudiantUI extends JFrame implements ActionListener {
 
         tabClasse = new JTable(tabClasseModel);
         tabClasse.setRowHeight(30);
-        tabClasse.setFont(new Font("Roboto" , Font.BOLD , 13));
         tabClasse.setGridColor(Color.LIGHT_GRAY);
         tabClasse.setShowGrid(true);
 
@@ -225,6 +225,9 @@ public class EtudiantUI extends JFrame implements ActionListener {
 
     private void ajouterEtudiantAction() {
         this.ajouterEtudiantUI.setVisible(true);
+        for (ActionListener al : ajouterEtudiantUI.btnAjouter.getActionListeners()) {
+            ajouterEtudiantUI.btnAjouter.removeActionListener(al);
+        }
 
         ajouterEtudiantUI.btnAjouter.addActionListener((ActionEvent event)->{
             String prenom = this.ajouterEtudiantUI.inputFirstName.getText();
@@ -239,18 +242,10 @@ public class EtudiantUI extends JFrame implements ActionListener {
                 }else{
                     this.etudiantController.ajouterEtudiant(prenom , nom , email , this.classe);
                     this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
-
-                    clearChampAjouter();
+                    ajouterEtudiantUI.dispose();
                 }
             }
         });
-    }
-
-    private void clearChampAjouter(){
-        ajouterEtudiantUI.inputFirstName.setText(null);
-        ajouterEtudiantUI.inputLastName.setText(null);
-        ajouterEtudiantUI.inputEmail.setText(null);
-        ajouterEtudiantUI.dispose();
     }
 
     private void modifierEtudiantAction() {
@@ -269,49 +264,53 @@ public class EtudiantUI extends JFrame implements ActionListener {
             modifierEtudiantUI.inputLastName.setText(nom);
             modifierEtudiantUI.inputEmail.setText(email);
 
+            for (ActionListener al : modifierEtudiantUI.btnModifier.getActionListeners()) {
+                modifierEtudiantUI.btnModifier.removeActionListener(al);
+            }
+
             modifierEtudiantUI.btnModifier.addActionListener((ActionEvent event)->{
                 String nouveauPrenom = modifierEtudiantUI.inputFirstName.getText();
                 String nouveauNom = modifierEtudiantUI.inputLastName.getText();
                 String nouveauEmail = modifierEtudiantUI.inputEmail.getText();
-                int idRes = this.etudiantController.getRespo(email);
 
                 if(nouveauPrenom.isEmpty() || nouveauNom.isEmpty() || nouveauEmail.isEmpty()){
                     JOptionPane.showMessageDialog(null , "Veuillez remplir tous les champs svp !" , "Erreur" , JOptionPane.WARNING_MESSAGE);
-                }else{
-                    if(this.userController.verifUser(nouveauEmail)){ System.out.println("Cette email existe "); return;}
+                    return;
+                }
 
-                    if(this.etudiantController.verifMailResponsable(email)){
-
-                        if (this.etudiantController.verifMailResponsable(nouveauEmail) || this.etudiantController.verfMailEtudiant(nouveauEmail)){
-                            JOptionPane.showMessageDialog(null, "Cette email a été utilisé par un autre etudiant !", null, JOptionPane.ERROR_MESSAGE);
-                        }else{
-                            this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
-                            this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauEmail , idRes);
-                            this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
-
-                            clearChampModifier();
-                        }
+                if (email.equals(nouveauEmail)){
+                    if (userController.verifUser(email)){
+                        this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                        this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauEmail , email);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                        modifierEtudiantUI.dispose();
+                        return;
                     }
-                    else{
-                        if(this.etudiantController.verfMailEtudiant(nouveauEmail)){
-                            JOptionPane.showMessageDialog(null, "Cette email a été utilisé par un autre etudiant !", null, JOptionPane.ERROR_MESSAGE);
-                        }else{
-                            this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
-                            this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                  this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                  this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                  modifierEtudiantUI.dispose();
+                }
 
-                            clearChampModifier();
-                        }
+                if (!email.equals(nouveauEmail)){
+                    if (userController.verifUser(nouveauEmail) || etudiantController.verfMailEtudiant(nouveauEmail)){
+                        JOptionPane.showMessageDialog(null, "Cette email a été utilisé par un autre etudiant !" ,null, JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
+
+                    if (userController.verifUser(email)){
+                        this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                        this.etudiantController.modifRespo(nouveauPrenom , nouveauNom , nouveauEmail , email);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                        modifierEtudiantUI.dispose();
+                        return;
+                    }
+
+                    this.etudiantController.modifierEtudiant(nouveauPrenom , nouveauNom , nouveauEmail , id);
+                    this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                    modifierEtudiantUI.dispose();
                 }
             });
         }
-    }
-
-    private void clearChampModifier(){
-        modifierEtudiantUI.inputFirstName.setText(null);
-        modifierEtudiantUI.inputLastName.setText(null);
-        modifierEtudiantUI.inputEmail.setText(null);
-        modifierEtudiantUI.dispose();
     }
 
     private void supprimerEtudiantAction() {
@@ -321,14 +320,13 @@ public class EtudiantUI extends JFrame implements ActionListener {
         }else{
             int id = (int) tabClasse.getValueAt(rowSelected , 0);
             String email = (String) tabClasse.getValueAt(rowSelected , 3);
-            int idRes = this.etudiantController.getRespo(email);
 
             int confirm = JOptionPane.showConfirmDialog(null, "Voulez vous vraiment supprimer cet étudiant ?", null, JOptionPane.YES_NO_OPTION);
 
             if (confirm == JOptionPane.YES_OPTION){
                 if(this.etudiantController.verifMailResponsable(email)){
                     this.etudiantController.supprimerEtudiant(id);
-                    this.etudiantController.deleteRespo(idRes);
+                    this.etudiantController.deleteRespo(email);
                     this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
                 }else{
                     this.etudiantController.supprimerEtudiant(id);
@@ -398,8 +396,8 @@ public class EtudiantUI extends JFrame implements ActionListener {
                             this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
                             JOptionPane.showMessageDialog(null, nouveauPrenom + " " + nouveauNom + " est nomé comme responsable pour cette classe !", null, JOptionPane.INFORMATION_MESSAGE);
                             this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                            responsableUI.dispose();
                         }
-                       clearResponsable();
                     }
                 });
             }else{
@@ -407,12 +405,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
             }
         }
     }
-
-    private void clearResponsable(){
-        responsableUI.inputFirstName.setText(null);
-        responsableUI.inputLastName.setText(null);
-        responsableUI.inputEmail.setText(null);
-        responsableUI.inputPassword.setText(null);
-        responsableUI.dispose();
+    public static void main(String[] args) {
+        new EtudiantUI("D2 Informatique").setVisible(true);
     }
 }

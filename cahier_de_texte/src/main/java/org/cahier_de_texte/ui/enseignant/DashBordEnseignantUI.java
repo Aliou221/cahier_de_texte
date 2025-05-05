@@ -4,7 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.CoursController;
 import org.cahier_de_texte.controller.enseignant.EnseignantController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -119,8 +119,6 @@ public class DashBordEnseignantUI extends JFrame implements ActionListener {
 
         tabCours = new JTable(modelTabCours);
         tabCours.setRowHeight(30);
-        tabCours.setFont(new Font("Roboto" , Font.BOLD , 13));
-
         tabCours.setGridColor(Color.LIGHT_GRAY);
         tabCours.setShowGrid(true);
         JScrollPane scrollPane = new JScrollPane(tabCours);

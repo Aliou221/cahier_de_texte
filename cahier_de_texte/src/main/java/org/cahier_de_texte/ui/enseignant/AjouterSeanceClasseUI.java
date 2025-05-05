@@ -5,7 +5,7 @@ import org.cahier_de_texte.controller.UserController;
 import org.cahier_de_texte.controller.chef.EtudiantController;
 import org.cahier_de_texte.controller.chef.SeanceController;
 import org.cahier_de_texte.model.Users;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
 import org.kordamp.ikonli.fontawesome.FontAwesome;

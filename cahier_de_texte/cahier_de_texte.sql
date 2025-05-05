@@ -217,3 +217,16 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 ('Aissatou', 'Balde', 'aissatou.balde@univ.sn', 5),
 ('Fallou', 'Diouf', 'fallou.diouf@univ.sn', 5),
 ('Fatoumata', 'Ndoye', 'fatoumata.ndoye@univ.sn', 5);
+
+
+
+-- si ance = rece : 
+    -- on cherche si le nouveau email existe dans Utilisateurs
+        -- si c'est vrais on modifie les deux table
+        -- sinon on modifie la table Etudiants
+
+-- Sinon si ance != rece :
+    -- on cherche a nouveau si l'email rece existe dans Utilisateurs || Etudiants 
+        -- si c'est vrais pas de changement 
+        -- sinon on remplace email ancien par email recent dans la  table etudiant
+

@@ -1,9 +1,10 @@
 package org.cahier_de_texte.ui.chef.cours;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.controller.chef.ChefController;
 import org.cahier_de_texte.controller.chef.CoursController;
-import org.cahier_de_texte.ui.LoginUI;
+import org.cahier_de_texte.ui.auth.LoginUI;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -51,7 +52,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
         Icon logo = new ImageIcon(image.getImage().getScaledInstance(100 , 100 , Image.SCALE_SMOOTH));
 
         JLabel labelUidt = new JLabel("UIDT");
-        labelUidt.setFont(new Font("Arial",Font.BOLD , 25));
+        labelUidt.putClientProperty(FlatClientProperties.STYLE, "font: bold 25 Poppins");
         labelUidt.setIcon(logo);
         labelUidt.setHorizontalTextPosition(JLabel.CENTER);
         labelUidt.setVerticalTextPosition(JLabel.BOTTOM);
@@ -96,7 +97,7 @@ public class GestionCoursUI extends JFrame implements ActionListener {
 
         JLabel labelAttCours = new JLabel("Attribution des cours");
         labelAttCours.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
-        labelAttCours.setFont(new Font("Roboto" , Font.BOLD , 23));
+        labelAttCours.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelAttCours , "pushx , growx");
 
         btnDeconnexion = this.dashHelper.btnMenuSideBar("Deconnexion");
@@ -138,7 +139,6 @@ public class GestionCoursUI extends JFrame implements ActionListener {
 
         tabEnseignant = new JTable(modelTabEnseignant);
         tabEnseignant.setRowHeight(30);
-        tabEnseignant.setFont(new Font("Roboto" , Font.BOLD , 13));
         tabEnseignant.setGridColor(Color.LIGHT_GRAY);
         tabEnseignant.setShowGrid(true);
 

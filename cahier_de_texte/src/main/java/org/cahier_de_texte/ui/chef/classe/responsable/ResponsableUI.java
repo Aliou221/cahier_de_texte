@@ -1,5 +1,6 @@
 package org.cahier_de_texte.ui.chef.classe.responsable;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import org.cahier_de_texte.ui.chef.DashBordChefUI;
 
@@ -48,7 +49,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelFirstName = new JLabel("Prénom");
-        labelFirstName.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelFirstName.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
         formPanel.add(labelFirstName);
 
         inputFirstName = new JTextField();
@@ -56,7 +57,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputFirstName , "pushx , growx");
 
         labelLastName = new JLabel("Nom");
-        labelLastName.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelLastName.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
         formPanel.add(labelLastName);
 
         inputLastName = new JTextField();
@@ -64,7 +65,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputLastName , "pushx , growx");
 
         labelEmail = new JLabel("Email");
-        labelEmail.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelEmail.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
         formPanel.add(labelEmail);
 
         inputEmail = new JTextField();
@@ -72,7 +73,7 @@ public class ResponsableUI extends JFrame {
         formPanel.add(inputEmail , "pushx , growx");
 
         labelPassword = new JLabel("Mot de passe");
-        labelPassword.setFont(new Font("Roboto", Font.PLAIN , 15));
+        labelPassword.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
         formPanel.add(labelPassword);
 
         inputPassword = new JPasswordField();
