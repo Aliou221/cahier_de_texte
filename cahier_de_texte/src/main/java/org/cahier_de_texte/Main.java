@@ -15,14 +15,14 @@ public class Main {
         UIManager.put("Button.arc", 8);
         UIManager.put("TextComponent.arc", 8);
 
-        Font robotoFont = new Font("Poppins", Font.PLAIN, 15);
-        UIManager.put("Label.font", robotoFont);
-        UIManager.put("Button.font", robotoFont);
-        UIManager.put("TextField.font", robotoFont);
-        UIManager.put("TextArea.font", robotoFont);
-        UIManager.put("Table.font", robotoFont);
-        UIManager.put("TabbedPane.font", robotoFont);
-        UIManager.put("ComboBox.font", robotoFont);
+        Font poppinsFont = new Font("Poppins", Font.PLAIN, 15);
+        UIManager.put("Label.font", poppinsFont);
+        UIManager.put("Button.font", poppinsFont);
+        UIManager.put("TextField.font", poppinsFont);
+        UIManager.put("TextArea.font", poppinsFont);
+        UIManager.put("Table.font", poppinsFont);
+        UIManager.put("TabbedPane.font", poppinsFont);
+        UIManager.put("ComboBox.font", poppinsFont);
 
         new LoginUI().setVisible(true);
     }
