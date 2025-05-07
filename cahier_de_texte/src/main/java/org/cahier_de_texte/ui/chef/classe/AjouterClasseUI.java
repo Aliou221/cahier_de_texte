@@ -47,7 +47,7 @@ public class AjouterClasseUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelNiveau = new JLabel("Nom de la classe");
-        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelNiveau);
 
         inputNiveau = new JTextField();

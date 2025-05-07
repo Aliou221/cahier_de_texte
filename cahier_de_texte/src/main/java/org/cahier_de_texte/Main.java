@@ -15,7 +15,7 @@ public class Main {
         UIManager.put("Button.arc", 8);
         UIManager.put("TextComponent.arc", 8);
 
-        Font robotoFont = new Font("Roboto", Font.PLAIN, 14);
+        Font robotoFont = new Font("Poppins", Font.PLAIN, 15);
         UIManager.put("Label.font", robotoFont);
         UIManager.put("Button.font", robotoFont);
         UIManager.put("TextField.font", robotoFont);

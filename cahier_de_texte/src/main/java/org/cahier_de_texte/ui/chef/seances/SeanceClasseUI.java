@@ -35,6 +35,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
     private final String responsable;
 
     private JButton btnTabBord;
+    private JButton btnSeanceNonValide;
     private JButton btnBack;
     private JButton btnDeconnexion;
     private JButton btnGenerePDF;
@@ -94,6 +95,11 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         btnTabBord.addActionListener(this);
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
+        btnSeanceNonValide = this.dashHelper.btnMenuSideBar("Les seances non validés");
+        btnSeanceNonValide.setIcon(FontIcon.of(FontAwesomeSolid.EXCLAMATION_CIRCLE , 18));
+        btnSeanceNonValide.addActionListener(this);
+        panelSideBar.add(btnSeanceNonValide , "wrap , pushx , growx");
+
         btnBack = this.dashHelper.btnMenuSideBar("Voir la liste des classes");
         btnBack.setIcon(FontIcon.of(FontAwesomeSolid.HAND_POINT_LEFT , 18));
         btnBack.addActionListener(this);
@@ -106,7 +112,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionClasse = new JLabel("Gestion des séances");
+        JLabel labelGestionClasse = new JLabel("Seances validees par : ".toUpperCase() + this.responsable);
         labelGestionClasse.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionClasse.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionClasse , "pushx , growx");
@@ -155,6 +161,7 @@ public class SeanceClasseUI extends JFrame implements ActionListener {
         if(e.getSource() == btnDeconnexion){ new LoginUI().setVisible(true); dispose();}
         if(e.getSource() == btnGenerePDF ){ genererPDF(); }
         if(e.getSource() == btnBack){ new GestionSeancesUI().setVisible(true); dispose(); }
+        if(e.getSource() == btnSeanceNonValide){ new SeanceNonValideUI(this.classe , this.responsable).setVisible(true); dispose(); }
     }
 
     private void genererPDF() {

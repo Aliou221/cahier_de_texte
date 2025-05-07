@@ -65,7 +65,7 @@ public class LoginUI extends JFrame implements ActionListener {
         //Panel de champs utilisateur et mot de passe
         panelUser = new JPanel(new GridLayout(2, 1));
         labelUser = new JLabel("Email");
-        labelUser.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        labelUser.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Poppins");
         panelUser.add(labelUser);
 
         inputUser = new JTextField();
@@ -84,7 +84,7 @@ public class LoginUI extends JFrame implements ActionListener {
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
         JCheckBox Box = new JCheckBox("Afficher le mot de passe");
-        Box.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        Box.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Poppins");
         Box.setCursor(new Cursor(Cursor.HAND_CURSOR));
         Box.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
         mainPanelLogin.add(Box , "wrap , pushx , growx");
@@ -100,7 +100,7 @@ public class LoginUI extends JFrame implements ActionListener {
 
         passForget = new JLabel("Mot de passe oublier ?");
         passForget.setForeground(new Color(0x4d4429));
-        passForget.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        passForget.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Poppins");
         passForget.setHorizontalTextPosition(JLabel.CENTER);
         passForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         passForget.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 25 , 0));
@@ -135,7 +135,7 @@ public class LoginUI extends JFrame implements ActionListener {
         btn.setPreferredSize(new Dimension(0, 40));
         btn.setBackground(new Color(color));
         btn.setForeground(Color.white);
-        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }

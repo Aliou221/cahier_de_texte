@@ -45,4 +45,8 @@ public class SeanceController {
     public void chargeListeSeancesClasse(DefaultTableModel model , String classe){
         seanceDAO.chargeListeSeancesClasse(model , classe);
     }
+
+    public void chargeListeSeancesClasseNonValide(DefaultTableModel model , String classe){
+        seanceDAO.chargeListeSeancesClasseNonValide(model , classe);
+    }
 }

@@ -47,7 +47,7 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelContenue = new JLabel("Contenue de la séance : ");
-        labelContenue.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelContenue.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelContenue);
 
         inputContenue = new JTextArea();
@@ -56,7 +56,7 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(scrollPane , "pushx , growx");
 
         labelDate = new JLabel("Date : (ex: aaaa-MM-dd HH:mm:ss)");
-        labelDate.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelDate.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelDate);
 
         inputDate = new JTextField();
@@ -64,7 +64,7 @@ public class ModifierSeanceUI extends JFrame {
         formPanel.add(inputDate, "pushx , growx");
 
         labelDuree = new JLabel("Durée (en Heures ) :");
-        labelDuree.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelDuree.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelDuree);
 
         inputDuree = new JTextField();

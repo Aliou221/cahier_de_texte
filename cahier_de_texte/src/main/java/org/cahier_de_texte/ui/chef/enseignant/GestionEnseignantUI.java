@@ -138,7 +138,7 @@ public class GestionEnseignantUI extends JFrame implements ActionListener {
     public JButton createStyledButton(String title, FontAwesomeSolid icon) {
         JButton btn = this.dashHelper.btnMenuSideBar(title);
         btn.setIcon(FontIcon.of(icon, 18));
-        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         return btn;
     }
 

@@ -44,7 +44,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelCode = new JLabel("Code");
-        labelCode.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelCode.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelCode);
 
         inputCode = new JTextField();
@@ -52,7 +52,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(inputCode , "pushx , growx");
 
         labelNomCours = new JLabel("Intitulé");
-        labelNomCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelNomCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelNomCours);
 
         inputNomCours = new JTextField();
@@ -60,7 +60,7 @@ public class AjouterCoursUI extends JFrame {
         formPanel.add(inputNomCours , "pushx , growx");
 
         labelCredit = new JLabel("Crédits");
-        labelCredit.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelCredit.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelCredit);
 
         inputCredit = new JTextField();

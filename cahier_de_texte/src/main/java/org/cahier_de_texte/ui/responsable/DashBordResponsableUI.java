@@ -123,7 +123,7 @@ public class DashBordResponsableUI extends JFrame implements ActionListener {
 
         btnValiderSeances = this.dashHelper.btnMenuSideBar("Valider la séance");
         btnValiderSeances.setIcon(FontIcon.of(FontAwesomeSolid.CHECK, 18));
-        btnValiderSeances.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        btnValiderSeances.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         btnValiderSeances.setPreferredSize(new Dimension(getWidth() , 45));
         btnValiderSeances.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(btnValiderSeances, "wrap");

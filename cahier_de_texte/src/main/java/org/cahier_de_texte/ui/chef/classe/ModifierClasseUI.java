@@ -48,7 +48,7 @@ public class ModifierClasseUI extends JFrame {
         formPanel.add(label , "span , wrap , pushx , growx");
 
         labelNiveau = new JLabel("Nom de la classe");
-        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelNiveau.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
 
         inputNiveau = new JTextField();
         inputNiveau.setPreferredSize(new Dimension(0 , 40));

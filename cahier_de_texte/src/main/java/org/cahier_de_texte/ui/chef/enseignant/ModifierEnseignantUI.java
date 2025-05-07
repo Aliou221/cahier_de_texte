@@ -15,7 +15,7 @@ public class ModifierEnseignantUI extends JFrame {
     JTextField inputFirstName, inputLastName, inputEmail;
     JButton btnModifier;
 
-    private static final Font DEFAULT_FONT = new Font("Roboto", Font.PLAIN, 15);
+    private static final Font DEFAULT_FONT = new Font("Poppins", Font.PLAIN, 15);
 
     public ModifierEnseignantUI() {
         this.dashHelper = new DashBordChefUI();

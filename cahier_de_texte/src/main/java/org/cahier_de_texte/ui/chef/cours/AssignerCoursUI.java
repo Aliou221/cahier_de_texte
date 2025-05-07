@@ -46,7 +46,7 @@ public class AssignerCoursUI extends JFrame {
 
         // Enseignant
         JLabel labelEnseignant = new JLabel("Enseignant");
-        labelEnseignant.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelEnseignant.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelEnseignant, "growx");
         comboBoxEnseignant = createComboBox();
         chefController.enseignant(comboBoxEnseignant);
@@ -54,7 +54,7 @@ public class AssignerCoursUI extends JFrame {
 
         // Cours
         JLabel labelCours = new JLabel("Cours");
-        labelCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelCours.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelCours , "growx");
         comboBoxCours = createComboBox();
         chefController.cours(comboBoxCours);
@@ -62,7 +62,7 @@ public class AssignerCoursUI extends JFrame {
 
         // Classe
         JLabel labelClasse = new JLabel("Classe");
-        labelClasse.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        labelClasse.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         formPanel.add(labelClasse, "growx");
         comboBoxClasse = createComboBox();
         chefController.classe(comboBoxClasse);

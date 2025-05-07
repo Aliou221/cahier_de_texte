@@ -80,7 +80,7 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         mainPanelLogin.add(panelPassword , "pushx , growx , wrap");
 
         JCheckBox Box = new JCheckBox("Afficher le mot de passe");
-        Box.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        Box.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Poppins");
         Box.setCursor(new Cursor(Cursor.HAND_CURSOR));
         Box.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 10 , 0));
         mainPanelLogin.add(Box , "wrap , pushx , growx");
@@ -96,7 +96,7 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
 
         connecter = new JLabel("Connecter avec un compte existant ?");
         connecter.setForeground(new Color(0x4d4429));
-        connecter.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Roboto");
+        connecter.putClientProperty(FlatClientProperties.STYLE, "font: plain 15 Poppins");
         connecter.setHorizontalTextPosition(JLabel.CENTER);
         connecter.setCursor(new Cursor(Cursor.HAND_CURSOR));
         connecter.setBorder(BorderFactory.createEmptyBorder(0 , 0 , 25 , 0));
@@ -129,7 +129,7 @@ public class ChangePasswordUI extends JFrame implements ActionListener {
         btn.setPreferredSize(new Dimension(0, 40));
         btn.setBackground(new Color(color));
         btn.setForeground(Color.white);
-        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Roboto");
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: plain 16 Poppins");
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }

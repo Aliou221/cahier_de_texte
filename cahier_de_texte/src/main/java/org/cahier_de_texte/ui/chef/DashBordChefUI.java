@@ -114,7 +114,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         btn.setPreferredSize(new Dimension(0 , 45));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setHorizontalAlignment(JButton.CENTER);
-        btn.putClientProperty(FlatClientProperties.STYLE, "font: bold 14 Roboto");
+        btn.putClientProperty(FlatClientProperties.STYLE, "font: bold 14 Poppins");
 
         return btn;
     }
@@ -235,7 +235,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
 
         JLabel labelName = new JLabel(title);
         labelName.setBorder(emptyBorder(15 , 20 , 15 , 10));
-        labelName.putClientProperty(FlatClientProperties.STYLE, "font: bold 16 Roboto");
+        labelName.putClientProperty(FlatClientProperties.STYLE, "font: bold 16 Poppins");
         labelName.setForeground(Color.white);
 
         numbre = (char) numbre;

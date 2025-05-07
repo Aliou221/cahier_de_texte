@@ -220,13 +220,12 @@ INSERT INTO Etudiants (prenom, nom, email, classe_id) VALUES
 
 
 
--- si ance = rece : 
-    -- on cherche si le nouveau email existe dans Utilisateurs
-        -- si c'est vrais on modifie les deux table
-        -- sinon on modifie la table Etudiants
-
--- Sinon si ance != rece :
-    -- on cherche a nouveau si l'email rece existe dans Utilisateurs || Etudiants 
-        -- si c'est vrais pas de changement 
-        -- sinon on remplace email ancien par email recent dans la  table etudiant
-
+SELECT Seances.date_seance, Cours.code AS code_cours, Cours.intitule AS intitule_cours, Seances.contenu,
+        Seances.duree,
+        CONCAT(Enseignant.prenom , " ", Enseignant.nom) AS enseignant
+FROM `Seances`
+INNER JOIN Cours ON Cours.id = Seances.cours_id
+INNER JOIN `ClasseCours` ON `ClasseCours`.id_cours = `Cours`.id
+INNER JOIN `Classes` ON `Classes`.id = `ClasseCours`.id_classe
+INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id
+WHERE  `Seances`.`Valide` = false AND `Classes`.nom = "L1 Informatique";

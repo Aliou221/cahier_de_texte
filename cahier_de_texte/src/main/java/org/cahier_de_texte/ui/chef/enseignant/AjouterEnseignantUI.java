@@ -15,7 +15,7 @@ public class AjouterEnseignantUI extends JFrame {
     public JPasswordField inputPassword;
     public JButton btnValider;
 
-    private static final Font DEFAULT_FONT = new Font("Roboto", Font.PLAIN, 15);
+    private static final Font DEFAULT_FONT = new Font("Poppins", Font.PLAIN, 15);
 
     public AjouterEnseignantUI() {
         this.dashHelper = new DashBordChefUI();
