@@ -167,7 +167,6 @@ public class LoginUI extends JFrame implements ActionListener {
                 case "CHEF" -> { new DashBordChefUI().setVisible(true); dispose(); }
                 case "ENSEIGNANT" -> { new DashBordEnseignantUI(user.getFirstName(), user.getLastName() , user.getId()).setVisible(true);dispose();}
                 case "RESPONSABLE" -> {new DashBordResponsableUI(user.getFirstName() + " " + user.getLastName() , user.getId()).setVisible(true);dispose();}
-                default -> {System.out.println("Role non reconnue");}
             }
 
         }
