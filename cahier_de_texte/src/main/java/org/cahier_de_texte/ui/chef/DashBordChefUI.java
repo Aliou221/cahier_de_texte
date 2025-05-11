@@ -84,7 +84,7 @@ public class DashBordChefUI extends JFrame implements ActionListener {
         btnTabBord.setIcon(FontIcon.of(FontAwesomeSolid.HOME, 18));
         panelSideBar.add(btnTabBord , "wrap , pushx , growx");
 
-        btnGestionEnseignant = btnMenuSideBar("Gestion des Ensignants");
+        btnGestionEnseignant = btnMenuSideBar("Gestion des Enseignants");
         btnGestionEnseignant.setIcon(FontIcon.of(FontAwesomeSolid.USERS, 18));
         panelSideBar.add(btnGestionEnseignant , "wrap , pushx , growx");
         btnGestionEnseignant.addActionListener(this);
