@@ -387,6 +387,10 @@ public class EtudiantUI extends JFrame implements ActionListener {
                     }else{
                         if(this.etudiantController.verifResponsable(nouveauEmail)){
                             JOptionPane.showMessageDialog(null, "Cette etudiant est deja un responsable !", null, JOptionPane.ERROR_MESSAGE);
+                            responsableUI.inputFirstName.setText(null);
+                            responsableUI.inputLastName.setText(null);
+                            responsableUI.inputEmail.setText(null);
+                            responsableUI.dispose();
                         }else{
                             this.etudiantController.defResponsable(idEtudiant);
                             this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
