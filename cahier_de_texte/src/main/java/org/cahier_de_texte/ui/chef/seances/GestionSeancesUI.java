@@ -84,7 +84,7 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(this.dashHelper.emptyBorder(20 , 20 , 20 , 20));
 
-        JLabel labelGestionSeances = new JLabel("Gestion des seances validees par classe".toUpperCase());
+        JLabel labelGestionSeances = new JLabel("Gestion des seances par classe".toUpperCase());
         labelGestionSeances.setBorder(this.dashHelper.emptyBorder(10 , 0 ,15 , 0));
         labelGestionSeances.putClientProperty(FlatClientProperties.STYLE, "font: bold 23 Poppins");
         panel.add(labelGestionSeances , "pushx , growx");
@@ -94,14 +94,9 @@ public class GestionSeancesUI extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeClasses = this.dashHelper.btnMenuSideBar("Liste des Classes");
-        btnListeClasses.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
-        btnListeClasses.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeClasses, "split 2");
-
         btnPlusInfo = this.dashHelper.btnMenuSideBar("Plus informations");
         btnPlusInfo.setIcon(FontIcon.of(FontAwesomeSolid.INFO_CIRCLE , 18));
-        panel.add(btnPlusInfo , "wrap , split 2");
+        panel.add(btnPlusInfo , "wrap");
         btnPlusInfo.addActionListener(this);
 
         String[] columnClasse = {"Classe", "Responsable" , "Email Reponsable" , "Séances validées"};

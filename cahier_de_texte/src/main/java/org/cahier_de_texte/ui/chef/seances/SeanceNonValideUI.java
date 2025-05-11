@@ -122,11 +122,6 @@ public class SeanceNonValideUI extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        JButton btnListeSeance = this.dashHelper.btnMenuSideBar("Liste des séances non validées");
-        btnListeSeance.setIcon(FontIcon.of(FontAwesomeSolid.LIST , 18));
-        btnListeSeance.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(btnListeSeance , "split 2");
-
         btnGenerePDF = this.dashHelper.btnMenuSideBar("Générer un PDF");
         btnGenerePDF.setIcon(FontIcon.of(FontAwesomeSolid.FILE_PDF , 18));
         btnGenerePDF.setCursor(new Cursor(Cursor.HAND_CURSOR));

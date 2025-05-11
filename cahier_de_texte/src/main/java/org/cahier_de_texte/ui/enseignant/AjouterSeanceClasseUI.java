@@ -226,6 +226,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
                 ajouterSeanceUI.inputContenue.setText(null);
                 ajouterSeanceUI.inputDate.setText(null);
                 ajouterSeanceUI.inputDuree.setText(null);
+                ajouterSeanceUI.dispose();
             }
         });
     }
@@ -274,6 +275,7 @@ public class AjouterSeanceClasseUI extends JFrame implements ActionListener {
                     modifierSeanceUI.inputContenue.setText(null);
                     modifierSeanceUI.inputDate.setText(null);
                     modifierSeanceUI.inputDuree.setText(null);
+                    modifierSeanceUI.dispose();
                 }
 
             });

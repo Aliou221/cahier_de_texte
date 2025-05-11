@@ -106,9 +106,6 @@ public class GestionCoursUI extends JFrame implements ActionListener {
 
         panel.add(btnDeconnexion ,"wrap , split 2 , right");
 
-        btnListeEnseignants = myBtn("Enseignant et cours assigner", (FontAwesomeSolid.USERS));
-        panel.add(btnListeEnseignants , "split 2");
-
         btnAjouterCours = myBtn("Ajouter un cours", FontAwesomeSolid.BOOK);
         btnAjouterCours.setBackground(new Color(46, 204, 113));
         btnAjouterCours.setForeground(Color.WHITE);

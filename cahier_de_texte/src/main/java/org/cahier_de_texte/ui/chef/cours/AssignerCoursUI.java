@@ -27,7 +27,7 @@ public class AssignerCoursUI extends JFrame {
 
     private void initUI() {
         setTitle("Attribution des cours");
-        setSize(500, 500);
+        setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -81,7 +81,7 @@ public class AssignerCoursUI extends JFrame {
 
     private JComboBox<String> createComboBox() {
         JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.setPreferredSize(new Dimension(0, 40));
+        comboBox.setPreferredSize(new Dimension(getWidth(), 40));
         comboBox.setMaximumRowCount(10);
         return comboBox;
     }

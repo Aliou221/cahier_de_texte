@@ -128,15 +128,10 @@ public class EtudiantUI extends JFrame implements ActionListener {
         btnDeconnexion.addActionListener(this);
         panel.add(btnDeconnexion ,"wrap , split 2");
 
-        // Composants UI - Gestion des étudiants
-        JButton btnListeEtudiant = getButton("Liste des étudiants", FontAwesomeSolid.LIST, Color.white);
-        btnListeEtudiant.setForeground(Color.BLACK);
-        panel.add(btnListeEtudiant, "split 3");
-
         btnResponsable = getButton("Définir comme responsable" , FontAwesomeSolid.PENCIL_ALT , Color.white);
         btnResponsable.setForeground(Color.BLACK);
         btnResponsable.addActionListener(this);
-        panel.add(btnResponsable);
+        panel.add(btnResponsable , "split 2");
 
         btnRetireResponsable = getButton("Retire role responsable" , FontAwesomeSolid.ERASER , Color.white);
         btnRetireResponsable.setForeground(Color.BLACK);
@@ -402,7 +397,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
                     }
                 });
             }else{
-                JOptionPane.showMessageDialog(null, "Veuillez cocher le chekbox \npour definir comme responsable", null, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Veuillez cocher la case \npour definir comme responsable", null, JOptionPane.WARNING_MESSAGE);
             }
         }
     }

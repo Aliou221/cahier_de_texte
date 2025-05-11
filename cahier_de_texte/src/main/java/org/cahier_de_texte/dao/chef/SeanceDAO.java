@@ -90,7 +90,7 @@ public class SeanceDAO {
                 "INNER JOIN Cours ON Cours.id = Seances.cours_id " +
                 "INNER JOIN Utilisateurs AS Enseignant ON Enseignant.id = Cours.enseignant_id " +
                 "INNER JOIN Classes ON Classes.id_responsable = Responsable.id " +
-                "WHERE Classes.nom = ?";
+                "WHERE Classes.nom = ? ORDER BY enseignant";
         ResultSet res;
 
         try{
@@ -146,7 +146,7 @@ public class SeanceDAO {
                 String duree = res.getString("duree");
                 Timestamp dateSeance = res.getTimestamp("date_seance");
                 String formattedDateSeance = dateFormat.format(dateSeance);
-                model.addRow(new Object[]{idSeance , code, intitule, contenu, duree + "Heures", formattedDateSeance});
+                model.addRow(new Object[]{idSeance , code, intitule, contenu, duree + " Heures", formattedDateSeance});
             }
 
         }catch (SQLException e){
