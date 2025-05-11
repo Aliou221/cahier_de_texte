@@ -219,6 +219,7 @@ public class EtudiantUI extends JFrame implements ActionListener {
 
     private void ajouterEtudiantAction() {
         this.ajouterEtudiantUI.setVisible(true);
+
         for (ActionListener al : ajouterEtudiantUI.btnAjouter.getActionListeners()) {
             ajouterEtudiantUI.btnAjouter.removeActionListener(al);
         }
@@ -367,6 +368,9 @@ public class EtudiantUI extends JFrame implements ActionListener {
 
             if(isValide){
                 responsableUI.setVisible(true);
+                for (ActionListener al : responsableUI.btnValider.getActionListeners()) {
+                    responsableUI.btnValider.removeActionListener(al);
+                }
 
                 String prenom = (String) tabClasse.getValueAt(rowSelected , 1);
                 String nom = (String) tabClasse.getValueAt(rowSelected , 2);
@@ -385,19 +389,22 @@ public class EtudiantUI extends JFrame implements ActionListener {
                     if(nouveauPrenom.isEmpty() || nouveauNom.isEmpty() || nouveauEmail.isEmpty() || password.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs svp!", null, JOptionPane.ERROR_MESSAGE);
                     }else{
+
                         if(this.etudiantController.verifResponsable(nouveauEmail)){
                             JOptionPane.showMessageDialog(null, "Cette etudiant est deja un responsable !", null, JOptionPane.ERROR_MESSAGE);
                             responsableUI.inputFirstName.setText(null);
                             responsableUI.inputLastName.setText(null);
                             responsableUI.inputEmail.setText(null);
+                            responsableUI.inputPassword.setText(null);
                             responsableUI.dispose();
-                        }else{
-                            this.etudiantController.defResponsable(idEtudiant);
-                            this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
-                            JOptionPane.showMessageDialog(null, nouveauPrenom + " " + nouveauNom + " est nomé comme responsable pour cette classe !", null, JOptionPane.INFORMATION_MESSAGE);
-                            this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
-                            responsableUI.dispose();
+                            return;
                         }
+
+                        this.etudiantController.defResponsable(idEtudiant);
+                        this.etudiantController.ajouterResponsable(nouveauPrenom,nouveauNom,nouveauEmail,password,this.classe);
+                        JOptionPane.showMessageDialog(null, nouveauPrenom + " " + nouveauNom + " est nomé comme responsable pour cette classe !", null, JOptionPane.INFORMATION_MESSAGE);
+                        this.etudiantController.chargeListeEtudiant(tabClasseModel , this.classe);
+                        responsableUI.dispose();
                     }
                 });
             }else{
